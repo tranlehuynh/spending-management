@@ -1,1 +1,1 @@
-# spending-management
+# This is my fucking app
