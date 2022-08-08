@@ -1,0 +1,9 @@
+com\app\repository\CategoryRepository.class
+com\app\configs\HibernateConfig.class
+com\app\configs\DispatcherServletInit.class
+com\app\service\CategoryService.class
+META-INF\spring.components
+com\app\service\impl\CategoryServiceImpl.class
+com\app\configs\WebAppContextConfig.class
+com\app\controllers\indexController.class
+com\app\repository\impl\CategoryRepositoryImpl.class

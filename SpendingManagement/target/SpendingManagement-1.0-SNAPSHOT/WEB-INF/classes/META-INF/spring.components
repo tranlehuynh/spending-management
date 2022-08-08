@@ -1,0 +1,5 @@
+com.app.configs.HibernateConfig=org.springframework.stereotype.Component
+com.app.configs.WebAppContextConfig=org.springframework.stereotype.Component
+com.app.controllers.indexController=org.springframework.stereotype.Component
+com.app.repository.impl.CategoryRepositoryImpl=org.springframework.stereotype.Component
+com.app.service.impl.CategoryServiceImpl=org.springframework.stereotype.Component
