@@ -1,0 +1,854 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+body {
+    background-color: white;
+}
+
+.container {
+    position: relative !important;
+    height: 100vh !important;
+}
+
+.header {
+    position: fixed;
+    height: 64px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+}
+
+nav {
+    position: fixed;
+    width: 210px;
+    height: 100%;
+    box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%);
+    z-index: 100;
+    display: flex;
+    background: rgb(50, 48, 48);
+    color: white;
+    flex-direction: column;
+}
+
+nav > div {
+    margin: 0 auto;
+    width: 85%;
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+    padding-left: 20px;
+    cursor: pointer;
+    border-radius: 15px;
+    margin-top: 30px;
+}
+
+nav > div:hover {
+
+    background-color: white;
+    color: black;
+}
+
+.nav-icon {
+    font-size: 25px;
+    color: #b5b0b0;
+    padding: 10px;
+}
+
+.wallet {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 290px;
+}
+
+.wallet img{
+    width: 30px;
+    margin-right: 10px;
+}
+
+
+.categories {
+    display: flex;
+    align-items: center;
+}
+
+.categories-icon {
+    font-size: 20px;
+    color: #757575;
+}
+
+.categories-button {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    background-color: #1aa333;
+    cursor: pointer;
+    color: white;
+    font-size: 15px;
+}
+
+.wallet-info-text {
+    font-weight: 600;
+}
+
+.wallet-name {
+    font-size: 14px;
+}
+
+.logout-nav {
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 200;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    overflow: auto;
+}
+
+.modal1 {
+    display: none;
+    position: fixed;
+    z-index: 200;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+    overflow: auto;
+}
+
+/* Modal Content */
+.modal-content {
+    border-radius: 15px;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 50px;
+    border: 1px solid #888;
+    width: 70%;
+}
+
+.modal-content-1 {
+    border-radius: 15px;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 50px;
+    border: 1px solid #888;
+    width: 40%;
+}
+
+.modal-top-1 {
+
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-img {
+    width: 20px;
+    margin-right: 5px;
+}
+
+.modal-top-item {
+    border: 1px solid #e4e4e4;
+    margin-right: 20px;
+    width: 50%;
+    padding: 5px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.modal-top-item-1 {
+    border: 1px solid #e4e4e4;
+    margin-right: 20px;
+    padding: 5px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.modal-top-item:hover {
+    border: 1px solid #757575;
+}
+
+.modal-top, .modal-bottom {
+    display: flex;
+}
+
+.modal-bottom {
+    margin-top: 25px;
+}
+
+.modal-top-item div {
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.text-modal-check {
+    margin-right: 100px;
+}
+
+.modal-bottom-item-input div {
+    margin-top: 6px;
+    margin-bottom: 5px;
+}
+
+.amount-modal {
+    width: 100%;
+    cursor:auto;
+}
+
+.amount-modal input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.modal-bottom-item-date {
+    width: 30%;
+}
+.modal-bottom-item-date input {
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.modal-bottom-item-input {
+    width: 90%;
+}
+
+.modal-top-item span, .modal-top-item-1 span {
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.modal-bottom-item-input input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.modal-bottom-item-date:hover {
+    border: 1px solid #757575;
+}
+
+.modal-bottom-item-input:hover {
+    border: 1px solid #757575;
+}
+
+.modal-bottom-item-date div {
+    margin-top: 6px;
+}
+
+.modal-button{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-button div{
+    margin-right: 20px;
+    margin-top: 39px;
+}
+
+.modal-button div button {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 10px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cbutton {
+    background-color: rgb(140, 40, 40);
+    color: white;
+    font-size: 16px;
+}
+
+.abutton {
+    background: #2c9940;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.abutton:hover {
+    color: black;
+}
+
+/* Content css write here hehe ~.~ */
+.main-content {
+    position: absolute;
+    left: 220px;
+    right: 10px;
+    top: 70px;
+    background: #f3f0f0;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-content-child {
+    width: 600px;
+    padding: 30px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+}
+
+.main-content-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.main-content-header div {
+    cursor: pointer;
+    padding: 10px;
+    margin: 5px;
+    font-size: 18px;
+    border-bottom: 1px solid black;
+    text-transform: uppercase;
+}
+
+.text-content {
+}
+
+.flow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.flow-1-p {
+    color:  #62c1ee;
+}
+
+.flow-2-p {
+    color: rgb(245, 89, 89);
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.flow-last {
+    text-align: right;
+    color: rgb(47, 88, 65);
+}
+
+.view-report {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+.view-report a {
+    text-decoration: none;
+    color:rgb(41, 189, 41);
+    text-transform: uppercase;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+
+.list-items {
+    text-align: center;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.list-item:hover {
+    background:rgb(188, 235, 191);
+    opacity: 0.8;
+}
+
+.list-item div {
+    display: flex;
+    align-items: center;
+}
+
+.list-item-image {
+    width: 35px;
+    margin-right: 15px;
+    /* border-radius: 50%; */
+}
+
+.list-item-center {
+    display: inline-block !important;
+}
+
+.list-item-center-text {
+    font-size: 13px;
+    color:rgb(165, 155, 155);
+}
+
+.list-item-center-h2 {
+    font-weight: 600;
+}
+
+.account-detail {
+    width: 100%;
+    padding-left: 300px;
+    min-height: 100vh;
+    padding-top: 70px;
+}
+
+.account-detail-main {
+    display: flex;
+    justify-content: space-between;
+}
+
+.account-detail-left {
+    /* width: 60%; */
+}
+
+#user-info-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 1px solid #e4e4e4;
+}
+
+.account-detail-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+}
+
+.full-name-div {
+    width: 100%;
+    display: flex;
+}
+
+.change-password-form {
+    width: 100%;
+    display: flex;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.full-name-div div {
+    position: relative;
+}
+
+.full-name-div div input, .change-password-form-input {
+    width: 100%;
+    outline: none;
+    height: 45px;
+    padding: 0 20px;
+    border: 1px solid rgb(224, 224, 224);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: sans-serif;
+}
+
+.address-div {
+    width: 100%;
+    position: relative;
+}
+.address-div input {
+    width: 100%;
+    outline: none;
+    height: 45px;
+    padding: 0 20px;
+    border: 1px solid rgb(224, 224, 224);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: sans-serif;
+}
+
+.full-name-div div label, .address-label-div, .change-password-form-label {
+    position: absolute;
+    font-size: 14px;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    user-select: none;
+    transition: all 0.3s;
+    color: rgba(112, 110, 110, 0.977);
+}
+
+#bd-input {
+    margin-right: 5px;
+}
+.full-name-div-input:focus + .this-label,
+.full-name-div-input:valid + .this-label,
+.address-div-input:focus + .address-label-div,
+.address-div-input:valid + .address-label-div,
+.change-password-form-input:focus + .change-password-form-label,
+.change-password-form-input:valid + .change-password-form-label {
+    top: 0;
+    background: white;
+    padding: 0 5px;
+    font-size: 11px;
+}
+
+
+.address-div input:focus, .full-name-div-input:focus, .change-password-form-input:focus {
+    border-color: #4bb8f3;
+}
+
+.full-name h3, .address h3 {
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.account-detail h1 {
+    margin-bottom: 30px;
+}
+
+.content-detail-left {
+    margin-bottom: 25px;
+}
+
+.content-detail-left h3 {
+    margin-bottom: 6px;
+}
+
+.account-detail-right h3 {
+    margin-bottom: 30px;
+}
+
+.account-detail-right button {
+    margin-top: 30px;
+    padding: 12px 20px;
+    border: none;
+    outline: none;
+    background-color: #52bc65;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.info-change-button {
+    display: flex;
+    /* align-items: flex-end; */
+    justify-content: flex-end;
+}
+
+.info-change-button button {
+    margin-top: 15px;
+    padding: 7px 25px;
+    margin-left: 10px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+}
+
+.info-change-button button:hover {
+    opacity: 0.8;
+}
+
+#button-super-1 {
+    background-color: #3ca93e;
+}
+
+#button-super-2 {
+    background-color:  #2563e9;
+}
+
+.call-me-1 {
+    border: 1px solid #e4e4e4;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.change-password {
+    margin-top: 60px;
+    margin-bottom: 20px;
+    width: 70%;
+    border: 1px solid #e4e4e4;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+#change-pass-h3 {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.one-ex-in {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.one-ex-in div {
+    cursor: pointer;
+    width: 40%;
+}
+
+.one-ex-in div:hover {
+    border-bottom: 1px solid black;
+}
+
+.hehehehe {
+    margin: auto;
+    text-align: center;
+}
+
+.two-ex-in {
+    /* width: 337.04px; */
+}
+
+.two-ex-in > div {
+    overflow: hidden;
+    display: flex;
+    /* width: 337.04px; */
+}
+
+.one-ex-in div {
+    text-align: center;
+    font-size: 18px;
+    /* overflow: hidden; */
+}
+
+.haha-items {
+}
+
+.haha-items div {
+    display: flex;
+    padding: 10px 5px;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid #e4e4e4;
+    transition: all 0.4s ease;
+    width: 507px;
+}
+
+.haha-items div:hover {
+    background:rgb(188, 235, 191);
+    opacity: 0.8;
+}
+
+.haha-items div img  {
+    width: 30px;
+    margin-right: 15px;
+    border-radius: 10%;
+}
+
+.expense-items {
+    transition: all 0.4s ease;
+    margin-left: 0;
+}
+
+
+.income-items {
+    transition: all 0.4s ease;
+}
+
+.show-navbar {
+    display: flex;
+}
+
+.nav-i-mobile {
+    display: none;
+}
+
+.ayda {
+    display: none;
+}
+
+.call-me-hidden {
+    display: none;
+}
+
+.oke-let-me {
+    display: none;
+}
+
+@media screen and (max-width: 1024px){
+    nav {
+        display: none;
+        width: 20%;
+    }
+
+    .ayda {
+        display: flex;
+    }
+
+    .wallet {
+        margin-left: 20px;
+    }
+
+    .nav-i-mobile {
+        display: block;
+        margin-right: 20px;
+        cursor: pointer;
+    }
+
+    .main-content {
+        left: 10px;
+        right: 10px;
+    }
+
+
+
+    nav > div {
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+        margin-top: 20px;
+        border-radius: 0;
+    }
+
+    .account-detail {
+        padding-left: 0;
+    }
+
+    .account-detail-main {
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .change-password {
+        display: none;
+    }
+
+    .account-detail-left {
+        width: 70%;
+    }
+
+    .account-detail-left {
+        margin-top: 40px;
+    }
+
+    .oke-let-me {
+        display: block;
+        margin-top:50px;
+    }
+
+    .call-me-hidden {
+        display: block;
+        margin-bottom: 20px;
+    }
+
+    .account-detail h1 {
+        padding-left: 50px;
+    }
+
+    .full-name-div div {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 735px) {
+    nav > div {
+        font-size: 12px;
+    }
+
+    .nav-icon {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 630px) {
+    .account-detail-left {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .main-content-child {
+        font-size: 12px;
+    }
+
+    .main-content-header div {
+        font-size: 12px;
+    }
+
+    .main-content {
+        left: 0;
+        right: 0;
+        padding: 0;
+        border-radius: 0;
+        background-color: white;
+    }
+
+    .main-content-child {
+        border-radius: 0;
+        width: 100%;
+    }
+
+    .list-item-image {
+        width: 25px;
+    }
+
+    #wallet-img {
+        width: 25px;
+    }
+
+    .header {
+        font-size: 12px;
+        background-color: #f3f0f0;
+    }
+
+    #myBtn {
+        padding: 5px 10px;
+    }
+
+    .nav-i-mobile {
+        display: block;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+
+}
+
