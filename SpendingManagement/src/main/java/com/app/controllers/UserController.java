@@ -2,6 +2,7 @@ package com.app.controllers;
 
 import com.app.pojo.User;
 import com.app.service.UserService;
+import com.app.service.UserWalletService;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -28,11 +29,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-//    @GetMapping("/login")
-//    public String login() {
-//        return "login";
-//    }
+    
+//    @Autowired
+//    private UserWalletService userWalletService;
     @GetMapping("/register")
     public String register(Model model) {
         if (isAuthenticated())

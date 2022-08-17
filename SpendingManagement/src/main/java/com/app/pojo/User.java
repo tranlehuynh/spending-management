@@ -38,6 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active")})
 public class User implements Serializable {
 
+    @OneToMany(mappedBy = "userId")
+    private Set<UserWallet> userWalletSet;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,8 +72,8 @@ public class User implements Serializable {
     @Size(max = 30)
     @Column(name = "role")
     private String role;
-    @OneToMany(mappedBy = "userId")
-    private Set<Wallet> walletSet;
+//    @OneToMany(mappedBy = "userId")
+//    private Set<Wallet> walletSet;
     @Transient
     private String retypePassword;
 
@@ -161,14 +164,14 @@ public class User implements Serializable {
         this.retypePassword = retypePassword;
     }
 
-    @XmlTransient
-    public Set<Wallet> getWalletSet() {
-        return walletSet;
-    }
-
-    public void setWalletSet(Set<Wallet> walletSet) {
-        this.walletSet = walletSet;
-    }
+//    @XmlTransient
+//    public Set<Wallet> getWalletSet() {
+//        return walletSet;
+//    }
+//
+//    public void setWalletSet(Set<Wallet> walletSet) {
+//        this.walletSet = walletSet;
+//    }
 
     @Override
     public int hashCode() {
@@ -193,6 +196,15 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.app.pojo.User[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Set<UserWallet> getUserWalletSet() {
+        return userWalletSet;
+    }
+
+    public void setUserWalletSet(Set<UserWallet> userWalletSet) {
+        this.userWalletSet = userWalletSet;
     }
 
 }

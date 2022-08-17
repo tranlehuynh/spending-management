@@ -92,6 +92,13 @@ for (let i = 0; i < itemDiv.length; i++) {
     };
 }
 
+let modelShowToHide = document.querySelector('.add-model-box');
+let modelShowHideDivHen = document.querySelector('.add-model-box-div');
+
+modelShowToHide.onclick = () => {
+  modelShowHideDivHen.classList.toggle('show-model-box-div');
+};
+
 
 
 

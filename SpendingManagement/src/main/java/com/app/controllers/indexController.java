@@ -1,9 +1,12 @@
 package com.app.controllers;
 
 import com.app.pojo.Transaction;
+import com.app.pojo.User;
+import com.app.pojo.UserWallet;
 import com.app.service.CategoryService;
 import com.app.service.ItemService;
 import com.app.service.TransactionService;
+import com.app.service.UserWalletService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +39,8 @@ public class IndexController {
     private ItemService itemService;
     @Autowired
     private TransactionService transactionService;
+    @Autowired
+    private UserWalletService userWalletService;
     @Autowired
     Environment env;
 
@@ -75,7 +80,8 @@ public class IndexController {
 
         List<String> transactions = new ArrayList<>();
         model.addAttribute("transactions", this.transactionService.getTransactions(params, page));
-
+   
+        model.addAttribute("userWallets", this.userWalletService.getUserWallets());
         model.addAttribute("countTransactions", this.transactionService.countTransaction());
         model.addAttribute("pageSize", Integer.parseInt(env.getProperty("page.size")));
         model.addAttribute("currentUser", session.getAttribute("currentUser"));

@@ -36,6 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Wallet.findByTotalMoney", query = "SELECT w FROM Wallet w WHERE w.totalMoney = :totalMoney")})
 public class Wallet implements Serializable {
 
+    @OneToMany(mappedBy = "walletId")
+    private Set<UserWallet> userWalletSet;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,9 +51,9 @@ public class Wallet implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "total_money")
     private Double totalMoney;
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne
-    private User userId;
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    @ManyToOne
+//    private User userId;
     @OneToMany(mappedBy = "walletId")
     private Set<Transaction> transactionSet;
 
@@ -85,13 +88,13 @@ public class Wallet implements Serializable {
         this.totalMoney = totalMoney;
     }
 
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
-    }
+//    public User getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(User userId) {
+//        this.userId = userId;
+//    }
 
     @XmlTransient
     public Set<Transaction> getTransactionSet() {
@@ -125,6 +128,15 @@ public class Wallet implements Serializable {
     @Override
     public String toString() {
         return "com.app.pojo.Wallet[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public Set<UserWallet> getUserWalletSet() {
+        return userWalletSet;
+    }
+
+    public void setUserWalletSet(Set<UserWallet> userWalletSet) {
+        this.userWalletSet = userWalletSet;
     }
     
 }

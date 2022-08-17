@@ -1,7 +1,7 @@
 package com.app.repository.impl;
 
-import com.app.pojo.Category;
-import com.app.repository.CategoryRepository;
+import com.app.pojo.UserWallet;
+import com.app.repository.UserWalletRepository;
 import java.util.List;
 import javax.persistence.Query;
 import org.hibernate.Session;
@@ -12,14 +12,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional
-public class CategoryRepositoryImpl implements CategoryRepository {
+public class UserWalletRepositoyImpl implements UserWalletRepository {
+
     @Autowired
     private LocalSessionFactoryBean sessionFactory;
-    
+
     @Override
-    public List<Category> getCategories() {
+    public List<UserWallet> getUserWallets() {
         Session s = sessionFactory.getObject().getCurrentSession();
-        Query q = s.createQuery("FROM Category");
+        Query q = s.createQuery("FROM UserWallet");
         return q.getResultList();
     }
+
 }

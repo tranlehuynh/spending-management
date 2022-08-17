@@ -73,7 +73,6 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             int start = (page - 1) * size;
             query.setFirstResult(start);
             query.setMaxResults(size);
-
         }
         return query.getResultList();
     }

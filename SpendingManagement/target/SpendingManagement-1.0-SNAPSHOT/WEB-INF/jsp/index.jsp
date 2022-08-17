@@ -58,8 +58,6 @@
                             </c:forEach>                   
                     </ul>
                 </div>
-
-                <c:if test="${currentUser != null}">${currentUser.role}</c:if>
             </div>
         </div>
     </div>
