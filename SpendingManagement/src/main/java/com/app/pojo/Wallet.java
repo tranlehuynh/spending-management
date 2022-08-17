@@ -13,12 +13,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -43,21 +42,16 @@ public class Wallet implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @Size(max = 100)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "total_money")
-    private double totalMoney;
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Category category;
+    private Double totalMoney;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @ManyToOne
+    private User userId;
     @OneToMany(mappedBy = "walletId")
-    private Set<User> userSet;
-    @OneToMany(mappedBy = "walletTransactionId")
     private Set<Transaction> transactionSet;
 
     public Wallet() {
@@ -65,12 +59,6 @@ public class Wallet implements Serializable {
 
     public Wallet(Integer id) {
         this.id = id;
-    }
-
-    public Wallet(Integer id, String name, double totalMoney) {
-        this.id = id;
-        this.name = name;
-        this.totalMoney = totalMoney;
     }
 
     public Integer getId() {
@@ -89,29 +77,20 @@ public class Wallet implements Serializable {
         this.name = name;
     }
 
-    public double getTotalMoney() {
+    public Double getTotalMoney() {
         return totalMoney;
     }
 
-    public void setTotalMoney(double totalMoney) {
+    public void setTotalMoney(Double totalMoney) {
         this.totalMoney = totalMoney;
     }
 
-    public Category getCategory() {
-        return category;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    @XmlTransient
-    public Set<User> getUserSet() {
-        return userSet;
-    }
-
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @XmlTransient

@@ -1,9 +1,10 @@
 package com.app.service;
 
-import com.app.pojo.Items;
+import com.app.pojo.Item;
 import java.util.List;
 import java.util.Map;
 
 public interface ItemService {
-    List<Items> getItems(Map<String, String> params, int page);
+    List<Item> getItems(Map<String, String> params, int page);
+    List<Item> getItemsNo();
 }

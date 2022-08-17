@@ -17,17 +17,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Huynh
- */
 @Entity
 @Table(name = "user")
 @XmlRootElement
@@ -38,10 +33,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
     @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
-    @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active"),
-    @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar"),
     @NamedQuery(name = "User.findByPhone", query = "SELECT u FROM User u WHERE u.phone = :phone"),
-    @NamedQuery(name = "User.findByRoleId", query = "SELECT u FROM User u WHERE u.roleId = :roleId")})
+    @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar"),
+    @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,60 +44,41 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 30)
+    @Size(max = 50)
     @Column(name = "first_name")
     private String firstName;
-    @Size(max = 30)
+    @Size(max = 50)
     @Column(name = "last_name")
     private String lastName;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "email")
+    @Size(max = 100)
+    @Column(name = "email", unique = true)
     private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @Size(max = 150)
     @Column(name = "password")
     private String password;
-    @Column(name = "active")
-    private Integer active;
-    @Size(max = 255)
-    @Column(name = "avatar")
-    private String avatar;
     // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
+    @Size(max = 20)
     @Column(name = "phone")
     private String phone;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "role_id")
-    private int roleId;
+    @Size(max = 130)
+    @Column(name = "avatar")
+    private String avatar;
+    @Column(name = "active")
+    private Integer active;
+    @Size(max = 30)
+    @Column(name = "role")
+    private String role;
     @OneToMany(mappedBy = "userId")
-    private Set<UserJoinGw> userJoinGwSet;
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Role role;
-    @JoinColumn(name = "wallet_id", referencedColumnName = "id")
-    @ManyToOne
-    private Wallet walletId;
+    private Set<Wallet> walletSet;
+    @Transient
+    private String retypePassword;
 
     public User() {
     }
 
     public User(Integer id) {
         this.id = id;
-    }
-
-    public User(Integer id, String email, String password, String phone, int roleId) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.roleId = roleId;
     }
 
     public Integer getId() {
@@ -146,12 +121,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Integer getActive() {
-        return active;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setActive(Integer active) {
-        this.active = active;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getAvatar() {
@@ -162,45 +137,37 @@ public class User implements Serializable {
         this.avatar = avatar;
     }
 
-    public String getPhone() {
-        return phone;
+    public Integer getActive() {
+        return active;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setActive(Integer active) {
+        this.active = active;
     }
 
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
-    }
-
-    @XmlTransient
-    public Set<UserJoinGw> getUserJoinGwSet() {
-        return userJoinGwSet;
-    }
-
-    public void setUserJoinGwSet(Set<UserJoinGw> userJoinGwSet) {
-        this.userJoinGwSet = userJoinGwSet;
-    }
-
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
-    public Wallet getWalletId() {
-        return walletId;
+    public String getRetypePassword() {
+        return retypePassword;
     }
 
-    public void setWalletId(Wallet walletId) {
-        this.walletId = walletId;
+    public void setRetypePassword(String retypePassword) {
+        this.retypePassword = retypePassword;
+    }
+
+    @XmlTransient
+    public Set<Wallet> getWalletSet() {
+        return walletSet;
+    }
+
+    public void setWalletSet(Set<Wallet> walletSet) {
+        this.walletSet = walletSet;
     }
 
     @Override
@@ -227,5 +194,5 @@ public class User implements Serializable {
     public String toString() {
         return "com.app.pojo.User[ id=" + id + " ]";
     }
-    
+
 }

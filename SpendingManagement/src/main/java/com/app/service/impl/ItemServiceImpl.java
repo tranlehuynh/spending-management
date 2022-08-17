@@ -1,6 +1,6 @@
 package com.app.service.impl;
 
-import com.app.pojo.Items;
+import com.app.pojo.Item;
 import com.app.repository.ItemRepository;
 import com.app.service.ItemService;
 import java.util.List;
@@ -14,7 +14,12 @@ public class ItemServiceImpl implements ItemService{
     private ItemRepository itemRepository;
 
     @Override
-    public List<Items> getItems(Map<String, String> params, int page) {
+    public List<Item> getItems(Map<String, String> params, int page) {
         return this.itemRepository.getItems(params, page);
+    }
+
+    @Override
+    public List<Item> getItemsNo() {
+        return this.itemRepository.getItemsNo();
     }
 }

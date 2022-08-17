@@ -19,8 +19,10 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  *
@@ -48,16 +50,19 @@ public class Transaction implements Serializable {
     private Double amount;
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
     @Size(max = 100)
     @Column(name = "note")
     private String note;
     @JoinColumn(name = "item_id", referencedColumnName = "id")
     @ManyToOne
-    private Items itemId;
-    @JoinColumn(name = "wallet_transaction_id", referencedColumnName = "id")
+    private Item itemId;
+    @JoinColumn(name = "wallet_id", referencedColumnName = "id")
     @ManyToOne
-    private Wallet walletTransactionId;
+    private Wallet walletId;
+    @Transient
+    private String temp;
 
     public Transaction() {
     }
@@ -98,20 +103,28 @@ public class Transaction implements Serializable {
         this.note = note;
     }
 
-    public Items getItemId() {
+    public Item getItemId() {
         return itemId;
     }
 
-    public void setItemId(Items itemId) {
+    public void setItemId(Item itemId) {
         this.itemId = itemId;
     }
 
-    public Wallet getWalletTransactionId() {
-        return walletTransactionId;
+    public Wallet getWalletId() {
+        return walletId;
     }
 
-    public void setWalletTransactionId(Wallet walletTransactionId) {
-        this.walletTransactionId = walletTransactionId;
+    public void setWalletId(Wallet walletId) {
+        this.walletId = walletId;
+    }
+    
+    public String getTemp() {
+        return temp;
+    }
+    
+    public void setTemp(String temp) {
+        this.temp = temp;
     }
 
     @Override

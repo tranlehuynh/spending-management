@@ -1,6 +1,6 @@
 package com.app.repository.impl;
 
-import com.app.pojo.Items;
+import com.app.pojo.Item;
 import com.app.repository.ItemRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,20 +19,21 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-@PropertySource("classpath:databases.properties")
+@PropertySource("classpath:messages.properties")
 @Transactional
 public class ItemRepositoryImpl implements ItemRepository {
+
     @Autowired
     private LocalSessionFactoryBean sessionFactory;
     @Autowired
     private Environment env;
 
     @Override
-    public List<Items> getItems(Map<String, String> params, int page) {
+    public List<Item> getItems(Map<String, String> params, int page) {
         Session s = sessionFactory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
-        CriteriaQuery<Items> q = b.createQuery(Items.class);
-        Root root = q.from(Items.class);
+        CriteriaQuery<Item> q = b.createQuery(Item.class);
+        Root root = q.from(Item.class);
         q.select(root);
 
         if (params != null) {
@@ -42,25 +43,6 @@ public class ItemRepositoryImpl implements ItemRepository {
                 Predicate p = b.like(root.get("name").as(String.class), String.format("%%%s%%", kw));
                 predicates.add(p);
             }
-
-//            String fp = params.get("fromPrice");
-//            if (fp != null) {
-//                Predicate p = b.greaterThanOrEqualTo(root.get("price").as(Long.class), Long.parseLong(fp));
-//                predicates.add(p);
-//            }
-//
-//            String tp = params.get("toPrice");
-//            if (tp != null) {
-//                Predicate p = b.lessThanOrEqualTo(root.get("price").as(Long.class), Long.parseLong(tp));
-//                predicates.add(p);
-//            }
-//
-//            String cateId = params.get("cateId");
-//            if (cateId != null) {
-//                Predicate p = b.equal(root.get("categoryId"), Integer.parseInt(cateId));
-//                predicates.add(p);
-//            }
-
             q.where(predicates.toArray(Predicate[]::new));
         }
 
@@ -73,5 +55,12 @@ public class ItemRepositoryImpl implements ItemRepository {
 
         }
         return query.getResultList();
+    }
+
+    @Override
+    public List<Item> getItemsNo() {
+        Session s = sessionFactory.getObject().getCurrentSession();
+        javax.persistence.Query q = s.createQuery("FROM Item");
+        return q.getResultList();
     }
 }

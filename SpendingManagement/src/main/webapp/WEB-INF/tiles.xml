@@ -18,4 +18,24 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="content"
                        value="/WEB-INF/jsp/index.jsp" />
     </definition>
+    <definition name="user" extends="baseLayout">
+        <put-attribute name="title" value="User Manage" />
+        <put-attribute name="content"
+                       value="/WEB-INF/jsp/user.jsp" />
+    </definition>
+    <definition name="login" extends="baseLayout">
+        <put-attribute name="title" value="Login" />
+        <put-attribute name="content"
+                       value="/WEB-INF/jsp/login.jsp" />
+    </definition>
+    <definition name="register" extends="baseLayout">
+        <put-attribute name="title" value="Register" />
+        <put-attribute name="content"
+                       value="/WEB-INF/jsp/register.jsp" />
+    </definition>
+    <definition name="account-details" extends="baseLayout">
+        <put-attribute name="title" value="Account Details" />
+        <put-attribute name="content"
+                       value="/WEB-INF/jsp/account-details.jsp" />
+    </definition>
 </tiles-definitions>

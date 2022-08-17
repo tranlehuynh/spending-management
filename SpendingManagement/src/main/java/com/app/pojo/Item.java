@@ -9,9 +9,9 @@ import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -26,42 +26,38 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Huynh
  */
 @Entity
-@Table(name = "group_wallet")
+@Table(name = "item")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "GroupWallet.findAll", query = "SELECT g FROM GroupWallet g"),
-    @NamedQuery(name = "GroupWallet.findById", query = "SELECT g FROM GroupWallet g WHERE g.id = :id"),
-    @NamedQuery(name = "GroupWallet.findByName", query = "SELECT g FROM GroupWallet g WHERE g.name = :name"),
-    @NamedQuery(name = "GroupWallet.findByDescription", query = "SELECT g FROM GroupWallet g WHERE g.description = :description")})
-public class GroupWallet implements Serializable {
+    @NamedQuery(name = "Item.findAll", query = "SELECT i FROM Item i"),
+    @NamedQuery(name = "Item.findById", query = "SELECT i FROM Item i WHERE i.id = :id"),
+    @NamedQuery(name = "Item.findByName", query = "SELECT i FROM Item i WHERE i.name = :name"),
+    @NamedQuery(name = "Item.findByImage", query = "SELECT i FROM Item i WHERE i.image = :image")})
+public class Item implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Column(name = "id")
+    private Integer id;
+    @Size(max = 45)
     @Column(name = "name")
     private String name;
-    @Size(max = 100)
-    @Column(name = "description")
-    private String description;
-    @OneToMany(mappedBy = "gwId")
-    private Set<UserJoinGw> userJoinGwSet;
+    @Size(max = 150)
+    @Column(name = "image")
+    private String image;
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @ManyToOne
+    private Category categoryId;
+    @OneToMany(mappedBy = "itemId")
+    private Set<Transaction> transactionSet;
 
-    public GroupWallet() {
+    public Item() {
     }
 
-    public GroupWallet(Integer id) {
+    public Item(Integer id) {
         this.id = id;
-    }
-
-    public GroupWallet(Integer id, String name) {
-        this.id = id;
-        this.name = name;
     }
 
     public Integer getId() {
@@ -80,21 +76,29 @@ public class GroupWallet implements Serializable {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getImage() {
+        return image;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Category getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Category categoryId) {
+        this.categoryId = categoryId;
     }
 
     @XmlTransient
-    public Set<UserJoinGw> getUserJoinGwSet() {
-        return userJoinGwSet;
+    public Set<Transaction> getTransactionSet() {
+        return transactionSet;
     }
 
-    public void setUserJoinGwSet(Set<UserJoinGw> userJoinGwSet) {
-        this.userJoinGwSet = userJoinGwSet;
+    public void setTransactionSet(Set<Transaction> transactionSet) {
+        this.transactionSet = transactionSet;
     }
 
     @Override
@@ -107,10 +111,10 @@ public class GroupWallet implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof GroupWallet)) {
+        if (!(object instanceof Item)) {
             return false;
         }
-        GroupWallet other = (GroupWallet) object;
+        Item other = (Item) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -119,7 +123,7 @@ public class GroupWallet implements Serializable {
 
     @Override
     public String toString() {
-        return "com.app.pojo.GroupWallet[ id=" + id + " ]";
+        return "com.app.pojo.Item[ id=" + id + " ]";
     }
     
 }

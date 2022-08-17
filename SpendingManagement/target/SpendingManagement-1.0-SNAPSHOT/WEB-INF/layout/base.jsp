@@ -12,6 +12,7 @@
               crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="icon" href="<c:url value="/resources/images/ant.png" />" type="image/gif" sizes="16x16">
         <link href="<c:url value="/resources/css/home.css" />" rel="stylesheet">
+        <link href="<c:url value="/resources/css/index.css" />" rel="stylesheet">
         <title>
             <tiles:insertAttribute name="title" />
         </title>

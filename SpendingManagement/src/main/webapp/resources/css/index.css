@@ -1,18 +1,4 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    font-family: sans-serif;
-}
-
-a {
-    text-decoration: none;
-}
-
-.container {
+.container-1 {
     display: flex;
     width: 100%;
     height: 100vh;
@@ -140,6 +126,252 @@ a {
     border: none;
     cursor: pointer;
     background-color: #00bfa5;
+}
+
+.login-black {
+    width: 100%;
+    height: 2.5rem;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: black;
+    color: white;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    /* box-shadow: rgba(0, 0, 0, 0.1) 1px 1px 2px 0px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.login-black p {
+    color: rgba(174, 170, 170, 0.977); 
+}
+
+.login-black p a {
+    color: white;
+    text-decoration: underline;
+}
+
+
+.login-register-image div img {
+    width: 100%;
+    transition: all 0.8s;
+}
+
+
+/* .img2 {
+    margin-left: -300px;
+    transition: all 1s;
+}
+
+.img1 {
+    margin-left: -300px;
+} */
+
+.login-register-image > div {
+    width: 300px;
+    overflow: hidden;
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    transition:all 1s;
+}
+
+.login-register-image > h3 {
+    text-align: center;
+    margin-bottom: 13px;
+}
+
+.login-register-image > h3:nth-child(3) {
+    color: rgba(112, 110, 110, 0.977);   
+    font-weight: 100;
+}
+
+.login-register-image p {
+    font-size: 13px;
+    text-align: center;
+}
+
+.login-register-image p a {
+    color: red;
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 1280px) {
+    .login-register-form {
+        max-width: 420px;
+    }
+
+    .login-register-image img {
+        width: 250px;
+    }
+}
+
+@media screen and (max-width: 1100px ) {
+    .login-register-image {
+        display: none;
+
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .login-register-form {
+        position: absolute;
+        max-width: 100%;
+        height: 100%;
+        padding: 0 30px;
+    }
+
+    .login-black {
+        border-radius: 0px;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .login-register-form-button > button {
+        padding: 10px 15px;
+    }
+
+}
+
+.login-register-form {
+    width: 100%;
+    max-width: 486px;
+    border-radius: 10px;
+    padding: 30px;
+    background-color: white;
+    border: 1px solid #eee;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+    position: relative;
+}
+
+.login-register-form h3 {
+    text-align: center;
+    font-size: 1.7rem;
+    font-weight: lighter;
+    margin-bottom: 60px;
+    margin-top: 35px;
+}
+
+.login-form-child {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.login-form-child:nth-child(2) {
+    margin-bottom: 2rem;
+}
+
+.register-form-child-input {
+    width: 100%;
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.register-form-child-input div {
+    width: 48%;
+    height: 100%;
+    position: relative;
+}
+
+.register-form-child-input input {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border-radius: 6px;
+    font-family: sans-serif;
+    border: 1px solid rgb(224, 224, 224);
+    padding: 0 20px;
+    font-size: 14px;
+}
+
+
+.login-form-child-input {
+    width: 100%;
+    height: 45px;
+    padding: 0 20px;
+    outline: none;
+    border: 1px solid rgb(224, 224, 224);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: sans-serif;
+}
+
+.login-form-child label, .login-form-child-label-1 {
+    position: absolute;
+    font-size: 14px;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    user-select: none;
+    transition: all 0.3s;
+    color: rgba(112, 110, 110, 0.977);
+}
+
+.login-form-child-input:focus, .register-form-child-input:focus {
+    border-color: #4bb8f3;
+}
+
+.login-form-child-input:focus + .login-form-child-label,
+.login-form-child-input:valid + .login-form-child-label {
+    top: 0;
+    background: white;
+    padding: 0 5px;
+    font-size: 11px;
+}
+
+.register-form-child-input:focus + .login-form-child-label-1,
+.register-form-child-input:valid + .login-form-child-label-1 {
+    top: 0;
+    background: white;
+    padding: 0 5px;
+    font-size: 11px;
+}
+
+#forgot-password {
+    text-align: right;
+    font-size: 14px;
+}
+
+#forgot-password a {
+    color: rgba(112, 110, 110, 0.977);
+}
+
+.login-register-form-button {
+    margin-top: 3rem;
+    margin-bottom: 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.account-check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    visibility: hidden;
+}
+
+.account-check p {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.login-register-form-button > button {
+    padding: 15px 35px;
+    border-radius: 7px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    font-size: 16px;
+    background-color: #ff645d;
 }
 
 .login-black {

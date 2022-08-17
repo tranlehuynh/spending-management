@@ -6,10 +6,10 @@
     <class>com.app.pojo.UserJoinGw</class>
     <class>com.app.pojo.GroupWallet</class>
     <class>com.app.pojo.Transaction</class>
-    <class>com.app.pojo.Role</class>
     <class>com.app.pojo.Category</class>
     <class>com.app.pojo.User</class>
     <class>com.app.pojo.Items</class>
+    <class>com.app.pojo.Item</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/appdb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

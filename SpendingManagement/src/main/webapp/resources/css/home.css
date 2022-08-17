@@ -51,6 +51,10 @@ nav > div {
     margin-top: 30px;
 }
 
+.mother-nav {
+    display: none !important;
+}
+
 nav > div:hover {
 
     background-color: white;
@@ -71,7 +75,7 @@ nav > div:hover {
 }
 
 .wallet img{
-    width: 30px;
+    width: 40px;
     margin-right: 10px;
 }
 
@@ -79,6 +83,14 @@ nav > div:hover {
 .categories {
     display: flex;
     align-items: center;
+}
+
+/* this is new css category input */
+.category-p-input {
+    outline: none;
+    border: none;
+    background: white;
+    font-size: 16px;
 }
 
 .categories-icon {
@@ -179,7 +191,7 @@ nav > div:hover {
 }
 
 .modal-img {
-    width: 20px;
+    width: 30px;
     margin-right: 5px;
 }
 
@@ -291,6 +303,38 @@ nav > div:hover {
     margin-top: 39px;
 }
 
+/* This is table css  */
+.user-content {
+    width: 100%;
+}
+
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#customers tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+#customers tr:hover {
+    background-color: #ddd;
+}
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+}
+
 .modal-button div button {
     border: none;
     outline: none;
@@ -322,12 +366,12 @@ nav > div:hover {
     position: absolute;
     left: 220px;
     right: 10px;
+    min-height: 89vh;
     top: 70px;
     background: #f3f0f0;
     border-radius: 15px;
     padding: 20px;
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
@@ -354,7 +398,28 @@ nav > div:hover {
     text-transform: uppercase;
 }
 
-.text-content {
+.div-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination {
+    display: flex;
+    list-style-type: none;
+}
+
+.pagination li {
+    border: 1px solid #aaaaaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination li a {
+    text-decoration: none;
+    display: block;
+    padding: 5px;
 }
 
 .flow {

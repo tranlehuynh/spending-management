@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.27, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
 --
--- Host: localhost    Database: appdb
+-- Host: localhost    Database: db
 -- ------------------------------------------------------
--- Server version	8.0.27
+-- Server version	8.0.29
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,10 +23,10 @@ DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `category` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `id` int NOT NULL,
+  `name` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,77 +40,31 @@ INSERT INTO `category` VALUES (1,'Expense'),(2,'Income');
 UNLOCK TABLES;
 
 --
--- Table structure for table `group_wallet`
+-- Table structure for table `item`
 --
 
-DROP TABLE IF EXISTS `group_wallet`;
+DROP TABLE IF EXISTS `item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `group_wallet` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `description` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `group_wallet`
---
-
-LOCK TABLES `group_wallet` WRITE;
-/*!40000 ALTER TABLE `group_wallet` DISABLE KEYS */;
-/*!40000 ALTER TABLE `group_wallet` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `items`
---
-
-DROP TABLE IF EXISTS `items`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `items` (
+CREATE TABLE `item` (
   `id` int NOT NULL,
-  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `items`
---
-
-LOCK TABLES `items` WRITE;
-/*!40000 ALTER TABLE `items` DISABLE KEYS */;
-INSERT INTO `items` VALUES (1,'Water bill'),(2,'Electricity bill'),(3,'Pets'),(4,'Transportation'),(5,'Food & Beverage'),(6,'Gas bill'),(7,'Internet bill'),(8,'Insurances'),(9,'Personal Items'),(10,'Others');
-/*!40000 ALTER TABLE `items` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `role`
---
-
-DROP TABLE IF EXISTS `role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `role` (
-  `id` int NOT NULL,
-  `name` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `category_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name_UNIQUE` (`name`)
+  KEY `category_id_idx` (`category_id`),
+  CONSTRAINT `category_id` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `role`
+-- Dumping data for table `item`
 --
 
-LOCK TABLES `role` WRITE;
-/*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES (1,'Admin','Quyền Admin'),(2,'User','Quyền của User'),(3,'Group','Quyền của Nhóm');
-/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+LOCK TABLES `item` WRITE;
+/*!40000 ALTER TABLE `item` DISABLE KEYS */;
+INSERT INTO `item` VALUES (1,'Water Bill','https://static.moneylover.me/img/icon/icon_124.png',1),(2,'Electricity Bill','https://static.moneylover.me/img/icon/icon_125.png',1),(3,'Pets','https://static.moneylover.me/img/icon/icon_53.png',1),(4,'Transportation','https://static.moneylover.me/img/icon/ic_category_transport.png',1),(5,'Food & Beverage','https://static.moneylover.me/img/icon/ic_category_foodndrink.png',1),(6,'Gas Bill','https://static.moneylover.me/img/icon/icon_139.png',1),(7,'Internet Bill','https://static.moneylover.me/img/icon/icon_41.png',1),(8,'Insurances','https://static.moneylover.me/img/icon/icon_138.png',1),(9,'Personal Items','https://static.moneylover.me/img/icon/icon_63.png',1),(10,'Donation','https://static.moneylover.me/img/icon/ic_category_donations.png',1),(11,'Salary','https://static.moneylover.me/img/icon/icon_118.png',2),(12,'Other Income','https://static.moneylover.me/img/icon/icon.png',2);
+/*!40000 ALTER TABLE `item` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -124,15 +78,15 @@ CREATE TABLE `transaction` (
   `id` int NOT NULL AUTO_INCREMENT,
   `amount` double DEFAULT NULL,
   `date` date DEFAULT NULL,
-  `note` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `note` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `item_id` int DEFAULT NULL,
-  `wallet_transaction_id` int DEFAULT NULL,
+  `wallet_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `item_id_idx` (`item_id`),
-  KEY `wallet_transaction_id_idx` (`wallet_transaction_id`),
-  CONSTRAINT `item_id` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`),
-  CONSTRAINT `wallet_transaction_id` FOREIGN KEY (`wallet_transaction_id`) REFERENCES `wallet` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+  KEY `wallet_id_idx` (`wallet_id`),
+  CONSTRAINT `item_id` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`),
+  CONSTRAINT `wallet_id` FOREIGN KEY (`wallet_id`) REFERENCES `wallet` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -141,7 +95,7 @@ CREATE TABLE `transaction` (
 
 LOCK TABLES `transaction` WRITE;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-INSERT INTO `transaction` VALUES (2,200000,'2022-08-08','Tiền bảo hiểm',8,1),(3,200000,'2022-08-08','Tiền bảo hiểm  ',8,NULL);
+INSERT INTO `transaction` VALUES (2,3000000,'2022-08-16','no note here',1,1),(3,100,'2022-08-16','mua qua di',5,NULL),(4,200,'2022-08-19','luong toi roi la luong toi roi',11,NULL);
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,20 +108,17 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `last_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `email` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `password` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `first_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `avatar` varchar(130) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `active` int DEFAULT NULL,
-  `avatar` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `phone` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `role_id` int NOT NULL,
-  `wallet_id` int DEFAULT NULL,
+  `role` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `wallet_id_idx` (`wallet_id`),
-  CONSTRAINT `role_id` FOREIGN KEY (`id`) REFERENCES `role` (`id`),
-  CONSTRAINT `wallet_id` FOREIGN KEY (`wallet_id`) REFERENCES `wallet` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  UNIQUE KEY `email_UNIQUE` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,36 +127,8 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Lộc','Tiến','admin@gmail.com','admin123',1,NULL,'0886152',1,1),(2,'Huỳnh','Lê','user1@gmail.com','user123',1,NULL,'091231',2,1);
+INSERT INTO `user` VALUES (1,'Admin','Nguyen','admin@gmail.com','$2a$10$5X9k5N1sTc1/CjVH5XJoje3QMYijH3ETpgkox00R0MdPaJPPrf7wO','0989','https://i.pinimg.com/564x/83/2a/77/832a77b710db7d8d54badb01fb264dc1.jpg',1,'ADMIN'),(2,'Huynh','Tran','huynh@gmail.com','$2a$10$3.JxdNpfzBoFAdFzexbTX.Bnoj6IpkcyODwbsejm6XGUyZtRjHxx6',NULL,'https://i.pinimg.com/564x/83/2a/77/832a77b710db7d8d54badb01fb264dc1.jpg',1,'USER'),(8,'Loc','Vuong','loc@gmail.com','$2a$10$afVO7Xwkyj5eN/JVBuxaBeRTFcvclsjeHqhNwRLWGC8NlbekrkeLy',NULL,'https://pic.onlinewebfonts.com/svg/img_264570.png',1,'USER');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user_join_gw`
---
-
-DROP TABLE IF EXISTS `user_join_gw`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_join_gw` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `gw_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id_idx` (`user_id`),
-  KEY `gw_id_idx` (`gw_id`),
-  CONSTRAINT `gw_id` FOREIGN KEY (`gw_id`) REFERENCES `group_wallet` (`id`),
-  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_join_gw`
---
-
-LOCK TABLES `user_join_gw` WRITE;
-/*!40000 ALTER TABLE `user_join_gw` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_join_gw` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -217,11 +140,13 @@ DROP TABLE IF EXISTS `wallet`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `wallet` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `total_money` double NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `total_money` double DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `category_id` FOREIGN KEY (`id`) REFERENCES `category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+  KEY `user_id_idx` (`user_id`),
+  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -230,7 +155,7 @@ CREATE TABLE `wallet` (
 
 LOCK TABLES `wallet` WRITE;
 /*!40000 ALTER TABLE `wallet` DISABLE KEYS */;
-INSERT INTO `wallet` VALUES (1,'Wallet 1',5000000);
+INSERT INTO `wallet` VALUES (1,'Wallet 1',3000000,1);
 /*!40000 ALTER TABLE `wallet` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -243,4 +168,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-11 20:56:55
+-- Dump completed on 2022-08-17 14:51:29
