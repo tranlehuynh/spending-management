@@ -94,10 +94,23 @@ for (let i = 0; i < itemDiv.length; i++) {
 
 let modelShowToHide = document.querySelector('.add-model-box');
 let modelShowHideDivHen = document.querySelector('.add-model-box-div');
+let childchild = document.querySelectorAll('.add-model-box-div-child');
+let belloMinion = document.querySelectorAll(".this-is-my-input");
 
-modelShowToHide.onclick = () => {
-  modelShowHideDivHen.classList.toggle('show-model-box-div');
+let ohMyChuoi = document.querySelector('.wallet-hehehe');
+
+ohMyChuoi.onclick = () => {
+    modelShowHideDivHen.classList.toggle('show-model-box-div');
 };
+
+
+for (let i = 0; i < childchild.length; i++) {
+    childchild[i].onclick = () => {
+        belloMinion[i].click();
+    }
+}
+
+
 
 
 

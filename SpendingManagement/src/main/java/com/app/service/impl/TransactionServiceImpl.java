@@ -32,4 +32,9 @@ public class TransactionServiceImpl implements TransactionService {
     public boolean addTransaction(Transaction t) {
         return this.transactionRepository.addTransaction(t);
     }
+
+    @Override
+    public List<Transaction> getAllTransactions() {
+        return this.transactionRepository.getAllTransactions();
+    }
 }

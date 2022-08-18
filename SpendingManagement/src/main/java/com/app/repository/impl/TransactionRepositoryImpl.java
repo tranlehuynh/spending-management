@@ -28,8 +28,6 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     private LocalSessionFactoryBean sessionFactory;
     @Autowired
     private Environment env;
-    @Autowired
-    private ItemService itemService;
 
     @Override
     public List<Transaction> getTransactions(Map<String, String> params, int page) {
@@ -46,24 +44,6 @@ public class TransactionRepositoryImpl implements TransactionRepository {
                 Predicate p = b.like(root.get("name").as(String.class), String.format("%%%s%%", kw));
                 predicates.add(p);
             }
-
-//            String fp = params.get("fromPrice");
-//            if (fp != null) {
-//                Predicate p = b.greaterThanOrEqualTo(root.get("price").as(Long.class), Long.parseLong(fp));
-//                predicates.add(p);
-//            }
-//
-//            String tp = params.get("toPrice");
-//            if (tp != null) {
-//                Predicate p = b.lessThanOrEqualTo(root.get("price").as(Long.class), Long.parseLong(tp));
-//                predicates.add(p);
-//            }
-//
-//            String cateId = params.get("cateId");
-//            if (cateId != null) {
-//                Predicate p = b.equal(root.get("categoryId"), Integer.parseInt(cateId));
-//                predicates.add(p);
-//            }
             q.where(predicates.toArray(Predicate[]::new));
         }
 
@@ -95,5 +75,12 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public List<Transaction> getAllTransactions() {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Query q = session.createQuery("FROM Transaction");
+        return q.getResultList();
     }
 }

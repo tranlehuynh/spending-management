@@ -12,14 +12,14 @@
             <c:url value="/transaction" var="action" />
             <form:form method="post" action="${action}" id="form-transaction" modelAttribute="transaction">
                 <div class="modal-top">
-                    <!--                    <div class="modal-wallet modal-top-item">
-                                            <span>Choose wallet</span>
-                                            <div>
-                                                <img src="./images/wallet.png" alt="wallet" id="wallet-modal-img" class="modal-img" />
-                                                <p class="text-modal-check" path="walletTransactionId" >Wallet 1</p>
-                                                <span><i class="fa-solid fa-arrow-right-long"></i></span>
-                                            </div>
-                                        </div>-->
+                    <div class="modal-wallet modal-top-item">
+                        <span>Choose wallet</span>
+                        <div>
+                            <img src="${currentUser.avatar}" alt="wallet" id="wallet-modal-img" class="modal-img" />
+                            <p class="text-modal-check" path="walletTransactionId" >Wallet 1</p>
+                            <span><i class="fa-solid fa-arrow-right-long"></i></span>
+                        </div>
+                    </div>
                     <div class="category-wallet modal-top-item">
                         <span>Category</span>
                         <div class="category-wallet-div">

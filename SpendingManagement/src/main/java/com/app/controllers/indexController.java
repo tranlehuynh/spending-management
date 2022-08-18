@@ -7,9 +7,11 @@ import com.app.service.CategoryService;
 import com.app.service.ItemService;
 import com.app.service.TransactionService;
 import com.app.service.UserWalletService;
+import com.app.service.WalletService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,8 @@ public class IndexController {
     @Autowired
     private UserWalletService userWalletService;
     @Autowired
+    private WalletService walletService;
+    @Autowired
     Environment env;
 
     @ModelAttribute
@@ -60,17 +64,19 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index() {
-        if (isAuthenticated())
+        if (isAuthenticated()) {
             return "redirect:/dashboard";
+        }
         return "login";
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model, @RequestParam Map<String, String> params, HttpSession session) {
-        
-        if (!isAuthenticated())
+    public String dashboard(Model model, @RequestParam Map<String, String> params, HttpSession session, @RequestParam(required = false, name = "myButton") String view) {
+
+        if (!isAuthenticated()) {
             return "redirect:/";
-        
+        }
+
         List<String> categories = new ArrayList<>();
         model.addAttribute("categories", this.categoryService.getCategories());
 
@@ -79,9 +85,29 @@ public class IndexController {
         model.addAttribute("items", this.itemService.getItems(params, page));
 
         List<String> transactions = new ArrayList<>();
-        model.addAttribute("transactions", this.transactionService.getTransactions(params, page));
-   
+
+        //Get current user
+        User user = (User) session.getAttribute("currentUser");
+
+        for (int i = 0; i < this.userWalletService.getUserWallets().size(); i++) {
+            if (Objects.equals(this.userWalletService.getUserWallets().get(i).getUserId().getId(), user.getId())) {
+                model.addAttribute("firstWallet", this.userWalletService.getUserWallets().get(i).getWalletId().getTotalMoney());               
+                break;
+            }
+        }
+        
+//        
+//        int countTransactionsOfUser = 0;
+//        
+//        for (int i = 0; i < this.userWalletService.getUserWallets().size(); i++) {
+//            if (Integer.parseInt(view) == this.userWalletService.getUserWallets().get(i).getWalletId().getId()) {
+//                countTransactionsOfUser++;
+//            }
+//        }
+               
+        model.addAttribute("view", view);
         model.addAttribute("userWallets", this.userWalletService.getUserWallets());
+        model.addAttribute("transactions", this.transactionService.getTransactions(params, page));
         model.addAttribute("countTransactions", this.transactionService.countTransaction());
         model.addAttribute("pageSize", Integer.parseInt(env.getProperty("page.size")));
         model.addAttribute("currentUser", session.getAttribute("currentUser"));
@@ -110,7 +136,6 @@ public class IndexController {
         if (this.transactionService.addTransaction(p) == true) {
             return "redirect:/dashboard";
         }
-
         return "index";
     }
 }

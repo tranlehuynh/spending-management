@@ -27,35 +27,37 @@
             </div>
             <div class="list-items">
                 <c:forEach items="${transactions}" var="t">
-                    <div class="list-item">
-                        <div>
-                            <div class="div-list-item-image"><img src="${t.itemId.image}" alt="image" class="list-item-image"></div>
-                            <div class="list-item-center">
-                                <div class="list-item-center-h2">${t.itemId.name}</div>
-                                <div class="list-item-center-text">${t.note}</div>
+                    <c:if test="${t.walletId.id == view}">
+                        <div class="list-item">
+                            <div>
+                                <div class="div-list-item-image"><img src="${t.itemId.image}" alt="image" class="list-item-image"></div>
+                                <div class="list-item-center">
+                                    <div class="list-item-center-h2">${t.itemId.name}</div>
+                                    <div class="list-item-center-text">${t.note}</div>
+                                </div>
                             </div>
+                            <c:if test="${t.itemId.categoryId.id == 1}">
+                                <div style="color: rgb(245, 89, 89)">
+                                    <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "-${t.amount}" /> VND  
+                                </div>
+                            </c:if>    
+                            <c:if test="${t.itemId.categoryId.id == 2}">
+                                <div style="color: #1aa333">
+                                    <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${t.amount}" /> VND  
+                                </div>
+                            </c:if>   
                         </div>
-                        <c:if test="${t.itemId.categoryId.id == 1}">
-                            <div style="color: rgb(245, 89, 89)">
-                                <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "-${t.amount}" /> VND  
-                            </div>
-                        </c:if>    
-                        <c:if test="${t.itemId.categoryId.id == 2}">
-                            <div style="color: #1aa333">
-                                <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${t.amount}" /> VND  
-                            </div>
-                        </c:if>   
-
-                    </div>
+                    </c:if>                    
                 </c:forEach>
                 <div class="div-pagination">
                     <ul class="pagination">
                         <c:forEach begin="1" end="${Math.ceil(countTransactions/pageSize)}" var="i">
-                            <c:url value="/" var="u">
+                            <c:url value="/dashboard" var="u">
                                 <c:param value="${i}" name="page"/>
                             </c:url>
                             <li><a href="${u}">${i}</a></li>
-                            </c:forEach>                   
+                            <div>${view}</div>
+                        </c:forEach>                   
                     </ul>
                 </div>
             </div>

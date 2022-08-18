@@ -8,6 +8,7 @@ com\app\pojo\Item.class
 com\app\service\TransactionService.class
 com\app\repository\impl\ItemRepositoryImpl.class
 com\app\service\impl\UserWalletServiceImpl.class
+com\app\repository\impl\WalletRepositoryImpl.class
 com\app\service\impl\UserServiceImpl.class
 com\app\service\UserService.class
 com\app\controllers\UserController.class
@@ -18,6 +19,7 @@ com\app\service\UserWalletService.class
 com\app\configs\HibernateConfig.class
 com\app\configs\DispatcherServletInit.class
 com\app\service\ItemService.class
+com\app\repository\WalletRepository.class
 com\app\pojo\Item_.class
 com\app\pojo\Wallet.class
 com\app\pojo\UserWallet_.class
@@ -29,8 +31,10 @@ com\app\repository\UserWalletRepository.class
 com\app\controllers\AdminController.class
 com\app\repository\impl\UserRepositoryImpl.class
 com\app\service\impl\TransactionServiceImpl.class
+com\app\service\WalletService.class
 com\app\controllers\IndexController.class
 com\app\pojo\UserWallet.class
+com\app\service\impl\WalletServiceImpl.class
 com\app\formatters\CategoryFormatter.class
 com\app\pojo\Wallet_.class
 com\app\pojo\Transaction_.class
