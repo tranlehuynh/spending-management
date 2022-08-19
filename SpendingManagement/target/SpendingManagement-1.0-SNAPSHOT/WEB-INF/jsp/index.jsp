@@ -8,19 +8,23 @@
         <div class="main-content-header">
             <div>Last month</div>
             <div>This month</div>
-            <div>Next month</div>
         </div>
         <div class="text-content">
             <div class="flow">
                 <p>Inflow</p>
-                <p class="flow-1-p"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "10000000" /> VND</p>
+                <p class="flow-1-p"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${inflow}" /> VND</p>
             </div>
             <div class="flow flow-2">
                 <p>Outflow</p>
-                <p class="flow-2-p"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "20000000" /> VND</p>
+                <p class="flow-2-p"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${outflow}" /> VND</p>
             </div>
             <div class="flow-last">
-                <p><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "30000000" /> VND</p>
+                <c:if test="${total < 0}">
+                    <p style="color: red; font-size: 18px;"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${total}" /> VND</p>
+                </c:if>
+                <c:if test="${total > 0}">
+                    <p style="color: black; font-size: 18px;"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${total}" /> VND</p>
+                </c:if>
             </div>
             <div class="view-report">
                 <a href="#">View report here</a>
@@ -47,17 +51,16 @@
                                 </div>
                             </c:if>   
                         </div>
-                    </c:if>                    
+                    </c:if>             
                 </c:forEach>
                 <div class="div-pagination">
                     <ul class="pagination">
-                        <c:forEach begin="1" end="${Math.ceil(countTransactions/pageSize)}" var="i">
-                            <c:url value="/dashboard" var="u">
+                        <c:forEach begin="1" end="${Math.ceil(countTransactionsOfUser/pageSize)}" var="i">
+                            <c:url value="/dashboard?wallet=${view}" var="u">
                                 <c:param value="${i}" name="page"/>
                             </c:url>
                             <li><a href="${u}">${i}</a></li>
-                            <div>${view}</div>
-                        </c:forEach>                   
+                            </c:forEach>                   
                     </ul>
                 </div>
             </div>

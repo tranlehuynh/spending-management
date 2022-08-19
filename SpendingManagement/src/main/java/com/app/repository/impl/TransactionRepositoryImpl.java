@@ -30,7 +30,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     private Environment env;
 
     @Override
-    public List<Transaction> getTransactions(Map<String, String> params, int page) {
+    public List<Transaction> getTransactions(Map<String, String> params, int page, String ghep) {
         Session s = sessionFactory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<Transaction> q = b.createQuery(Transaction.class);
@@ -46,8 +46,8 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             }
             q.where(predicates.toArray(Predicate[]::new));
         }
-
-        Query query = s.createQuery(q);
+        String temp = "FROM Transaction t WHERE t.walletId.id =" + ghep;
+        Query query = s.createQuery(temp);
         if (page > 0) {
             int size = Integer.parseInt(env.getProperty("page.size").toString());
             int start = (page - 1) * size;

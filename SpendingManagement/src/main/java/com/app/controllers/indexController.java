@@ -71,7 +71,7 @@ public class IndexController {
     }
 
     @GetMapping("/dashboard")
-    public String dashboard(Model model, @RequestParam Map<String, String> params, HttpSession session, @RequestParam(required = false, name = "myButton") String view) {
+    public String dashboard(Model model, @RequestParam Map<String, String> params, HttpSession session, @RequestParam(required = false, name = "wallet") String view) {
 
         if (!isAuthenticated()) {
             return "redirect:/";
@@ -89,26 +89,45 @@ public class IndexController {
         //Get current user
         User user = (User) session.getAttribute("currentUser");
 
+        int countTransactionsOfUser = 0;
+        double inflow = 0;
+        double outflow = 0;
+        if (view == null) {
+            view = "1";
+        }
+
+        for (int i = 0; i < this.transactionService.getAllTransactions().size(); i++) {
+            if (this.transactionService.getAllTransactions().get(i).getWalletId().getId() == Integer.parseInt(view)) {
+                if (this.transactionService.getAllTransactions().get(i).getItemId().getId() <= 10) {
+                    outflow += this.transactionService.getAllTransactions().get(i).getAmount();
+                } else {
+                    inflow += this.transactionService.getAllTransactions().get(i).getAmount();
+                }
+                countTransactionsOfUser++;
+            }
+        }
+
+        double firstWallet = 0;
+
         for (int i = 0; i < this.userWalletService.getUserWallets().size(); i++) {
             if (Objects.equals(this.userWalletService.getUserWallets().get(i).getUserId().getId(), user.getId())) {
-                model.addAttribute("firstWallet", this.userWalletService.getUserWallets().get(i).getWalletId().getTotalMoney());               
+                firstWallet = this.userWalletService.getUserWallets().get(i).getWalletId().getTotalMoney();
                 break;
             }
         }
-        
-//        
-//        int countTransactionsOfUser = 0;
-//        
-//        for (int i = 0; i < this.userWalletService.getUserWallets().size(); i++) {
-//            if (Integer.parseInt(view) == this.userWalletService.getUserWallets().get(i).getWalletId().getId()) {
-//                countTransactionsOfUser++;
-//            }
-//        }
-               
+
+        double total = (firstWallet + inflow) - outflow;
         model.addAttribute("view", view);
         model.addAttribute("userWallets", this.userWalletService.getUserWallets());
-        model.addAttribute("transactions", this.transactionService.getTransactions(params, page));
+        model.addAttribute("inflow", firstWallet + inflow);
+        model.addAttribute("outflow", outflow);
+        model.addAttribute("total", total);
+        model.addAttribute("firstWallet", total);
+        model.addAttribute("transactions", this.transactionService.getTransactions(params, page, view));
         model.addAttribute("countTransactions", this.transactionService.countTransaction());
+        model.addAttribute("countTransactionsOfUser", countTransactionsOfUser);
+        model.addAttribute("allOfTransactions", this.transactionService.getAllTransactions());
+
         model.addAttribute("pageSize", Integer.parseInt(env.getProperty("page.size")));
         model.addAttribute("currentUser", session.getAttribute("currentUser"));
         return "index";
@@ -126,6 +145,14 @@ public class IndexController {
         for (int i = 0; i < this.itemService.getItemsNo().size(); i++) {
             if (p.getTemp().equals(this.itemService.getItemsNo().get(i).getName())) {
                 p.setItemId(this.itemService.getItemsNo().get(i));
+            }
+            
+            
+        }
+        
+        for (int i = 0; i < this.walletService.getWallets().size(); i++) {
+            if (Integer.parseInt(p.getWalletTemp()) == this.walletService.getWallets().get(i).getId()) {
+                p.setWalletId(this.walletService.getWallets().get(i));
             }
         }
 

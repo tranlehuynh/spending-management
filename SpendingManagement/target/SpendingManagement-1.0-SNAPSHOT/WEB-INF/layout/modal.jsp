@@ -16,7 +16,9 @@
                         <span>Choose wallet</span>
                         <div>
                             <img src="${currentUser.avatar}" alt="wallet" id="wallet-modal-img" class="modal-img" />
-                            <p class="text-modal-check" path="walletTransactionId" >Wallet 1</p>
+                            <p class="text-modal-check"><input type="text" placeholder="Wallet" class="wallet-p-input" style="cursor: pointer; pointer-events: none"/></p>
+                            <p class="text-modal-check" style="display: none;"><input type="text" path="walletTemp" name="walletTemp" placeholder="Wallet" class="wallet-p-input-none" style="cursor: pointer; pointer-events: none"/></p>
+
                             <span><i class="fa-solid fa-arrow-right-long"></i></span>
                         </div>
                     </div>
@@ -55,6 +57,60 @@
         </div>
     </div>
 </div>
+
+<div id="myModal2" class="modal1">
+    <!-- Modal content -->
+    <div class="modal-content-1">
+        <h2 style="margin-bottom: 40px">Select category</h2>
+        <span class="close2">&times;</span>
+        <div class="hehehehe">
+            <div class="two-ex-in">
+                <div>
+                    <div class="income-items haha-items">
+                        <c:forEach items="${userWallets}" var="u">
+                            <c:if test="${u.userId.id == currentUser.id}">
+                                <div class="wallet-modal-div">
+                                    <img src="${currentUser.avatar}" alt="avatar">
+                                    <span class="wallet-modal-span" id="${u.walletId.id}">${u.walletId.name}</span>
+                                </div>
+                            </c:if>
+                        </c:forEach>             
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myModal3" class="modal1">
+    <!-- Modal content -->
+    <div class="modal-content-1">
+        <h2 style="margin-bottom: 30px">Add wallet</h2>
+        <span class="close3">&times;</span>
+        <div class="hehehehe">
+            <div class="">
+                <div>
+                    <div class="">
+                        <div style="width: 100%">
+                            <div style="font-size: 16px; text-align: left; margin-bottom: 5px;">Wallet name</div>
+                            <input type="text" placeholder="Enter wallet name..." style="outline: none; border-radius: 5px; padding: 10px 10px; width: 100%; font-size: 16px; margin-bottom: 15px; border: 1px solid #e4e4e4;"/>
+                        </div>
+                        <div style="width: 100%">
+                            <div style="font-size: 16px; text-align: left; margin-bottom: 5px;">Wallet money</div>
+                            <input type="text" placeholder="Enter wallet money..." style="outline: none; border-radius: 5px; padding: 10px 10px; width: 100%; font-size: 16px; margin-bottom: 15px; border: 1px solid #e4e4e4;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-button">
+            <div>
+                <button type="submit" form="form-transaction" class="abutton">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="myModal1" class="modal1">
     <!-- Modal content -->
     <div class="modal-content-1">

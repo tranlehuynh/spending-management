@@ -92,6 +92,22 @@ for (let i = 0; i < itemDiv.length; i++) {
     };
 }
 
+let walletModalDiv = document.querySelectorAll('.wallet-modal-div');
+let walletPInput = document.querySelector('.wallet-p-input');
+let walletPInputNone = document.querySelector('.wallet-p-input-none');
+let walletModalSpan = document.querySelectorAll('.wallet-modal-span');
+let myModal2 = document.getElementById('myModal2');
+
+for (let i = 0; i < walletModalDiv.length; i++) {
+    walletModalDiv[i].onclick = () => {
+        walletPInput.value = walletModalSpan[i].outerText;
+        walletPInput.placeholder = walletModalSpan[i].outerText;
+        
+        walletPInputNone.value = walletModalSpan[i].id;
+        myModal2.style.display = 'none';     
+    };
+}
+
 let modelShowToHide = document.querySelector('.add-model-box');
 let modelShowHideDivHen = document.querySelector('.add-model-box-div');
 let childchild = document.querySelectorAll('.add-model-box-div-child');
@@ -109,6 +125,31 @@ for (let i = 0; i < childchild.length; i++) {
         belloMinion[i].click();
     }
 }
+
+
+let modalTopItem = document.querySelector('.modal-top-item');
+let span2 = document.querySelector('.close2');
+
+modalTopItem.onclick = () => {
+    myModal2.style.display = 'block';
+};
+
+span2.onclick = () => {
+    myModal2.style.display = 'none';
+};
+
+let myModal3 = document.getElementById('myModal3');
+let span3 = document.querySelector('.close3');
+let myBtnWallet = document.getElementById('myBtnWallet');
+
+myBtnWallet.onclick = () => {
+    myModal3.style.display = 'block';
+};
+
+span3.onclick = () => {
+    myModal3.style.display = 'none';
+};
+
 
 
 

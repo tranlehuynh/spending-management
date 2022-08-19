@@ -19,7 +19,7 @@
                                     <p class="wallet-info-text"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${u.walletId.totalMoney}" /> VND</p>
                                 </div>
                             </div>
-                            <input class="this-is-my-input" type="submit" name="myButton" value="${u.walletId.id}" style="display: none"></input>
+                            <input class="this-is-my-input" type="submit" name="wallet" value="${u.walletId.id}" style="display: none"></input>
                         </form:form>
                     </c:if>                    
                 </c:forEach>
@@ -33,6 +33,7 @@
     </div>
     <div class="categories">
         <i class="fa-solid fa-magnifying-glass categories-icon"></i>
+        <button class="categories-button" id="myBtnWallet">Add wallet</button>
         <button class="categories-button" id="myBtn">Add transaction</button>
     </div>
 </header>

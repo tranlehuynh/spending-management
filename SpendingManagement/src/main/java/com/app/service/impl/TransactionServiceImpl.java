@@ -19,8 +19,8 @@ public class TransactionServiceImpl implements TransactionService {
     private ItemService itemService;
 
     @Override
-    public List<Transaction> getTransactions(Map<String, String> params, int page) {
-        return this.transactionRepository.getTransactions(params, page);
+    public List<Transaction> getTransactions(Map<String, String> params, int page, String ghep) {
+        return this.transactionRepository.getTransactions(params, page, ghep);
     }
 
     @Override

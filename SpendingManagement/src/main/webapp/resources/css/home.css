@@ -77,6 +77,8 @@ nav > div:hover {
 .wallet img{
     width: 40px;
     margin-right: 10px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 50%);
 }
 
 
@@ -86,7 +88,7 @@ nav > div:hover {
 }
 
 /* this is new css category input */
-.category-p-input {
+.category-p-input, .wallet-p-input {
     outline: none;
     border: none;
     background: white;
@@ -99,9 +101,9 @@ nav > div:hover {
 }
 
 .categories-button {
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 10px 25px;
+    margin-left: 5px;
+    margin-right: 15px;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     outline: none;
@@ -117,6 +119,7 @@ nav > div:hover {
 
 .wallet-name {
     font-size: 14px;
+    padding-right: 5px;
 }
 
 .logout-nav {
@@ -164,12 +167,21 @@ nav > div:hover {
 }
 
 .modal-content-1 {
+    position: relative;
     border-radius: 15px;
     background-color: #fefefe;
     margin: auto;
     padding: 50px;
     border: 1px solid #888;
     width: 40%;
+}
+
+.close1, .close2, .close3 {
+    position: absolute;
+    top: 20px;
+    font-size: 30px;
+    right: 40px;
+    cursor: pointer;
 }
 
 .modal-top-1 {
@@ -816,7 +828,8 @@ nav > div:hover {
 
 .nav-this-only {
     position: absolute;
-    right:10px;
+/*    right:10px;*/
+    left: 100%;
     top: 0;
     font-size: 13px;
 }
@@ -959,5 +972,11 @@ nav > div:hover {
         cursor: pointer;
     }
 
+}
+
+#myBtnWallet {
+    margin-left: 15px;
+    margin-right: 5px;
+    background: #62c1ee;
 }
 

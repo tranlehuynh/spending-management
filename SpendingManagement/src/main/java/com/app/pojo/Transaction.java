@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.app.pojo;
 
 import java.io.Serializable;
@@ -24,10 +20,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.springframework.format.annotation.DateTimeFormat;
 
-/**
- *
- * @author Huynh
- */
 @Entity
 @Table(name = "transaction")
 @XmlRootElement
@@ -63,6 +55,8 @@ public class Transaction implements Serializable {
     private Wallet walletId;
     @Transient
     private String temp;
+    @Transient
+    private String walletTemp;
 
     public Transaction() {
     }
@@ -118,13 +112,21 @@ public class Transaction implements Serializable {
     public void setWalletId(Wallet walletId) {
         this.walletId = walletId;
     }
-    
+
     public String getTemp() {
         return temp;
     }
-    
+
     public void setTemp(String temp) {
         this.temp = temp;
+    }
+    
+    public String getWalletTemp() {
+        return walletTemp;
+    }
+    
+    public void setWalletTemp(String walletTemp) {
+        this.walletTemp = walletTemp;
     }
 
     @Override
@@ -151,5 +153,5 @@ public class Transaction implements Serializable {
     public String toString() {
         return "com.app.pojo.Transaction[ id=" + id + " ]";
     }
-    
+
 }
