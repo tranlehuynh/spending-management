@@ -28,6 +28,8 @@ public class UserRepositoryImpl implements UserRepository {
     private LocalSessionFactoryBean sessionFactory;
     @Autowired
     private Environment env;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<User> getUsers(Map<String, String> params, int page) {
@@ -85,12 +87,33 @@ public class UserRepositoryImpl implements UserRepository {
         CriteriaQuery<User> q = b.createQuery(User.class);
         Root root = q.from(User.class);
         q.select(root);
-        
+
         if (!email.isEmpty()) {
             Predicate p = b.equal(root.get("email").as(String.class), email.trim());
             q = q.where(p);
         }
         Query query = s.createQuery(q);
         return query.getResultList();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        Session s = sessionFactory.getObject().getCurrentSession();
+        javax.persistence.Query q = s.createQuery("FROM User");
+        return q.getResultList();
+    }
+
+    @Override
+    public List<User> getUserByEmail(String email) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        int id = 0;
+        for (int i = 0; i < this.userRepository.countUsers(); i++) {
+            if (email.equals(this.userRepository.getAllUsers().get(i).getEmail())) {
+                id = this.userRepository.getAllUsers().get(i).getId();
+            }
+        }
+        String temp = "FROM User user WHERE user.id == " + id;
+        Query q = session.createQuery(temp);
+        return q.getResultList();
     }
 }

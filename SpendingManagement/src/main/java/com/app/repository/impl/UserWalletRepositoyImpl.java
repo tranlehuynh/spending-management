@@ -24,4 +24,14 @@ public class UserWalletRepositoyImpl implements UserWalletRepository {
         return q.getResultList();
     }
 
+    @Override
+    public void addUserWallet(UserWallet uw) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        try {
+            session.save(uw);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 }

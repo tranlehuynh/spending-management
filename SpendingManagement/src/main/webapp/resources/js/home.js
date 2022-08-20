@@ -9,6 +9,7 @@ var span1 = document.getElementsByClassName("close1")[0];
 
 const header = document.querySelector('.header');
 const navbar = document.querySelector('.navbar-haha');
+const mainContent = document.querySelector('.main-content');
 
 window.onload = () => {
     if (window.location.pathname === "/SpendingManagement/") {
@@ -17,7 +18,23 @@ window.onload = () => {
     } else if (window.location.pathname === "/SpendingManagement/register") {
         navbar.classList.add('mother-nav');
         header.style.display = "none";
-    } else {
+    } else if (window.location.pathname === "/SpendingManagement/admin/user-manage") {
+        header.style.display = "none";
+        mainContent.style.top = '10px';
+        mainContent.style.minHeight = '97vh';
+    } else if (window.location.pathname === "/SpendingManagement/dashboard/wallet-user") {
+        const buttonWalletUser = document.getElementById('myBtnUser');
+        const myButtonWallet = document.getElementById('myBtnWallet');
+        const myButton = document.getElementById('myBtn');
+        const walletHehe = document.querySelector('.wallet-info-text');
+        const test = document.querySelector('.wallet-hehehe');
+        buttonWalletUser.style.display = 'block';
+        myButton.style.display = 'none';
+        myButtonWallet.style.display = 'none';
+        walletHehe.style.display = 'none';
+        test.style.display = 'flex';
+        test.style.alignItems = 'center'; 
+    }   else {
         navbar.classList.remove('mother-nav');
     }
 };
@@ -142,6 +159,10 @@ let myModal3 = document.getElementById('myModal3');
 let span3 = document.querySelector('.close3');
 let myBtnWallet = document.getElementById('myBtnWallet');
 
+let myModal4 = document.getElementById('myModal4');
+let span4 = document.querySelector('.close4');
+let iDontKnow = document.getElementById('myBtnUser');
+
 myBtnWallet.onclick = () => {
     myModal3.style.display = 'block';
 };
@@ -150,6 +171,13 @@ span3.onclick = () => {
     myModal3.style.display = 'none';
 };
 
+iDontKnow.onclick = () => {
+    myModal4.style.display = 'block';
+};
+
+span4.onclick = () => {
+    myModal4.style.display = 'none';
+};
 
 
 

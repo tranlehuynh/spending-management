@@ -23,6 +23,12 @@
             <p>Account</p>
         </div>
     </c:if>
+    <c:if test="${pageContext.request.userPrincipal.name != null}">
+        <div onclick="window.location.href = '${contextPath}/dashboard/wallet-user';">
+            <i class="fa-solid fa-bell nav-icon"></i>
+            <p>Wallet Manage</p>
+        </div>
+    </c:if>
     <sec:authorize access="hasAnyAuthority('ADMIN')">
         <div onclick="window.location.href = '${contextPath}/admin/user-manage';">
             <i class="fa-solid fa-box nav-icon"></i>

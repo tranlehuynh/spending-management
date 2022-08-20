@@ -38,4 +38,9 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="content"
                        value="/WEB-INF/jsp/account-details.jsp" />
     </definition>
+    <definition name="wallet-user" extends="baseLayout">
+        <put-attribute name="title" value="Wallet User Manage" />
+        <put-attribute name="content"
+                       value="/WEB-INF/jsp/wallet-user.jsp" />
+    </definition>
 </tiles-definitions>

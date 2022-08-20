@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface UserWalletRepository {
     List<UserWallet> getUserWallets();
+    void addUserWallet(UserWallet uw);
 }

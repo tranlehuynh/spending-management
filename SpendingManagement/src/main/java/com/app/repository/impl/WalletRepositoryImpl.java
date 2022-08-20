@@ -24,4 +24,24 @@ public class WalletRepositoryImpl implements WalletRepository {
         return q.getResultList();
     }
 
+    @Override
+    public boolean addWallet(Wallet w) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        try {
+            session.save(w);
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public int countWallets() {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        org.hibernate.query.Query q = session.createQuery("SELECT COUNT(*) FROM Wallet");
+
+        return Integer.parseInt(q.getSingleResult().toString());
+    }
+
 }

@@ -61,7 +61,7 @@
 <div id="myModal2" class="modal1">
     <!-- Modal content -->
     <div class="modal-content-1">
-        <h2 style="margin-bottom: 40px">Select category</h2>
+        <h2 style="margin-bottom: 40px">Select wallet</h2>
         <span class="close2">&times;</span>
         <div class="hehehehe">
             <div class="two-ex-in">
@@ -82,6 +82,38 @@
     </div>
 </div>
 
+
+<div id="myModal4" class="modal1">
+    <!-- Modal content -->
+    <div class="modal-content-1">
+        <h2 style="margin-bottom: 40px">Select user</h2>
+        <span class="close4">&times;</span>
+        <div class="hehehehe">
+            <div class="two-ex-in">
+                <div>
+                    <div class="income-items haha-items" style="width: 100%">
+                        <div style="display: flex; align-items: center; justify-content: space-around">
+                            <c:url value="/dashboard/wallet-user" var="action" />
+                            <form:form method="get" action="${action}">
+                                <input type="text" name="kw" path="kw" placeholder="Enter email to find user" style="width: 100%; padding: 10px; border: 1px solid black;"/>
+                                <button type="submit" style="padding: 10px; outline: none">Search</button>
+                            </form:form>
+                        </div>                         
+                        <c:if test="${userGetByEmail != null}">
+                            <div class="wallet-modal-div">
+                                <img src="${userGetByEmail.avatar}" alt="avatar">
+                                <span class="wallet-modal-span">${userGetByEmail.firstName}</span>
+                            </div>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>            
+
+
+
 <div id="myModal3" class="modal1">
     <!-- Modal content -->
     <div class="modal-content-1">
@@ -90,22 +122,26 @@
         <div class="hehehehe">
             <div class="">
                 <div>
-                    <div class="">
-                        <div style="width: 100%">
-                            <div style="font-size: 16px; text-align: left; margin-bottom: 5px;">Wallet name</div>
-                            <input type="text" placeholder="Enter wallet name..." style="outline: none; border-radius: 5px; padding: 10px 10px; width: 100%; font-size: 16px; margin-bottom: 15px; border: 1px solid #e4e4e4;"/>
+                    <c:url value="/addWallet" var="action" />
+                    <form:form method="post" action="${action}" modelAttribute="walletAdd" id="form-wallet-add">
+                        <div class="">
+                            <div style="width: 100%">
+                                <div style="font-size: 16px; text-align: left; margin-bottom: 5px;">Wallet name</div>
+                                <input type="text" path="name" name="name" placeholder="Enter wallet name..." style="outline: none; border-radius: 5px; padding: 10px 10px; width: 100%; font-size: 16px; margin-bottom: 15px; border: 1px solid #e4e4e4;"/>
+                            </div>
+                            <div style="width: 100%">
+                                <div style="font-size: 16px; text-align: left; margin-bottom: 5px;">Wallet money</div>
+                                <input type="text" path="totalMoney" name="totalMoney" placeholder="Enter wallet money..." style="outline: none; border-radius: 5px; padding: 10px 10px; width: 100%; font-size: 16px; margin-bottom: 15px; border: 1px solid #e4e4e4;"/>
+                            </div>
+                            <input type="text" path="userWalletTemp" name="userWalletTemp" value="${currentUser.id}" style="display: none;"/>
                         </div>
-                        <div style="width: 100%">
-                            <div style="font-size: 16px; text-align: left; margin-bottom: 5px;">Wallet money</div>
-                            <input type="text" placeholder="Enter wallet money..." style="outline: none; border-radius: 5px; padding: 10px 10px; width: 100%; font-size: 16px; margin-bottom: 15px; border: 1px solid #e4e4e4;"/>
-                        </div>
-                    </div>
+                    </form:form>
                 </div>
             </div>
         </div>
         <div class="modal-button">
             <div>
-                <button type="submit" form="form-transaction" class="abutton">Add</button>
+                <button type="submit" form="form-wallet-add" id="button-hoho-hehe" class="abutton">Add</button>
             </div>
         </div>
     </div>

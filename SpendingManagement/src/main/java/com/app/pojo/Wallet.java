@@ -3,6 +3,7 @@ package com.app.pojo;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -52,6 +54,16 @@ public class Wallet implements Serializable {
 //    private User userId;
     @OneToMany(mappedBy = "walletId")
     private Set<Transaction> transactionSet;
+    
+    @Transient
+    private String userWalletTemp;
+    public String getUserWalletTemp() {
+        return userWalletTemp;
+    }
+    
+    public void setUserWalletTemp(String userWalletTemp) {
+        this.userWalletTemp = userWalletTemp;
+    } 
 
     public Wallet() {
     }

@@ -34,6 +34,7 @@
     <div class="categories">
         <i class="fa-solid fa-magnifying-glass categories-icon"></i>
         <button class="categories-button" id="myBtnWallet">Add wallet</button>
+        <button class="categories-button" id="myBtnUser" style="display: none; margin-left: 15px; margin-right: 25px; padding: 13px 40px;">Add user</button>
         <button class="categories-button" id="myBtn">Add transaction</button>
     </div>
 </header>

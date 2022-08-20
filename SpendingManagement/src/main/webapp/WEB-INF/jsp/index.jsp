@@ -12,7 +12,7 @@
         <div class="text-content">
             <div class="flow">
                 <p>Inflow</p>
-                <p class="flow-1-p"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${inflow}" /> VND</p>
+                <p class="flow-1-p"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${inflow}" /> ${currentModel} VND</p>
             </div>
             <div class="flow flow-2">
                 <p>Outflow</p>
@@ -36,7 +36,7 @@
                             <div>
                                 <div class="div-list-item-image"><img src="${t.itemId.image}" alt="image" class="list-item-image"></div>
                                 <div class="list-item-center">
-                                    <div class="list-item-center-h2">${t.itemId.name}</div>
+                                    <div class="list-item-center-h2">${t.itemId.name} ${haha}</div>
                                     <div class="list-item-center-text">${t.note}</div>
                                 </div>
                             </div>
@@ -59,8 +59,8 @@
                             <c:url value="/dashboard?wallet=${view}" var="u">
                                 <c:param value="${i}" name="page"/>
                             </c:url>
-                            <li><a href="${u}">${i}</a></li>
-                            </c:forEach>                   
+                            <li><a href="${u}">${i}</a></li>                           
+                        </c:forEach>                   
                     </ul>
                 </div>
             </div>

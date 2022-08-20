@@ -18,4 +18,9 @@ public class UserWalletServiceImpl implements UserWalletService {
     public List<UserWallet> getUserWallets() {
         return this.userWalletRepository.getUserWallets();
     }
+
+    @Override
+    public void addUserWallet(UserWallet uw) {
+        this.userWalletRepository.addUserWallet(uw);
+    }
 }

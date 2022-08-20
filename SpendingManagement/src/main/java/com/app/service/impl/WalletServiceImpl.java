@@ -19,5 +19,15 @@ public class WalletServiceImpl implements WalletService{
     public List<Wallet> getWallets() {
         return this.walletRepository.getWallets();
     }
+
+    @Override
+    public boolean addWallet(Wallet w) {
+        return this.walletRepository.addWallet(w);
+    }
+
+    @Override
+    public int countWallets() {
+        return this.walletRepository.countWallets();
+    }
    
 }
