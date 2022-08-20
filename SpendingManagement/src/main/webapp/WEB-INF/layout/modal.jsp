@@ -92,10 +92,10 @@
             <div class="two-ex-in">
                 <div>
                     <div class="income-items haha-items" style="width: 100%">
-                        <div style="display: flex; align-items: center; justify-content: space-around">
+                        <div id="call-me-form-input-haha" style="display: flex; align-items: center; justify-content: space-around">
                             <c:url value="/dashboard/wallet-user" var="action" />
                             <form:form method="get" action="${action}">
-                                <input type="text" name="kw" path="kw" placeholder="Enter email to find user" style="width: 100%; padding: 10px; border: 1px solid black;"/>
+                                <input type="text" name="kw" path="kw" placeholder="Enter email to find user" style="padding: 10px; border: 1px solid black;"/>
                                 <button type="submit" style="padding: 10px; outline: none">Search</button>
                             </form:form>
                         </div>                         

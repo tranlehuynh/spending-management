@@ -10,8 +10,13 @@ var span1 = document.getElementsByClassName("close1")[0];
 const header = document.querySelector('.header');
 const navbar = document.querySelector('.navbar-haha');
 const mainContent = document.querySelector('.main-content');
+let myModal4 = document.getElementById('myModal4');
 
 window.onload = () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('kw')) {
+        myModal4.style.display = 'block';
+    }
     if (window.location.pathname === "/SpendingManagement/") {
         navbar.classList.add('mother-nav');
         header.style.display = "none";
@@ -159,7 +164,7 @@ let myModal3 = document.getElementById('myModal3');
 let span3 = document.querySelector('.close3');
 let myBtnWallet = document.getElementById('myBtnWallet');
 
-let myModal4 = document.getElementById('myModal4');
+
 let span4 = document.querySelector('.close4');
 let iDontKnow = document.getElementById('myBtnUser');
 

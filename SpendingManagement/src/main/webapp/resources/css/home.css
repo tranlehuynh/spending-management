@@ -184,6 +184,14 @@ nav > div:hover {
     cursor: pointer;
 }
 
+#call-me-form-input-haha:hover {
+    background: white;
+}
+
+#call-me-form-input-haha {
+    width: 100%;
+}
+
 .modal-top-1 {
 
 }
