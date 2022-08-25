@@ -81,12 +81,13 @@ CREATE TABLE `transaction` (
   `note` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `item_id` int DEFAULT NULL,
   `wallet_id` int DEFAULT NULL,
+  `pending` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `item_id_idx` (`item_id`),
   KEY `wallet_id_idx` (`wallet_id`),
   CONSTRAINT `item_id` FOREIGN KEY (`item_id`) REFERENCES `item` (`id`),
   CONSTRAINT `wallet_id` FOREIGN KEY (`wallet_id`) REFERENCES `wallet` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +96,7 @@ CREATE TABLE `transaction` (
 
 LOCK TABLES `transaction` WRITE;
 /*!40000 ALTER TABLE `transaction` DISABLE KEYS */;
-INSERT INTO `transaction` VALUES (2,3000000,'2022-08-16','no note here',1,1),(3,100,'2022-08-16','mua qua di',5,NULL),(4,200,'2022-08-19','luong toi roi la luong toi roi',11,NULL);
+INSERT INTO `transaction` VALUES (2,3000000,'2022-08-16','no note here',1,1,1),(3,100,'2022-08-16','mua qua di',5,1,1),(4,200,'2022-08-19','luong toi roi la luong toi roi',11,1,1),(5,1,'2022-08-18','oh yeah',6,2,1),(6,12,'2022-08-16','pets',3,2,1),(7,300,'2022-08-19','test thoi nha',9,1,1),(9,200,'2022-08-22','hom qua',7,1,1),(10,111,'2022-08-17','test',10,189,2),(18,111,'2022-08-17','test',1,1,2),(19,6000,'2022-08-23','3am',2,1,1);
 /*!40000 ALTER TABLE `transaction` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +119,7 @@ CREATE TABLE `user` (
   `role` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,8 +128,37 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Admin','Nguyen','admin@gmail.com','$2a$10$5X9k5N1sTc1/CjVH5XJoje3QMYijH3ETpgkox00R0MdPaJPPrf7wO','0989','https://i.pinimg.com/564x/83/2a/77/832a77b710db7d8d54badb01fb264dc1.jpg',1,'ADMIN'),(2,'Huynh','Tran','huynh@gmail.com','$2a$10$3.JxdNpfzBoFAdFzexbTX.Bnoj6IpkcyODwbsejm6XGUyZtRjHxx6',NULL,'https://i.pinimg.com/564x/83/2a/77/832a77b710db7d8d54badb01fb264dc1.jpg',1,'USER'),(8,'Loc','Vuong','loc@gmail.com','$2a$10$afVO7Xwkyj5eN/JVBuxaBeRTFcvclsjeHqhNwRLWGC8NlbekrkeLy',NULL,'https://pic.onlinewebfonts.com/svg/img_264570.png',1,'USER');
+INSERT INTO `user` VALUES (1,'Admin','Nguyen','admin@gmail.com','$2a$10$afVO7Xwkyj5eN/JVBuxaBeRTFcvclsjeHqhNwRLWGC8NlbekrkeLy','0989','https://i.pinimg.com/564x/83/2a/77/832a77b710db7d8d54badb01fb264dc1.jpg',1,'ADMIN'),(2,'Huynh','Tran','huynh@gmail.com','$2a$10$3.JxdNpfzBoFAdFzexbTX.Bnoj6IpkcyODwbsejm6XGUyZtRjHxx6',NULL,'https://i.pinimg.com/564x/83/2a/77/832a77b710db7d8d54badb01fb264dc1.jpg',1,'USER'),(8,'Loc','Vuong','loc@gmail.com','$2a$10$afVO7Xwkyj5eN/JVBuxaBeRTFcvclsjeHqhNwRLWGC8NlbekrkeLy',NULL,'https://i.pinimg.com/564x/83/2a/77/832a77b710db7d8d54badb01fb264dc1.jpg',1,'USER'),(9,'Test1','Tran','test@gmail.com','$2a$10$afVO7Xwkyj5eN/JVBuxaBeRTFcvclsjeHqhNwRLWGC8NlbekrkeLy','10','https://i.pinimg.com/564x/83/2a/77/832a77b710db7d8d54badb01fb264dc1.jpg',1,'USER'),(10,'Google','User','1951052079huynh@ou.edu.vn','$2a$10$gcX9PUNurTgNDrZtmOSP9uwHyhthbDNJpuYdFJnjRLKflO4MRUgRC',NULL,'https://i.pinimg.com/564x/83/2a/77/832a77b710db7d8d54badb01fb264dc1.jpg',1,'USER'),(14,'Test2','Nguyen','test2@gmail.com','$2a$10$kLHwNSqBM51USwSmFlfsPu5ZvOd0OMUFXiIlozH.Q9k13hb95up7u',NULL,'https://i.pinimg.com/564x/83/2a/77/832a77b710db7d8d54badb01fb264dc1.jpg',1,'USER');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_wallet`
+--
+
+DROP TABLE IF EXISTS `user_wallet`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_wallet` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `wallet_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id_idx` (`user_id`),
+  KEY `wallet_id_idx` (`wallet_id`),
+  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `wallet` FOREIGN KEY (`wallet_id`) REFERENCES `wallet` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_wallet`
+--
+
+LOCK TABLES `user_wallet` WRITE;
+/*!40000 ALTER TABLE `user_wallet` DISABLE KEYS */;
+INSERT INTO `user_wallet` VALUES (1,1,1),(2,2,1),(7,1,2),(19,1,189),(20,8,1),(26,1,192);
+/*!40000 ALTER TABLE `user_wallet` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -142,11 +172,9 @@ CREATE TABLE `wallet` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `total_money` double DEFAULT NULL,
-  `user_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id_idx` (`user_id`),
-  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `owner` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +183,7 @@ CREATE TABLE `wallet` (
 
 LOCK TABLES `wallet` WRITE;
 /*!40000 ALTER TABLE `wallet` DISABLE KEYS */;
-INSERT INTO `wallet` VALUES (1,'Wallet 1',3000000,1);
+INSERT INTO `wallet` VALUES (1,'Wallet 1',3000000,1),(2,'Wallet 2',2000000,1),(160,'Wallet 3',3000000,2),(189,'Food Wallet',5000000,2),(192,'Wallet Test',30000,1);
 /*!40000 ALTER TABLE `wallet` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -168,4 +196,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-17 14:51:29
+-- Dump completed on 2022-08-25  8:15:22
