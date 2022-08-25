@@ -27,19 +27,7 @@ window.onload = () => {
         header.style.display = "none";
         mainContent.style.top = '10px';
         mainContent.style.minHeight = '97vh';
-    } else if (window.location.pathname === "/SpendingManagement/dashboard/wallet-user") {
-        const buttonWalletUser = document.getElementById('myBtnUser');
-        const myButtonWallet = document.getElementById('myBtnWallet');
-        const myButton = document.getElementById('myBtn');
-        const walletHehe = document.querySelector('.wallet-info-text');
-        const test = document.querySelector('.wallet-hehehe');
-        buttonWalletUser.style.display = 'block';
-        myButton.style.display = 'none';
-        myButtonWallet.style.display = 'none';
-        walletHehe.style.display = 'none';
-        test.style.display = 'flex';
-        test.style.alignItems = 'center'; 
-    }   else {
+    } else {
         navbar.classList.remove('mother-nav');
     }
 };
@@ -145,7 +133,7 @@ ohMyChuoi.onclick = () => {
 for (let i = 0; i < childchild.length; i++) {
     childchild[i].onclick = () => {
         belloMinion[i].click();
-    }
+    };
 }
 
 
@@ -183,6 +171,29 @@ iDontKnow.onclick = () => {
 span4.onclick = () => {
     myModal4.style.display = 'none';
 };
+
+//const amountInput = document.getElementById('money-input-js');
+//const dateInputFirst = document.getElementById('date-input-js');
+//const noteInput = document.getElementById('note-input-js');
+//const buttonSubmitTransaction = document.getElementById('button-add-transaction-11');
+//
+//
+//if (walletPInput.value === "" || categoryInput.value === "" || amountInput === "" || dateInputFirst === "" || noteInput === "") {
+//    buttonSubmitTransaction.disabled = true;
+//} else {
+//    buttonSubmitTransaction.disabled = false;
+//}
+
+//const googleLogin = document.getElementById('google-login');
+const googleLoginA = document.getElementById('google-login-a');
+//googleLogin.onclick = () => {
+//    googleLoginA.click();
+//};
+
+const googleLoginButton = () => {
+    googleLoginA.click();
+};
+
 
 
 

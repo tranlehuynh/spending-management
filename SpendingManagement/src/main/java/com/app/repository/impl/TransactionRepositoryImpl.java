@@ -15,6 +15,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,5 +83,21 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         Query q = session.createQuery("FROM Transaction");
         return q.getResultList();
+    }
+
+    @Override
+    @Modifying
+    public void updateTransaction(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Query query = session.createQuery("UPDATE Transaction SET pending = 1 WHERE id = " + id);
+        query.executeUpdate();
+    }
+
+    @Override
+    @Modifying
+    public void deleteTransaction(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Query query = session.createQuery("DELETE FROM Transaction WHERE id =" + id);
+        query.executeUpdate();
     }
 }

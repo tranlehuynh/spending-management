@@ -76,6 +76,26 @@ public class User implements Serializable {
 //    private Set<Wallet> walletSet;
     @Transient
     private String retypePassword;
+    @Transient
+    private String link;
+    @Transient
+     private boolean verified_email;
+    
+    public Boolean getVerifiedEmail() {
+        return verified_email;
+    }
+    
+    public void setVerifiedEmail(Boolean b) {
+        this.verified_email = b;
+    }
+    
+    public String getLink() {
+        return link;
+    }
+    
+    public void setLink(String link) {
+        this.link = link;
+    }
 
     public User() {
     }

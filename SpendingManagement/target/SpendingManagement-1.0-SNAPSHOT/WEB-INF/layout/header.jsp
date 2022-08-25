@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -23,18 +23,34 @@
                         </form:form>
                     </c:if>                    
                 </c:forEach>
-            </div>         
-            <img id="wallet-img" src="${currentUser.avatar}" alt="wallet" />
-            <div class="wallet-info wallet-hehehe">
-                <p class="wallet-name" style="position: relative;">${currentUser.firstName} Wallet <i class="fa-solid fa-sort-down nav-this-only"></i></p>
-                <p class="wallet-info-text"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${firstWallet}" /> VND</p>
-            </div>
+            </div>  
+            <c:if test="${showNhe == 1}">
+                <img id="wallet-img" src="${currentUser.avatar}" alt="wallet" />
+                <div class="wallet-info wallet-hehehe" style="pointer-events: none; cursor: auto; display: flex; align-items: center">
+                    <p class="wallet-name" style="position: relative; font-size: 15px;">${currentUser.firstName} ${currentUser.lastName}</p>
+                </div>
+            </c:if>
+            <c:if test="${showNhe != 1}">
+                <img id="wallet-img" src="${currentUser.avatar}" alt="wallet" />
+                <div class="wallet-info wallet-hehehe">
+                    <p class="wallet-name" style="position: relative;">${currentUser.firstName}'s Wallet <i class="fa-solid fa-sort-down nav-this-only"></i></p>
+                    <p class="wallet-info-text"><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${firstWallet}" /> VND</p>
+                </div>
+            </c:if>
         </div>
     </div>
-    <div class="categories">
-        <i class="fa-solid fa-magnifying-glass categories-icon"></i>
-        <button class="categories-button" id="myBtnWallet">Add wallet</button>
-        <button class="categories-button" id="myBtnUser" style="display: none; margin-left: 15px; margin-right: 25px; padding: 13px 40px;">Add user</button>
-        <button class="categories-button" id="myBtn">Add transaction</button>
-    </div>
+    <c:if test="${showNha != 2}">
+        <div class="categories">
+            <c:if test="${showNhe == 1}">            
+                <button class="categories-button" id="myBtnWallet" style="display: none;">Add wallet</button>
+                <button class="categories-button" id="myBtnUser" style="margin-left: 15px; margin-right: 25px; padding: 13px 40px;">Add user</button>
+                <button class="categories-button" id="myBtn" style="display: none;">Add transaction</button>
+            </c:if>
+            <c:if test="${showNhe != 1}">
+                <button class="categories-button" id="myBtnWallet">Add wallet</button>
+                <button class="categories-button" id="myBtnUser" style="display: none; margin-left: 15px; margin-right: 25px; padding: 13px 40px;">Add user</button>
+                <button class="categories-button" id="myBtn">Add transaction</button>
+            </c:if>
+        </div>
+    </c:if>
 </header>

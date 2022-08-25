@@ -9,4 +9,7 @@ public interface TransactionRepository {
     List<Transaction> getAllTransactions();
     int countTransactions();
     boolean addTransaction(Transaction t);
+    
+    void updateTransaction(int id);
+    void deleteTransaction(int id);
 }

@@ -20,10 +20,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author Huynh
- */
 @Entity
 @Table(name = "wallet")
 @XmlRootElement
@@ -33,6 +29,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Wallet.findByName", query = "SELECT w FROM Wallet w WHERE w.name = :name"),
     @NamedQuery(name = "Wallet.findByTotalMoney", query = "SELECT w FROM Wallet w WHERE w.totalMoney = :totalMoney")})
 public class Wallet implements Serializable {
+
+    @Column(name = "owner")
+    private Integer owner;
 
     @OneToMany(mappedBy = "walletId")
     private Set<UserWallet> userWalletSet;
@@ -145,6 +144,14 @@ public class Wallet implements Serializable {
 
     public void setUserWalletSet(Set<UserWallet> userWalletSet) {
         this.userWalletSet = userWalletSet;
+    }
+
+    public Integer getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Integer owner) {
+        this.owner = owner;
     }
     
 }

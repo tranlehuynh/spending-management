@@ -31,6 +31,9 @@ import org.springframework.format.annotation.DateTimeFormat;
     @NamedQuery(name = "Transaction.findByNote", query = "SELECT t FROM Transaction t WHERE t.note = :note")})
 public class Transaction implements Serializable {
 
+    @Column(name = "pending")
+    private Integer pending;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +60,27 @@ public class Transaction implements Serializable {
     private String temp;
     @Transient
     private String walletTemp;
+    
+    @Transient
+    private int walletUserAccept;
+    @Transient
+    private int walletUserDelete;
+
+    public int getWalletUserAccept() {
+        return walletUserAccept;
+    }
+
+    public void setWalletUserAccept(int walletUserAccept) {
+        this.walletUserAccept = walletUserAccept;
+    }
+
+    public int getWalletUserDelete() {
+        return walletUserDelete;
+    }
+
+    public void setWalletUserDelete(int walletUserDelete) {
+        this.walletUserDelete = walletUserDelete;
+    }
 
     public Transaction() {
     }
@@ -152,6 +176,14 @@ public class Transaction implements Serializable {
     @Override
     public String toString() {
         return "com.app.pojo.Transaction[ id=" + id + " ]";
+    }
+
+    public Integer getPending() {
+        return pending;
+    }
+
+    public void setPending(Integer pending) {
+        this.pending = pending;
     }
 
 }

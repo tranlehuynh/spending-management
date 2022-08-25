@@ -337,7 +337,8 @@ nav > div:hover {
 
 #customers td, #customers th {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 7px;
+    text-align: center;
 }
 
 #customers tr:nth-child(even){
@@ -349,9 +350,9 @@ nav > div:hover {
 }
 
 #customers th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
     background-color: #04AA6D;
     color: white;
 }
@@ -757,6 +758,7 @@ nav > div:hover {
     width: 507px;
 }
 
+
 .haha-items div:hover {
     background:rgb(188, 235, 191);
     opacity: 0.8;
@@ -806,6 +808,7 @@ nav > div:hover {
 }
 
 .add-model-box-div {
+    border-radius: 10px;
     position: absolute;
     width: 250px;
     height: 250px;
@@ -836,7 +839,7 @@ nav > div:hover {
 
 .nav-this-only {
     position: absolute;
-/*    right:10px;*/
+    /*    right:10px;*/
     left: 100%;
     top: 0;
     font-size: 13px;
@@ -987,4 +990,70 @@ nav > div:hover {
     margin-right: 5px;
     background: #62c1ee;
 }
+
+@media screen and (max-width: 1096px) {
+    #myModal4Div {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 488px) {
+    #myModal4Div {
+        width: 98%;
+        padding: 10px;
+    }
+
+    #span-wallet-modal-div-button {
+        right: 15px !important;
+    }
+}
+
+@media screen and (max-width: 890px) {
+    #modal1-div-test {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .modal-top {
+        display: block;
+    }
+
+    .modal-top-item {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .modal-top-item div {
+        justify-content: unset;
+    }
+
+    .modal-bottom {
+        display: block;
+        margin-top: 0px;
+    }
+
+    .modal-bottom div {
+        width: 100%;
+    }
+
+    .modal-bottom-item-date {
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    #myModal-test-ok {
+        width: 90%;
+    }
+    
+    .modal-content-1 {
+        width: 90%;
+    }
+}
+
+#google-login:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+
 

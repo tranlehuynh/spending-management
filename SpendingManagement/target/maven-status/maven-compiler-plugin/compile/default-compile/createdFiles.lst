@@ -34,6 +34,7 @@ com\app\service\impl\TransactionServiceImpl.class
 com\app\service\WalletService.class
 com\app\controllers\IndexController.class
 com\app\pojo\UserWallet.class
+com\app\pojo\Google.class
 com\app\service\impl\WalletServiceImpl.class
 com\app\formatters\CategoryFormatter.class
 com\app\pojo\Wallet_.class
@@ -47,4 +48,5 @@ com\app\controllers\ApiController.class
 com\app\repository\ItemRepository.class
 com\app\handlers\LoginSuccessHandler.class
 com\app\repository\impl\CategoryRepositoryImpl.class
+com\app\configs\MailConfig.class
 com\app\configs\WebAppContextConfig.class

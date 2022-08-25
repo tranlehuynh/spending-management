@@ -8,6 +8,7 @@ import com.app.service.TransactionService;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,5 +37,17 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<Transaction> getAllTransactions() {
         return this.transactionRepository.getAllTransactions();
+    }
+
+    @Override
+    @Modifying
+    public void updateTransaction(int id) {
+        this.transactionRepository.updateTransaction(id);
+    }
+
+    @Override
+    @Modifying
+    public void deleteTransaction(int id) {
+        this.transactionRepository.deleteTransaction(id);
     }
 }

@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -34,6 +35,26 @@ public class UserWallet implements Serializable {
     @JoinColumn(name = "wallet_id", referencedColumnName = "id")
     @ManyToOne
     private Wallet walletId;
+    @Transient
+    private int myWalletId;
+    @Transient
+    private int myUserId;
+    
+    public int getMyWalletId() {
+        return myWalletId;
+    }
+    
+    public void setMyWalletId(int myWalletId) {
+        this.myWalletId = myWalletId;
+    }
+    
+    public int getMyUserId() {
+        return myUserId;
+    }
+    
+    public void setMyUserId(int myUserId) {
+        this.myUserId = myUserId;
+    }
 
     public UserWallet() {
     }

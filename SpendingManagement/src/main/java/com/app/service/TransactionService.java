@@ -9,4 +9,8 @@ public interface TransactionService {
     List<Transaction> getAllTransactions();
     int countTransaction();
     boolean addTransaction(Transaction t);
+    
+    void updateTransaction(int id);
+    
+    void deleteTransaction(int id);
 }

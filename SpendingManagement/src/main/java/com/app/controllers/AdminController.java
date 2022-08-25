@@ -25,6 +25,7 @@ public class AdminController {
         
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         model.addAttribute("users", this.userService.getUsers(params, page));
+        model.addAttribute("allUsers", userService.getAllUsers());
         
         model.addAttribute("pageSize", Integer.parseInt(env.getProperty("page.size")));
         return "user";

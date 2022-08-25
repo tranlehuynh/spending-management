@@ -5,6 +5,7 @@ D:\spending-management\SpendingManagement\src\main\java\com\app\repository\ItemR
 D:\spending-management\SpendingManagement\src\main\java\com\app\service\impl\WalletServiceImpl.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\pojo\UserWallet.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\handlers\LogoutSuccessHandler.java
+D:\spending-management\SpendingManagement\src\main\java\com\app\configs\MailConfig.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\repository\UserRepository.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\configs\SpringSecurityConfig.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\configs\HibernateConfig.java
@@ -21,6 +22,7 @@ D:\spending-management\SpendingManagement\src\main\java\com\app\service\impl\Use
 D:\spending-management\SpendingManagement\src\main\java\com\app\controllers\AdminController.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\repository\impl\UserRepositoryImpl.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\pojo\Item.java
+D:\spending-management\SpendingManagement\src\main\java\com\app\pojo\Google.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\service\TransactionService.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\service\impl\UserServiceImpl.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\handlers\LoginSuccessHandler.java

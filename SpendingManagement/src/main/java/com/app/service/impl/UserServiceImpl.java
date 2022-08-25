@@ -1,21 +1,24 @@
 package com.app.service.impl;
 
+import com.app.pojo.Google;
 import com.app.pojo.User;
 import com.app.repository.UserRepository;
 import com.app.service.UserService;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service("userDetailsService")
 public class UserServiceImpl implements UserService {
@@ -81,5 +84,36 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getUserByEmail(String email) {
         return this.userRepository.getUserByEmail(email);
+    }
+
+    @Override
+    public String getToken(final String code) throws ClientProtocolException, IOException{
+        return this.userRepository.getToken(code);
+    }
+
+    @Override
+    public Google getUserInfo(final String accessToken) throws ClientProtocolException, IOException{
+        return this.userRepository.getUserInfo(accessToken);
+    }
+
+    @Override
+    public UserDetails buildUser(Google googlePojo) {
+        return this.userRepository.buildUser(googlePojo);
+    }
+
+    @Override
+    public String getUser(String accessToken) throws ClientProtocolException, IOException {
+        return this.userRepository.getUser(accessToken);
+    }
+
+    @Override
+    @Modifying
+    public boolean updateUser(String firstName, String lastName, String email, String phone, int id) {
+        return userRepository.updateUser(firstName, lastName, email, phone, id);
+    }
+
+    @Override
+    public void sendEmail(String from, String to, String subject, String content) {
+        this.userRepository.sendEmail(from, to, subject, content);
     }
 }
