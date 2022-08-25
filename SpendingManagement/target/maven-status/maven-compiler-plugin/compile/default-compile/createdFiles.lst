@@ -36,7 +36,6 @@ com\app\controllers\IndexController.class
 com\app\pojo\UserWallet.class
 com\app\pojo\Google.class
 com\app\service\impl\WalletServiceImpl.class
-com\app\formatters\CategoryFormatter.class
 com\app\pojo\Wallet_.class
 com\app\pojo\Transaction_.class
 com\app\service\impl\CategoryServiceImpl.class

@@ -25,9 +25,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,10 +34,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,8 +67,6 @@ public class IndexController {
     private UserService userDetailsService;
     @Autowired
     Environment env;
-//    @Autowired
-//    private MailSender mailSender;
 
     @ModelAttribute
     public void commonAttr(Model model) {
@@ -126,21 +119,32 @@ public class IndexController {
             authorities.add(new SimpleGrantedAuthority("USER"));
             UserDetails userDetail = new org.springframework.security.core.userdetails.User(user.getEmail(),
                     user.getPassword(), authorities);
-            
+
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail.getUsername(), userDetail.getPassword(),
                     userDetail.getAuthorities());
-            
+
             request.getSession();
             authentication.setDetails(new WebAuthenticationDetails(request));
             Authentication auth = authenticationManager.authenticate(authentication);
             SecurityContextHolder.getContext().setAuthentication(auth);
-            
+
             User u = this.userDetailsService.getUsersToLogin(auth.getName()).get(0);
             request.getSession().setAttribute("currentUser", u);
             return "redirect:/";
         }
 
         return "login";
+    }
+
+    @GetMapping("/report")
+    public String report(Model model) {
+        if (!isAuthenticated()) {
+            return "redirect:/";
+        }
+        
+        model.addAttribute("showHeader", 3);
+        model.addAttribute("countTransactionsByItem", transactionService.countTransactionsByItem());
+        return "report";
     }
 
     @GetMapping("/dashboard/wallet-user")
@@ -331,16 +335,6 @@ public class IndexController {
         return "account-details";
     }
 
-    @GetMapping("/report")
-    public String report(Model model) {
-        if (!isAuthenticated()) {
-            return "redirect:/";
-        }
-
-        model.addAttribute("countTransactionsByItem", transactionService.countTransactionsByItem());
-        return "report";
-    }
-
     @PostMapping("/account-details/userinfo")
     public String updateUserInfo(Model model, @ModelAttribute(value = "userInfo") @Valid User u, BindingResult rs, HttpSession session) {
         if (rs.hasErrors()) {
@@ -350,8 +344,33 @@ public class IndexController {
         User user = (User) session.getAttribute("currentUser");
 
         if (userService.updateUser(u.getFirstName(), u.getLastName(), u.getEmail(), u.getPhone(), user.getId()) == true) {
+            model.addAttribute("changeUserInfoSuccess", true);
             return "redirect:/account-details";
         }
+
+        return "account-details";
+    }
+
+    @PostMapping("/account-details/userpassword")
+    public String changeUserPassword(Model model, @ModelAttribute(value = "userPassword") @Valid User u, BindingResult rs, HttpSession session) {
+        
+        String errorMessagePassword = "";
+        
+        User user = (User) session.getAttribute("currentUser");
+
+        if (u.getPassword().equals(u.getRetypePassword())) {
+            if (userService.updatePassword(u.getPassword(), user.getId()) == true) {
+                return "redirect:/logout";
+            } 
+        } else {
+            errorMessagePassword = "Your password is incorrect!";
+        }
+
+        if (rs.hasErrors()) {
+            return "register";
+        }
+
+        model.addAttribute("errorMessagePassword", errorMessagePassword);
 
         return "account-details";
     }

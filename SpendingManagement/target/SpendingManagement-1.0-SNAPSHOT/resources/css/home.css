@@ -25,6 +25,7 @@ body {
     align-items: center;
     z-index: 50;
     backdrop-filter: blur(10px);
+    box-shadow: 0 3px 7px 0 rgb(0 0 0 / 10%);
 }
 
 nav {
@@ -111,6 +112,10 @@ nav > div:hover {
     cursor: pointer;
     color: white;
     font-size: 15px;
+}
+
+.wallet-info {
+    cursor: pointer;
 }
 
 .wallet-info-text {
@@ -802,7 +807,6 @@ nav > div:hover {
 
 /* This is new css nha */
 .add-model-box {
-    cursor: pointer;
     position: relative;
     display: flex;
 }

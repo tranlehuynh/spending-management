@@ -27,10 +27,22 @@
             <c:if test="${showNhe == 1}">
                 <img id="wallet-img" src="${currentUser.avatar}" alt="wallet" />
                 <div class="wallet-info wallet-hehehe" style="pointer-events: none; cursor: auto; display: flex; align-items: center">
-                    <p class="wallet-name" style="position: relative; font-size: 15px;">${currentUser.firstName} ${currentUser.lastName}</p>
+                    <p class="wallet-name" style="position: relative; font-size: 15px; box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%); padding: 4px; border-radius: 10px;">Welcome ${currentUser.firstName} ${currentUser.lastName}</p>
                 </div>
             </c:if>
-            <c:if test="${showNhe != 1}">
+            <c:if test="${showNha == 2}">
+                <img id="wallet-img" src="${currentUser.avatar}" alt="wallet" />
+                <div class="wallet-info wallet-hehehe" style="pointer-events: none; cursor: auto; display: flex; align-items: center">
+                    <p class="wallet-name" style="position: relative; font-size: 15px; box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%); padding: 4px; border-radius: 10px;">Welcome ${currentUser.firstName} ${currentUser.lastName}</p>
+                </div>
+            </c:if> 
+            <c:if test="${showHeader == 3}">
+                <img id="wallet-img" src="${currentUser.avatar}" alt="wallet" />
+                <div class="wallet-info wallet-hehehe" style="pointer-events: none; cursor: auto; display: flex; align-items: center">
+                    <p class="wallet-name" style="position: relative; font-size: 15px; box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%); padding: 4px; border-radius: 10px;">Welcome ${currentUser.firstName} ${currentUser.lastName}</p>
+                </div>
+            </c:if> 
+            <c:if test="${showNhe != 1 && showNha != 2 && showHeader != 3}">
                 <img id="wallet-img" src="${currentUser.avatar}" alt="wallet" />
                 <div class="wallet-info wallet-hehehe">
                     <p class="wallet-name" style="position: relative;">${currentUser.firstName}'s Wallet <i class="fa-solid fa-sort-down nav-this-only"></i></p>
@@ -40,17 +52,19 @@
         </div>
     </div>
     <c:if test="${showNha != 2}">
-        <div class="categories">
-            <c:if test="${showNhe == 1}">            
-                <button class="categories-button" id="myBtnWallet" style="display: none;">Add wallet</button>
-                <button class="categories-button" id="myBtnUser" style="margin-left: 15px; margin-right: 25px; padding: 13px 40px;">Add user</button>
-                <button class="categories-button" id="myBtn" style="display: none;">Add transaction</button>
-            </c:if>
-            <c:if test="${showNhe != 1}">
-                <button class="categories-button" id="myBtnWallet">Add wallet</button>
-                <button class="categories-button" id="myBtnUser" style="display: none; margin-left: 15px; margin-right: 25px; padding: 13px 40px;">Add user</button>
-                <button class="categories-button" id="myBtn">Add transaction</button>
-            </c:if>
-        </div>
+        <c:if test="${showHeader != 3}">
+            <div class="categories">
+                <c:if test="${showNhe == 1}">            
+                    <button class="categories-button" id="myBtnWallet" style="display: none;">Add wallet</button>
+                    <button class="categories-button" id="myBtnUser" style="margin-left: 15px; margin-right: 25px; padding: 13px 40px;">Add user</button>
+                    <button class="categories-button" id="myBtn" style="display: none;">Add transaction</button>
+                </c:if>
+                <c:if test="${showNhe != 1}">
+                    <button class="categories-button" id="myBtnWallet">Add wallet</button>
+                    <button class="categories-button" id="myBtnUser" style="display: none; margin-left: 15px; margin-right: 25px; padding: 13px 40px;">Add user</button>
+                    <button class="categories-button" id="myBtn">Add transaction</button>
+                </c:if>
+            </div>
+        </c:if>
     </c:if>
 </header>

@@ -38,7 +38,6 @@ D:\spending-management\SpendingManagement\src\main\java\com\app\service\UserServ
 D:\spending-management\SpendingManagement\src\main\java\com\app\repository\WalletRepository.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\service\CategoryService.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\service\impl\CategoryServiceImpl.java
-D:\spending-management\SpendingManagement\src\main\java\com\app\formatters\CategoryFormatter.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\repository\impl\TransactionRepositoryImpl.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\service\UserWalletService.java
 D:\spending-management\SpendingManagement\src\main\java\com\app\repository\impl\UserWalletRepositoyImpl.java

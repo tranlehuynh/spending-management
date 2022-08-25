@@ -44,7 +44,7 @@ public class UserRepositoryImpl implements UserRepository {
     private Environment env;
     @Autowired
     private JavaMailSender mailSender;
-    
+
     @Autowired
     private UserRepository userRepository;
 
@@ -173,7 +173,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public String getUser(String accessToken) throws ClientProtocolException, IOException{
+    public String getUser(String accessToken) throws ClientProtocolException, IOException {
         String link = GOOGLE_LINK_GET_USER_INFO + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();
         return response;
@@ -192,13 +192,20 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void sendEmail(String from, String to, String subject, String content) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        
+
         mailMessage.setFrom(from);
         mailMessage.setTo(to);
         mailMessage.setSubject(subject);
         mailMessage.setText(content);
-        
-        
+
         mailSender.send(mailMessage);
+    }
+
+    @Override
+    public boolean updatePassword(String password, int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Query query = session.createQuery("UPDATE User SET password = '" + password + "' WHERE id = " + id);
+        query.executeUpdate();
+        return true;
     }
 }

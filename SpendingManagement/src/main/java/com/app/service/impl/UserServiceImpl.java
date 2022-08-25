@@ -116,4 +116,9 @@ public class UserServiceImpl implements UserService {
     public void sendEmail(String from, String to, String subject, String content) {
         this.userRepository.sendEmail(from, to, subject, content);
     }
+
+    @Override
+    public boolean updatePassword(String password, int id) {
+        return this.userRepository.updatePassword(this.passwordEncoder.encode(password), id);
+    }
 }

@@ -102,26 +102,26 @@
                         </div>                         
                         <c:if test="${userGetByEmail != null}">
                             <c:if test="${currentUser.id == userGetByEmail.id}">
-                                <div class="wallet-modal-div" style="cursor: default; width: 100%; font-size: 19px; border-radius: 10px; padding: 4px; margin-top: 20px;">
-                                    <img src="${userGetByEmail.avatar}" alt="avatar" style="border-radius: 50%; width: 35px;">
-                                    <span class="wallet-modal-span"><input style="display: none;" path="myUserId" name="myUserId" value="${userGetByEmail.id}"/>${userGetByEmail.firstName} ${userGetByEmail.lastName}</span>
-                                    <span style="align-items: flex-end; position: absolute; right: 55px;" id="span-wallet-modal-div-button"><button type="submit" form="this-is-new-form" style="border-radius: 5px; background: #ff645d; color: white; border: none; outline: none; padding: 10px 20px" disabled>Owner</button></span>
+                                <div class="wallet-modal-div" style="cursor: default; width: 100%; font-size: 15px; border-radius: 10px; padding: 4px; margin-top: 20px;">
+                                    <img src="${userGetByEmail.avatar}" alt="avatar" style="border-radius: 50%; width: 35px; box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%);">
+                                    <span class="wallet-modal-span" style="border-radius: 10px; padding: 4px; box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%);"><input style="display: none;  box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%); border-radius: 10px; padding: 4px;" path="myUserId" name="myUserId" value="${userGetByEmail.id}"/>${userGetByEmail.firstName} ${userGetByEmail.lastName}</span>
+                                    <span style="align-items: flex-end; position: absolute; right: 55px;" id="span-wallet-modal-div-button"><button type="submit" form="this-is-new-form" style="border-radius: 5px; background: #ff645d; color: white; border: none; outline: none; padding: 5px 10px" disabled>Owner</button></span>
                                 </div>
                             </c:if>
                             <c:if test="${currentUser.id != userGetByEmail.id}">
                                 <c:url value="/dashboard/wallet-user" var="action" />
                                 <form:form method="post" action="${action}" modelAttribute="myId" id="this-is-new-form">
-                                    <select path="myWalletId" name="myWalletId" style="margin-bottom: 20px; padding: 10px; width: 95%; font-size: 16px;">
+                                    <select required path="myWalletId" name="myWalletId" style="margin-bottom: 20px; padding: 10px; width: 95%; font-size: 16px;">
                                         <c:forEach items="${userWallets}" var="u">
                                             <c:if test="${u.userId.id == currentUser.id}">
-                                                <option value="${u.walletId.id}">${u.walletId.name}</option>
+                                                <option required value="${u.walletId.id}">${u.walletId.name}</option>
                                             </c:if>
                                         </c:forEach>      
                                     </select>
-                                    <div class="wallet-modal-div" style="cursor: default; width: 100%; font-size: 19px; border-radius: 10px; padding: 4px;">
-                                        <img src="${userGetByEmail.avatar}" alt="avatar" style="border-radius: 50%; width: 35px;">
-                                        <span class="wallet-modal-span"><input style="display: none;" path="myUserId" name="myUserId" value="${userGetByEmail.id}"/>${userGetByEmail.firstName} ${userGetByEmail.lastName}</span>
-                                        <span style="align-items: flex-end; position: absolute; right: 55px;" id="span-wallet-modal-div-button"><button type="submit" form="this-is-new-form" style="border-radius: 5px; background: #2563e9; color: white; border: none; outline: none; padding: 10px 20px; cursor: pointer;">Choose</button></span>
+                                    <div class="wallet-modal-div" style="cursor: default; width: 100%; font-size: 15px;">
+                                        <img src="${userGetByEmail.avatar}" alt="avatar" style="border-radius: 50%; width: 35px; box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%);">
+                                        <span class="wallet-modal-span" style="border-radius: 10px; padding: 4px; box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%);"><input style="display: none; " path="myUserId" name="myUserId" value="${userGetByEmail.id}"/>${userGetByEmail.firstName} ${userGetByEmail.lastName}</span>
+                                        <span style="align-items: flex-end; position: absolute; right: 55px;" id="span-wallet-modal-div-button"><button type="submit" form="this-is-new-form" style="border-radius: 5px; background: #2563e9; color: white; border: none; outline: none; padding: 5px 10px; cursor: pointer;">Choose</button></span>
                                     </div>
                                 </form:form>
                             </c:if>
