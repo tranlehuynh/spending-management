@@ -43,4 +43,9 @@ Software Foundation//DTD Tiles Configuration 3.0//EN"
         <put-attribute name="content"
                        value="/WEB-INF/jsp/wallet-user.jsp" />
     </definition>
+    <definition name="report" extends="baseLayout">
+        <put-attribute name="title" value="Report" />
+        <put-attribute name="content"
+                       value="/WEB-INF/jsp/report.jsp" />
+    </definition>
 </tiles-definitions>

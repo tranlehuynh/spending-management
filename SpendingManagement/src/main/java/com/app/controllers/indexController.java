@@ -29,12 +29,14 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -65,6 +67,10 @@ public class IndexController {
     @Autowired
     private UserService userService;
     @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private UserService userDetailsService;
+    @Autowired
     Environment env;
 //    @Autowired
 //    private MailSender mailSender;
@@ -94,7 +100,6 @@ public class IndexController {
         if (code != null) {
             String accessToken = userService.getToken(code);
             Google googlePojo = userService.getUserInfo(accessToken);
-            UserDetails userDetail = userService.buildUser(googlePojo);
 
             int count = 0;
 
@@ -109,6 +114,7 @@ public class IndexController {
             user.setFirstName("Google");
             user.setLastName("User");
             user.setPassword("123");
+            model.addAttribute("test", 123);
 
             if (count == 0) {
 
@@ -116,10 +122,21 @@ public class IndexController {
 
             }
 
-//            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), null,
-//                    userDetail.getAuthorities());
-//            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
+            Set<GrantedAuthority> authorities = new HashSet<>();
+            authorities.add(new SimpleGrantedAuthority("USER"));
+            UserDetails userDetail = new org.springframework.security.core.userdetails.User(user.getEmail(),
+                    user.getPassword(), authorities);
+            
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail.getUsername(), userDetail.getPassword(),
+                    userDetail.getAuthorities());
+            
+            request.getSession();
+            authentication.setDetails(new WebAuthenticationDetails(request));
+            Authentication auth = authenticationManager.authenticate(authentication);
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            
+            User u = this.userDetailsService.getUsersToLogin(auth.getName()).get(0);
+            request.getSession().setAttribute("currentUser", u);
             return "redirect:/";
         }
 
@@ -195,7 +212,6 @@ public class IndexController {
         return "wallet-user";
     }
 
-
     @PostMapping("/dashboard/wallet-user/transaction")
     public String newIndex(@ModelAttribute(value = "walletUserForm") @Valid Transaction t, BindingResult rs, Model model) {
         if (rs.hasErrors()) {
@@ -239,7 +255,8 @@ public class IndexController {
         double inflow = 0;
         double outflow = 0;
 
-        userService.sendEmail("1951052079huynh@gmail.com", "tranlehuynhh@gmail.com", "TEST", "Test send email");
+        //Send email
+//        userService.sendEmail("1951052079huynh@gmail.com", "tranlehuynhh@gmail.com", "TEST", "Test send email");
         //Show first wallet when login
         if (view == null) {
             for (int i = 0; i < userWalletService.getUserWallets().size(); i++) {
@@ -312,6 +329,16 @@ public class IndexController {
             }
         }
         return "account-details";
+    }
+
+    @GetMapping("/report")
+    public String report(Model model) {
+        if (!isAuthenticated()) {
+            return "redirect:/";
+        }
+
+        model.addAttribute("countTransactionsByItem", transactionService.countTransactionsByItem());
+        return "report";
     }
 
     @PostMapping("/account-details/userinfo")

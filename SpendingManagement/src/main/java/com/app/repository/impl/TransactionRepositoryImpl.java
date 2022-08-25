@@ -1,8 +1,8 @@
 package com.app.repository.impl;
 
+import com.app.pojo.Item;
 import com.app.pojo.Transaction;
 import com.app.repository.TransactionRepository;
-import com.app.service.ItemService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -99,5 +99,22 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         Query query = session.createQuery("DELETE FROM Transaction WHERE id =" + id);
         query.executeUpdate();
+    }
+
+    @Override
+    public List<Object[]> countTransactionsByItem() {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        CriteriaBuilder b = session.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
+        
+        Root rt = q.from(Transaction.class);
+        Root ri = q.from(Item.class);
+        
+        q.where(b.equal(rt.get("itemId"), ri.get("id")));
+        q.multiselect(ri.get("id"), ri.get("name"), b.count(rt.get("id")));
+        q.groupBy(ri.get("id"));
+        
+        Query query = session.createQuery(q);
+        return query.getResultList();
     }
 }

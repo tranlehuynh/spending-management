@@ -11,5 +11,8 @@ public interface TransactionRepository {
     boolean addTransaction(Transaction t);
     
     void updateTransaction(int id);
+    
     void deleteTransaction(int id);
+    
+    List<Object[]> countTransactionsByItem();
 }

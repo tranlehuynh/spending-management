@@ -13,7 +13,7 @@
         <i class="fa-solid fa-burger nav-icon"></i>
         <p>My Wallet</p>
     </div>
-    <div onclick="window.location.href = '${contextPath}/dashboard';">
+    <div onclick="window.location.href = '${contextPath}/report';">
         <i class="fa-solid fa-sack-dollar nav-icon"></i>
         <p>Spending</p>
     </div>

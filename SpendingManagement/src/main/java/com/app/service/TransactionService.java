@@ -13,4 +13,6 @@ public interface TransactionService {
     void updateTransaction(int id);
     
     void deleteTransaction(int id);
+    
+    List<Object[]> countTransactionsByItem();
 }

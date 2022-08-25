@@ -50,4 +50,9 @@ public class TransactionServiceImpl implements TransactionService {
     public void deleteTransaction(int id) {
         this.transactionRepository.deleteTransaction(id);
     }
+
+    @Override
+    public List<Object[]> countTransactionsByItem() {
+        return transactionRepository.countTransactionsByItem();
+    }
 }
