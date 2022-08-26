@@ -55,13 +55,10 @@
         <c:if test="${showHeader != 3}">
             <div class="categories">
                 <c:if test="${showNhe == 1}">            
-                    <button class="categories-button" id="myBtnWallet" style="display: none;">Add wallet</button>
-                    <button class="categories-button" id="myBtnUser" style="margin-left: 15px; margin-right: 25px; padding: 13px 40px;">Add user</button>
-                    <button class="categories-button" id="myBtn" style="display: none;">Add transaction</button>
+                    <button onclick="handleClickAddUserToWallet()" class="categories-button" id="myBtnUser" style="margin-left: 15px; margin-right: 25px; padding: 13px 40px;">Add user</button>
                 </c:if>
                 <c:if test="${showNhe != 1}">
                     <button class="categories-button" id="myBtnWallet">Add wallet</button>
-                    <button class="categories-button" id="myBtnUser" style="display: none; margin-left: 15px; margin-right: 25px; padding: 13px 40px;">Add user</button>
                     <button class="categories-button" id="myBtn">Add transaction</button>
                 </c:if>
             </div>

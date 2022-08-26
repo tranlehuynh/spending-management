@@ -172,27 +172,19 @@ span4.onclick = () => {
     myModal4.style.display = 'none';
 };
 
-//const amountInput = document.getElementById('money-input-js');
-//const dateInputFirst = document.getElementById('date-input-js');
-//const noteInput = document.getElementById('note-input-js');
-//const buttonSubmitTransaction = document.getElementById('button-add-transaction-11');
-//
-//
-//if (walletPInput.value === "" || categoryInput.value === "" || amountInput === "" || dateInputFirst === "" || noteInput === "") {
-//    buttonSubmitTransaction.disabled = true;
-//} else {
-//    buttonSubmitTransaction.disabled = false;
-//}
+function handleGoogleLogin() {
+    const googleButton = document.getElementById('google-login-a');
+    googleButton.click();
+}
+function handleClickCloseModal() {
+    const modal = document.getElementById('myModal4');
+    modal.style.display = 'none';
+}
 
-//const googleLogin = document.getElementById('google-login');
-const googleLoginA = document.getElementById('google-login-a');
-//googleLogin.onclick = () => {
-//    googleLoginA.click();
-//};
-
-const googleLoginButton = () => {
-    googleLoginA.click();
-};
+function handleClickAddUserToWallet() {
+    const modal = document.getElementById('myModal4');
+    modal.style.display = 'block';
+}
 
 
 

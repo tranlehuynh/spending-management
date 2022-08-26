@@ -6,7 +6,7 @@
 <div class="container-1">
     <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
     <div class="login-register-form">
-        <div onclick="googleLoginButton()" style="width: 100%; cursor: pointer; padding: 5px; border-radius: 5px; border: 1px solid rgb(224, 224, 224); display: flex; align-items: center; justify-content: center; margin: auto;" id="google-login">
+        <div onclick="handleGoogleLogin()" style="width: 100%; cursor: pointer; padding: 5px; border-radius: 5px; border: 1px solid rgb(224, 224, 224); display: flex; align-items: center; justify-content: center; margin: auto;" id="google-login">
             <image style="width: 30px;" src="https://play-lh.googleusercontent.com/aFWiT2lTa9CYBpyPjfgfNHd0r5puwKRGj2rHpdPTNrz2N9LXgN_MbLjePd1OTc0E8Rl1"/>
             <a id="google-login-a" style="display: block; font-size: 16px; text-decoration: none; color: black;" href="https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/SpendingManagement&response_type=code
                &client_id=36810703474-djoro0ttsa9girdk8408dfqe76jb4ga9.apps.googleusercontent.com&approval_prompt=force">Login With Google</a>  

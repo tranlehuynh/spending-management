@@ -18,7 +18,7 @@
                 <form:form method="post" action="${action}" id="form-wallet-user-form0" modelAttribute="walletUserForm">
                     <tr>
                         <c:forEach items="${users}" var="i">
-                            <c:if test="${i.id == u.walletId.owner}">
+                            <c:if test="${i.id == u.createdUser}">
                                 <td>${i.email}</td>
                             </c:if>
                         </c:forEach>                                             

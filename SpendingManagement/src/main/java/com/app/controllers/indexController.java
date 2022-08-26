@@ -12,7 +12,10 @@ import com.app.service.UserService;
 import com.app.service.UserWalletService;
 import com.app.service.WalletService;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -141,7 +144,7 @@ public class IndexController {
         if (!isAuthenticated()) {
             return "redirect:/";
         }
-        
+
         model.addAttribute("showHeader", 3);
         model.addAttribute("countTransactionsByItem", transactionService.countTransactionsByItem());
         return "report";
@@ -154,10 +157,12 @@ public class IndexController {
         }
 
         model.addAttribute("showNhe", 1);
+        int temp = 0;
 
         if (kw != null) {
             for (int i = 0; i < this.userService.getAllUsers().size(); i++) {
                 if (kw.equals(this.userService.getAllUsers().get(i).getEmail())) {
+                    temp = this.userService.getAllUsers().get(i).getId();
                     model.addAttribute("userGetByEmail", this.userService.getAllUsers().get(i));
                 }
             }
@@ -173,7 +178,14 @@ public class IndexController {
             }
         }
 
+        for (int i = 0; i < this.userWalletService.getUserWallets().size(); i++) {
+            if (this.userWalletService.getUserWallets().get(i).getUserId().getId() == temp) {
+                model.addAttribute("added", true);
+            }
+        }
+
         model.addAttribute("myTransactions", myTransaction);
+        model.addAttribute("wallets", walletService.getWallets());
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("userWallets", this.userWalletService.getUserWallets());
 
@@ -181,11 +193,11 @@ public class IndexController {
     }
 
     @PostMapping("/dashboard/wallet-user")
-    public String addAgain(@ModelAttribute(value = "myId") @Valid UserWallet p, BindingResult rs, @ModelAttribute(value = "walletUserForm") @Valid Transaction t) {
+    public String addAgain(@ModelAttribute(value = "myId") @Valid UserWallet p, BindingResult rs, @ModelAttribute(value = "walletUserForm") @Valid Transaction t, Model model) {
+
         if (rs.hasErrors()) {
             return "index";
         }
-
         int count = 0;
 
         for (int i = 0; i < this.userService.getAllUsers().size(); i++) {
@@ -211,9 +223,10 @@ public class IndexController {
 
         if (count == 0) {
             this.userWalletService.addUserWallet(p);
+            return "redirect:/dashboard/wallet-user";
+        } else {
+            return "redirect:/dashboard/wallet-user";
         }
-
-        return "wallet-user";
     }
 
     @PostMapping("/dashboard/wallet-user/transaction")
@@ -295,16 +308,22 @@ public class IndexController {
         }
 
         double firstWallet = 0;
+        double totalMoney = 0;
 
-//        for (int i = 0; i < this.userWalletService.getUserWallets().size(); i++) {
-//            if (userWalletService.getUserWallets().get(i) != null) {
-//                if (Objects.equals(this.userWalletService.getUserWallets().get(i).getUserId().getId(), user.getId())) {
-//                    firstWallet = this.userWalletService.getUserWallets().get(i).getWalletId().getTotalMoney();
-//                    break;
-//                }
-//            }
-//        }
+        for (int i = 0; i < walletService.getWallets().size(); i++) {
+            if (Objects.equals(user.getId(), walletService.getWallets().get(i).getOwner())) {
+                totalMoney = walletService.getWallets().get(i).getTotalMoney();
+                break;
+            }
+        }
+
         double total = inflow - outflow;
+
+        if (total <= 0) {
+            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your inflow is lower than you outflow!");
+        } else if (totalMoney <= total) {
+            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your total money is higher than the wallet money!");
+        } 
 
         model.addAttribute("view", view);
         model.addAttribute("userWallets", this.userWalletService.getUserWallets());
@@ -353,15 +372,15 @@ public class IndexController {
 
     @PostMapping("/account-details/userpassword")
     public String changeUserPassword(Model model, @ModelAttribute(value = "userPassword") @Valid User u, BindingResult rs, HttpSession session) {
-        
+
         String errorMessagePassword = "";
-        
+
         User user = (User) session.getAttribute("currentUser");
 
         if (u.getPassword().equals(u.getRetypePassword())) {
             if (userService.updatePassword(u.getPassword(), user.getId()) == true) {
                 return "redirect:/logout";
-            } 
+            }
         } else {
             errorMessagePassword = "Your password is incorrect!";
         }
@@ -431,10 +450,25 @@ public class IndexController {
         }
 
         User newUser = (User) session.getAttribute("currentUser");
-        if (Objects.equals(newUser.getId(), p.getWalletId().getId())) {
+        int id = 0;
+        p.setCreatedUser(newUser.getId());
+        for (int i = 0; i < this.walletService.getWallets().size(); i++) {
+            if (Objects.equals(newUser.getId(), this.walletService.getWallets().get(i).getOwner())) {
+                id = this.walletService.getWallets().get(i).getId();
+                break;
+            }
+        }
+        if (Objects.equals(id, p.getWalletId().getId())) {
             p.setPending(1);
         } else {
             p.setPending(2);
+        }
+
+        LocalDate today = java.time.LocalDate.now();
+        Date date = Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        if (p.getDate().after(date)) {
+            p.setDate(date);
         }
 
         if (rs.hasErrors()) {

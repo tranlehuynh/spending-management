@@ -31,6 +31,9 @@ import org.springframework.format.annotation.DateTimeFormat;
     @NamedQuery(name = "Transaction.findByNote", query = "SELECT t FROM Transaction t WHERE t.note = :note")})
 public class Transaction implements Serializable {
 
+    @Column(name = "created_user")
+    private Integer createdUser;
+
     @Column(name = "pending")
     private Integer pending;
 
@@ -184,6 +187,14 @@ public class Transaction implements Serializable {
 
     public void setPending(Integer pending) {
         this.pending = pending;
+    }
+
+    public Integer getCreatedUser() {
+        return createdUser;
+    }
+
+    public void setCreatedUser(Integer createdUser) {
+        this.createdUser = createdUser;
     }
 
 }
