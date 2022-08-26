@@ -121,4 +121,9 @@ public class UserServiceImpl implements UserService {
     public boolean updatePassword(String password, int id) {
         return this.userRepository.updatePassword(this.passwordEncoder.encode(password), id);
     }
+
+    @Override
+    public boolean updateActiveUser(int active, int id) {
+        return this.userRepository.updateActiveUser(active, id);
+    }
 }

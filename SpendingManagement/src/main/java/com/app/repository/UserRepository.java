@@ -35,5 +35,7 @@ public interface UserRepository {
     
     boolean updatePassword(String password, int id);
     
+    boolean updateActiveUser(int active, int id);
+    
     void sendEmail(String from, String to, String subject, String content);
 }

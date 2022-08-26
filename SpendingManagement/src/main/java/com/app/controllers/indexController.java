@@ -11,6 +11,7 @@ import com.app.service.TransactionService;
 import com.app.service.UserService;
 import com.app.service.UserWalletService;
 import com.app.service.WalletService;
+import com.app.service.impl.UserServiceImpl;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -36,6 +37,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,6 +72,10 @@ public class IndexController {
     @Autowired
     private UserService userDetailsService;
     @Autowired
+    private UserServiceImpl userServerImpl;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
     Environment env;
 
     @ModelAttribute
@@ -86,7 +93,7 @@ public class IndexController {
     }
 
     @RequestMapping("/")
-    public String index(HttpServletRequest request, Model model) throws ClientProtocolException, IOException {
+    public String index(HttpServletRequest request, Model model) throws ClientProtocolException, IOException, UsernameNotFoundException {
         if (isAuthenticated()) {
             return "redirect:/dashboard";
         }
@@ -98,7 +105,7 @@ public class IndexController {
             Google googlePojo = userService.getUserInfo(accessToken);
 
             int count = 0;
-
+           
             for (int i = 0; i < this.userService.getAllUsers().size(); i++) {
                 if (googlePojo.getEmail().equals(this.userService.getAllUsers().get(i).getEmail())) {
                     count = 1;
@@ -110,30 +117,36 @@ public class IndexController {
             user.setFirstName("Google");
             user.setLastName("User");
             user.setPassword("123");
-            model.addAttribute("test", 123);
 
             if (count == 0) {
-
                 this.userService.addUser(user);
-
             }
 
+//            List<User> users = userService.getUsersToLogin(user.getEmail());
+////
+//            User myUser = users.get(0);
+            
+
+//            UserDetails userDetail = userServerImpl.loadUserByUsername(googlePojo.getEmail());
             Set<GrantedAuthority> authorities = new HashSet<>();
             authorities.add(new SimpleGrantedAuthority("USER"));
             UserDetails userDetail = new org.springframework.security.core.userdetails.User(user.getEmail(),
                     user.getPassword(), authorities);
-
+            
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail.getUsername(), userDetail.getPassword(),
                     userDetail.getAuthorities());
 
-            request.getSession();
-            authentication.setDetails(new WebAuthenticationDetails(request));
+//            request.getSession();
+            
+//            authentication.setDetails(new WebAuthenticationDetails(request));
             Authentication auth = authenticationManager.authenticate(authentication);
             SecurityContextHolder.getContext().setAuthentication(auth);
 
             User u = this.userDetailsService.getUsersToLogin(auth.getName()).get(0);
             request.getSession().setAttribute("currentUser", u);
+
             return "redirect:/";
+
         }
 
         return "login";
@@ -319,12 +332,11 @@ public class IndexController {
 
         double total = inflow - outflow;
 
-        if (total <= 0) {
-            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your inflow is lower than you outflow!");
-        } else if (totalMoney <= total) {
-            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your total money is higher than the wallet money!");
-        } 
-
+//        if (total <= 0) {
+//            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your inflow is lower than you outflow!");
+//        } else if (totalMoney <= total) {
+//            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your total money is higher than the wallet money!");
+//        } 
         model.addAttribute("view", view);
         model.addAttribute("userWallets", this.userWalletService.getUserWallets());
         model.addAttribute("inflow", inflow);

@@ -208,4 +208,12 @@ public class UserRepositoryImpl implements UserRepository {
         query.executeUpdate();
         return true;
     }
+
+    @Override
+    public boolean updateActiveUser(int active, int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Query query = session.createQuery("UPDATE User SET active = " + active + " WHERE id = " + id);
+        query.executeUpdate();
+        return true;
+    }
 }

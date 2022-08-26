@@ -186,6 +186,11 @@ function handleClickAddUserToWallet() {
     modal.style.display = 'block';
 }
 
+function handleActiveUser(active) {
+    const activeInput = document.getElementById('active-input');
+    activeInput.value = active;
+}
+
 
 
 
