@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         List<User> users = userRepository.getUsersToLogin(email);
 
-        if (users.isEmpty()) {
+        if (users.isEmpty() || users.get(0).getActive() == 2) {
             throw new UsernameNotFoundException("Users does not exist");
         }
 

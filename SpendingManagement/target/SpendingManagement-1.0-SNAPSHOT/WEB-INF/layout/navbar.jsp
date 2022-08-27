@@ -15,7 +15,7 @@
     </div>
     <div onclick="window.location.href = '${contextPath}/report';">
         <i class="fa-solid fa-sack-dollar nav-icon"></i>
-        <p>Spending</p>
+        <p>Report</p>
     </div>
     <c:if test="${pageContext.request.userPrincipal.name != null}">
         <div onclick="window.location.href = '${contextPath}/account-details';">

@@ -46,6 +46,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -105,10 +106,12 @@ public class IndexController {
             Google googlePojo = userService.getUserInfo(accessToken);
 
             int count = 0;
-           
+
             for (int i = 0; i < this.userService.getAllUsers().size(); i++) {
                 if (googlePojo.getEmail().equals(this.userService.getAllUsers().get(i).getEmail())) {
+//                    User myUser = this.userService.getAllUsers().get(i);
                     count = 1;
+                    break;
                 }
             }
 
@@ -122,22 +125,23 @@ public class IndexController {
                 this.userService.addUser(user);
             }
 
-//            List<User> users = userService.getUsersToLogin(user.getEmail());
-////
-//            User myUser = users.get(0);
-            
+            List<User> users = userService.getUsersToLogin(user.getEmail());
+            User myUser = users.get(0);
 
+            if (myUser.getActive() == 2) {
+                throw new UsernameNotFoundException("Users does not exist");
+            }
 //            UserDetails userDetail = userServerImpl.loadUserByUsername(googlePojo.getEmail());
+
             Set<GrantedAuthority> authorities = new HashSet<>();
             authorities.add(new SimpleGrantedAuthority("USER"));
             UserDetails userDetail = new org.springframework.security.core.userdetails.User(user.getEmail(),
                     user.getPassword(), authorities);
-            
+
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail.getUsername(), userDetail.getPassword(),
                     userDetail.getAuthorities());
 
 //            request.getSession();
-            
 //            authentication.setDetails(new WebAuthenticationDetails(request));
             Authentication auth = authenticationManager.authenticate(authentication);
             SecurityContextHolder.getContext().setAuthentication(auth);
@@ -163,10 +167,28 @@ public class IndexController {
         return "report";
     }
 
+    @PostMapping("/dashboard/deleteTransaction")
+    public String deleteTrans(@ModelAttribute(value = "deleteThisTrans") @Valid Transaction t, BindingResult rs) {
+
+        if (rs.hasErrors()) {
+            return "index";
+        }
+
+        transactionService.deleteTransaction(t.getId());
+        return "redirect:/dashboard";
+    }
+
     @GetMapping("/dashboard/wallet-user")
-    public String walletUser(Model model, @RequestParam(required = false, name = "kw") String kw, HttpSession session) {
+    public String walletUser(Model model, @RequestParam(required = false, name = "kw") String kw, HttpSession session,
+                            @RequestParam(required = false, name = "kw") String string) {
         if (!isAuthenticated()) {
             return "redirect:/";
+        }
+        
+        if (string != null) {
+            if (string.equals("troioi")) {
+                model.addAttribute("errorAdded", "You can add this");
+            }
         }
 
         model.addAttribute("showNhe", 1);
@@ -206,11 +228,16 @@ public class IndexController {
     }
 
     @PostMapping("/dashboard/wallet-user")
-    public String addAgain(@ModelAttribute(value = "myId") @Valid UserWallet p, BindingResult rs, @ModelAttribute(value = "walletUserForm") @Valid Transaction t, Model model) {
+    public String addAgain(@ModelAttribute(value = "myId") @Valid UserWallet p, BindingResult rs,
+            @ModelAttribute(value = "walletUserForm") @Valid Transaction t, Model model) {
 
         if (rs.hasErrors()) {
             return "index";
         }
+//        if (string != null) {
+//            return "redirect:/dashboard";
+//        }
+
         int count = 0;
 
         for (int i = 0; i < this.userService.getAllUsers().size(); i++) {
@@ -238,9 +265,19 @@ public class IndexController {
             this.userWalletService.addUserWallet(p);
             return "redirect:/dashboard/wallet-user";
         } else {
-            return "redirect:/dashboard/wallet-user";
+            return "redirect:/dashboard/wallet-user?kw=troioi";
         }
     }
+//    
+//    @GetMapping("/dashboard/wallet-user?kw=?error=error")
+//    public String getErrorUserWallet(@RequestParam(required = false, name = "kw") String kw, Model model) {
+//        
+//        if ("error".equals(kw)) {
+//            model.addAttribute("errorAdded", kw);
+//        }
+//        
+//        return "wallet-user";
+//    }
 
     @PostMapping("/dashboard/wallet-user/transaction")
     public String newIndex(@ModelAttribute(value = "walletUserForm") @Valid Transaction t, BindingResult rs, Model model) {
@@ -298,13 +335,13 @@ public class IndexController {
         }
 
         //Show "there no wallet" when dont have wallet
-        int countUserWallet = 0;
-        for (int i = 0; i < walletService.getWallets().size(); i++) {
-            if (Objects.equals(user.getId(), walletService.getWallets().get(i).getOwner())) {
-                countUserWallet++;
-            }
-        }
-        model.addAttribute("showWallet", countUserWallet);
+//        int countUserWallet = 0;
+//        for (int i = 0; i < walletService.getWallets().size(); i++) {
+//            if (Objects.equals(user.getId(), walletService.getWallets().get(i).getOwner())) {
+//                countUserWallet++;
+//            }
+//        }
+//        model.addAttribute("showWallet", countUserWallet);
 
         //Get inflow and outflow
         if (view != null) {
@@ -337,6 +374,10 @@ public class IndexController {
 //        } else if (totalMoney <= total) {
 //            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your total money is higher than the wallet money!");
 //        } 
+
+        if (this.transactionService.getTransactions(params, page, view).isEmpty()) {
+            model.addAttribute("hahahe", 1);
+        }
         model.addAttribute("view", view);
         model.addAttribute("userWallets", this.userWalletService.getUserWallets());
         model.addAttribute("inflow", inflow);

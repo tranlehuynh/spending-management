@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
-@Generated(value="EclipseLink-2.7.10.v20211216-rNA", date="2022-08-25T19:35:34")
+@Generated(value="EclipseLink-2.7.10.v20211216-rNA", date="2022-08-27T07:53:45")
 @StaticMetamodel(UserWallet.class)
 public class UserWallet_ { 
 

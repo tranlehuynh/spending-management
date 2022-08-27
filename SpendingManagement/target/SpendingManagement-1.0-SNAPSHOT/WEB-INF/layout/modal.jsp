@@ -91,9 +91,10 @@
         <span class="close4" onclick="handleClickCloseModal()">&times;</span>
         <div class="hehehehe">
             <div class="two-ex-in">
+                <div>${errorAdded}</div>
                 <div>
                     <div class="income-items haha-items" style="width: 100%"> 
-                        <div id="call-me-form-input-haha" style="cursor: auto; border-bottom: none;">
+                        <div id="call-me-form-input-haha" style="cursor: auto; border-bottom: none;">                           
                             <c:url value="/dashboard/wallet-user" var="action" />
                             <form:form method="get" action="${action}" style="width: 100%;">
                                 <input type="text" name="kw" path="kw" placeholder="Enter email to find user" style="padding: 5px;"/>
@@ -109,33 +110,24 @@
                                 </div>
                             </c:if>
                             <c:if test="${currentUser.id != userGetByEmail.id}">
-                                <c:if test="${added == true}"> 
-                                    <div class="wallet-modal-div" style="cursor: default; width: 100%; font-size: 15px; border-radius: 10px; padding: 4px; margin-top: 20px;">
+                                <c:url value="/dashboard/wallet-user" var="action" />
+                                <form:form method="post" action="${action}" modelAttribute="myId" id="this-is-new-form">
+                                    <select required path="myWalletId" name="myWalletId" style="margin-bottom: 20px; padding: 5px;">
+                                        <c:forEach items="${wallets}" var="w">     
+                                            <c:if test="${w.owner == currentUser.id}">
+                                                <option required value="${w.id}">${w.name}</option>                                                                                       
+                                            </c:if>
+                                        </c:forEach>
+                                    </select>
+                                    <c:if test="${errorMessage != null}">
+                                        <div style="width: 100%; background: red; color: white; font-size: 14px; padding: 3px;">${errorMessage}</div>
+                                    </c:if>
+                                    <div class="wallet-modal-div" style="cursor: default; width: 100%; font-size: 15px;">
                                         <img src="${userGetByEmail.avatar}" alt="avatar" style="border-radius: 50%; width: 35px; box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%);">
-                                        <span class="wallet-modal-span" style="border-radius: 10px; padding: 4px; box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%);"><input style="display: none;  box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%); border-radius: 10px; padding: 4px;" path="myUserId" name="myUserId" value="${userGetByEmail.id}"/>${userGetByEmail.firstName} ${userGetByEmail.lastName}</span>
-                                        <span style="align-items: flex-end; position: absolute; right: 55px;" id="span-wallet-modal-div-button"><button type="submit" form="this-is-new-form" style="border-radius: 5px; background: #ff645d; color: white; border: none; outline: none; padding: 5px 10px" disabled>Added</button></span>
+                                        <span class="wallet-modal-span" style="border-radius: 10px; padding: 4px; box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%);"><input style="display: none; " path="myUserId" name="myUserId" value="${userGetByEmail.id}"/>${userGetByEmail.firstName} ${userGetByEmail.lastName}</span>
+                                        <span style="align-items: flex-end; position: absolute; right: 55px;" id="span-wallet-modal-div-button"><button type="submit" form="this-is-new-form" style="border-radius: 5px; background: #2563e9; color: white; border: none; outline: none; padding: 5px 10px; cursor: pointer;">Add</button></span>
                                     </div>
-                                </c:if>
-                                <c:if test="${added != true}">
-                                    <c:url value="/dashboard/wallet-user" var="action" />
-                                    <form:form method="post" action="${action}" modelAttribute="myId" id="this-is-new-form">
-                                        <select required path="myWalletId" name="myWalletId" style="margin-bottom: 20px; padding: 5px;">
-                                            <c:forEach items="${wallets}" var="w">     
-                                                <c:if test="${w.owner == currentUser.id}">
-                                                    <option required value="${w.id}">${w.name}</option>                                                                                       
-                                                </c:if>
-                                            </c:forEach>
-                                        </select>
-                                        <c:if test="${errorMessage != null}">
-                                            <div style="width: 100%; background: red; color: white; font-size: 14px; padding: 3px;">${errorMessage}</div>
-                                        </c:if>
-                                        <div class="wallet-modal-div" style="cursor: default; width: 100%; font-size: 15px;">
-                                            <img src="${userGetByEmail.avatar}" alt="avatar" style="border-radius: 50%; width: 35px; box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%);">
-                                            <span class="wallet-modal-span" style="border-radius: 10px; padding: 4px; box-shadow: 0 3px 7px 0 rgb(0 0 0 / 27%);"><input style="display: none; " path="myUserId" name="myUserId" value="${userGetByEmail.id}"/>${userGetByEmail.firstName} ${userGetByEmail.lastName}</span>
-                                            <span style="align-items: flex-end; position: absolute; right: 55px;" id="span-wallet-modal-div-button"><button type="submit" form="this-is-new-form" style="border-radius: 5px; background: #2563e9; color: white; border: none; outline: none; padding: 5px 10px; cursor: pointer;">Add</button></span>
-                                        </div>
-                                    </form:form>
-                                </c:if>
+                                </form:form>
                             </c:if>
                         </c:if>
                     </div>
@@ -215,3 +207,20 @@
         </div>
     </div>
 </div>
+
+<div id="myModal5" class="modal1">
+    <!-- Modal content -->
+    <div class="modal-content-1" >
+        <span onclick="closeDeleteTransaction()" class="close5">&times;</span>
+        <h2 style="margin-bottom: 40px">Are you want to delete this transaction?</h2>
+        <c:url value="/dashboard/deleteTransaction" var="action" />
+        <form:form method="post" action="${action}" modelAttribute="deleteThisTrans" id="form-transaction-delete">
+            <div class="hehehehe">
+                <div class="one-ex-in" style="border-bottom: 0; margin-bottom: 10px;">
+                    <button style="padding: 15px 25px; font-size: 16px; cursor: pointer; border-radius: 5px; outline: none; border: none; background: red; color: white;" onclick="closeDeleteTransaction()" type="submit" name="id" form="form-transaction-delete">No</button>
+                    <button style="padding: 15px 25px; font-size: 16px; cursor: pointer; border-radius: 5px; outline: none; border: none; background: #2563e9; color: white;" id="yes-delete-transaction" type="submit" name="id" form="form-transaction-delete">Yes </button>
+                </div>
+            </div>
+        </form:form>
+    </div>
+</div>                    
