@@ -7,4 +7,6 @@ public interface WalletService {
     List<Wallet> getWallets();
     int countWallets();
     boolean addWallet(Wallet w);
+    
+    boolean checkWalletOwnerExists(int userId);
 }

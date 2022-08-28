@@ -14,12 +14,12 @@ public class ItemServiceImpl implements ItemService{
     private ItemRepository itemRepository;
 
     @Override
-    public List<Item> getItems(Map<String, String> params, int page) {
-        return this.itemRepository.getItems(params, page);
+    public List<Item> getItemsPagination(Map<String, String> params, int page) {
+        return this.itemRepository.getItemsPagination(params, page);
     }
 
     @Override
-    public List<Item> getItemsNo() {
-        return this.itemRepository.getItemsNo();
+    public List<Item> getItems() {
+        return this.itemRepository.getItems();
     }
 }

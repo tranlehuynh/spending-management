@@ -37,5 +37,11 @@ public interface UserRepository {
     
     boolean updateActiveUser(int active, int id);
     
+    boolean deleteWallet(int id);
+    
+    boolean deleteUserWallet(int id);
+    
+    boolean updateUserAvatar(String image, int id);
+    
     void sendEmail(String from, String to, String subject, String content);
 }

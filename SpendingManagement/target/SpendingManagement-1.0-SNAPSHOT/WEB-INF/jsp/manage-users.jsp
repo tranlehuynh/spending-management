@@ -1,5 +1,4 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -23,7 +22,7 @@
                             <td>${u.firstName}</td>
                             <td>${u.lastName}</td>
                             <td>${u.email}</td>
-                            <td><button onclick="handleActiveUser(2)" style="text-transform: uppercase; font-size: 14px; cursor: pointer; padding: 5px; color: white; background: red; outline: none; border: none; border-radius: 5px;" type="submit" form="form-active" value="${u.id}" name="id">Block</button></td>
+                            <td><button onclick="handleActiveUser(2)" style="text-transform: uppercase; font-size: 14px; cursor: pointer; padding: 5px; color: white; background: red; outline: none; border: none; border-radius: 5px;" type="submit" form="form-active" value="${u.id}" name="id">Lock</button></td>
                         </tr>
                     </c:if>
                     <c:if test="${u.active == 2 && u.id != 1}">
@@ -31,7 +30,7 @@
                             <td>${u.firstName}</td>
                             <td>${u.lastName}</td>
                             <td>${u.email}</td>
-                            <td><button onclick="handleActiveUser(1)" style="text-transform: uppercase; font-size: 14px; cursor: pointer; padding: 5px; color: white; background: #2563e9; outline: none; border: none; border-radius: 5px;" type="submit" form="form-active" value="${u.id}" name="id">Unblock</button></td>
+                            <td><button onclick="handleActiveUser(1)" style="text-transform: uppercase; font-size: 14px; cursor: pointer; padding: 5px; color: white; background: #2563e9; outline: none; border: none; border-radius: 5px;" type="submit" form="form-active" value="${u.id}" name="id">Unlock</button></td>
                         </tr>
                     </c:if>
                 </c:forEach>

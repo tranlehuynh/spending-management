@@ -44,4 +44,15 @@ public class WalletRepositoryImpl implements WalletRepository {
         return Integer.parseInt(q.getSingleResult().toString());
     }
 
+    @Override
+    public boolean checkWalletOwnerExists(int userId) {
+        Session session = sessionFactory.getObject().getCurrentSession();
+        Query query = session.createQuery("SELECT 1 FROM Wallet WHERE owner = " + userId);
+        
+        if (query.getResultList().isEmpty()) {
+            return false;
+        }
+        
+        return true;
+    }
 }

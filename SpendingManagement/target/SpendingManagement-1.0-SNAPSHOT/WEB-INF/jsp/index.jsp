@@ -32,7 +32,7 @@
             </c:if>
             <c:if test="${hahahe == 1}">
                 <div style="font-size: 25px; color: red;" class="view-report">
-                    <div>You don't have any wallets!</div>
+                    <div>You don't have any transactions!</div>
                 </div>
             </c:if>
             <c:if test="${hahahe != 1}">
@@ -47,12 +47,14 @@
                             <c:if test="${t.walletId.id == view}">
                                 <c:if test="${t.pending == 1}">
                                     <div class="list-item" style="position: relative;">
-                                        <span onclick="deleteTransaction(${t.id})" id="delete-transaction-icon" style="position: absolute; right: 20px; top: 0; color: black; font-size: 16px; cursor: pointer;">&times;</span> 
+                                        <c:if test="${walletExists != true}">
+                                            <span onclick="deleteTransaction(${t.id})" id="delete-transaction-icon" style="position: absolute; right: 20px; top: 0; color: black; font-size: 16px; cursor: pointer;">&times;</span> 
+                                        </c:if>
                                         <div>
                                             <div class="div-list-item-image"><img src="${t.itemId.image}" alt="image" class="list-item-image"></div>
                                             <div class="list-item-center">
                                                 <div class="list-item-center-h2">${t.itemId.name} ${haha}</div>
-                                                <div class="list-item-center-text">${t.date}</div>
+                                                <div class="list-item-center-text"><fmt:formatDate type = "date" dateStyle = "medium" value = "${t.date}" /></div>
                                                 <div class="list-item-center-text">${t.note}</div>
                                             </div>
                                         </div>

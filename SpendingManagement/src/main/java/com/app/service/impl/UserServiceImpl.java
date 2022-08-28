@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     public boolean addUser(User user) {
         String pass = user.getPassword();
         user.setPassword(this.passwordEncoder.encode(pass));
-        user.setRole("USER");
+//        user.setRole("USER");
         user.setAvatar("https://i.pinimg.com/564x/83/2a/77/832a77b710db7d8d54badb01fb264dc1.jpg");
         user.setActive(1);
 
@@ -125,5 +125,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateActiveUser(int active, int id) {
         return this.userRepository.updateActiveUser(active, id);
+    }
+
+    @Override
+    public boolean deleteWallet(int id) {
+        return this.userRepository.deleteWallet(id);
+    }
+
+    @Override
+    public boolean deleteUserWallet(int id) {
+        return this.userRepository.deleteUserWallet(id);
+    }
+
+    @Override
+    public boolean updateUserAvatar(String image, int id) {
+        return this.userRepository.updateUserAvatar(image, id);
     }
 }

@@ -20,8 +20,8 @@ public class TransactionServiceImpl implements TransactionService {
     private ItemService itemService;
 
     @Override
-    public List<Transaction> getTransactions(Map<String, String> params, int page, String ghep) {
-        return this.transactionRepository.getTransactions(params, page, ghep);
+    public List<Transaction> getTransactionsPagination(Map<String, String> params, int page, String ghep) {
+        return this.transactionRepository.getTransactionsPagination(params, page, ghep);
     }
 
     @Override
@@ -35,8 +35,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getAllTransactions() {
-        return this.transactionRepository.getAllTransactions();
+    public List<Transaction> getTransactions() {
+        return this.transactionRepository.getTransactions();
     }
 
     @Override
@@ -47,12 +47,17 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Modifying
-    public void deleteTransaction(int id) {
-        this.transactionRepository.deleteTransaction(id);
+    public void deleteTransactionById(int id) {
+        this.transactionRepository.deleteTransactionById(id);
     }
 
     @Override
     public List<Object[]> countTransactionsByItem() {
         return transactionRepository.countTransactionsByItem();
+    }
+
+    @Override
+    public void deleteTransactionByWalletId(int id) {
+        this.transactionRepository.deleteTransactionByWalletId(id);
     }
 }

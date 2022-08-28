@@ -31,7 +31,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     private Environment env;
 
     @Override
-    public List<Transaction> getTransactions(Map<String, String> params, int page, String ghep) {
+    public List<Transaction> getTransactionsPagination(Map<String, String> params, int page, String string) {
         Session s = sessionFactory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<Transaction> q = b.createQuery(Transaction.class);
@@ -47,7 +47,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
             }
             q.where(predicates.toArray(Predicate[]::new));
         }
-        String temp = "FROM Transaction t WHERE t.walletId.id =" + ghep;
+        String temp = "FROM Transaction t WHERE t.walletId.id =" + string;
         Query query = s.createQuery(temp);
         if (page > 0) {
             int size = Integer.parseInt(env.getProperty("page.size").toString());
@@ -62,7 +62,6 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     public int countTransactions() {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         Query q = session.createQuery("SELECT COUNT(*) FROM Transaction");
-
         return Integer.parseInt(q.getSingleResult().toString());
     }
 
@@ -79,7 +78,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
     }
 
     @Override
-    public List<Transaction> getAllTransactions() {
+    public List<Transaction> getTransactions() {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         Query q = session.createQuery("FROM Transaction");
         return q.getResultList();
@@ -95,7 +94,7 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     @Override
     @Modifying
-    public void deleteTransaction(int id) {
+    public void deleteTransactionById(int id) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         Query query = session.createQuery("DELETE FROM Transaction WHERE id =" + id);
         query.executeUpdate();
@@ -106,15 +105,22 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         CriteriaBuilder b = session.getCriteriaBuilder();
         CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
-        
+
         Root rt = q.from(Transaction.class);
         Root ri = q.from(Item.class);
-        
+
         q.where(b.equal(rt.get("itemId"), ri.get("id")));
         q.multiselect(ri.get("id"), ri.get("name"), b.count(rt.get("id")));
         q.groupBy(ri.get("id"));
-        
+
         Query query = session.createQuery(q);
         return query.getResultList();
+    }
+
+    @Override
+    public void deleteTransactionByWalletId(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Query query = session.createQuery("DELETE FROM Transaction WHERE walletId.id =" + id);
+        query.executeUpdate();
     }
 }

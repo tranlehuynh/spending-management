@@ -5,14 +5,20 @@ import java.util.List;
 import java.util.Map;
 
 public interface TransactionRepository {
-    List<Transaction> getTransactions(Map<String, String> params, int page, String ghep);
-    List<Transaction> getAllTransactions();
+    List<Transaction> getTransactionsPagination(Map<String, String> params, int page, String string);
+    
+    List<Transaction> getTransactions();
+    
+    List<Object[]> countTransactionsByItem();
+    
     int countTransactions();
+    
     boolean addTransaction(Transaction t);
     
     void updateTransaction(int id);
     
-    void deleteTransaction(int id);
+    void deleteTransactionById(int id);
     
-    List<Object[]> countTransactionsByItem();
+    void deleteTransactionByWalletId(int walletId);
+    
 }

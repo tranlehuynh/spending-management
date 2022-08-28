@@ -7,6 +7,11 @@
     font-family: 'Source Sans Pro', sans-serif;
 }
 
+#file::placeholder {
+  color:rgb(133,130,130);
+  opacity: 1;
+  }
+
 body {
     background-color: white;
 }

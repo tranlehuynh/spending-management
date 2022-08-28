@@ -11,17 +11,18 @@ import com.app.service.TransactionService;
 import com.app.service.UserService;
 import com.app.service.UserWalletService;
 import com.app.service.WalletService;
-import com.app.service.impl.UserServiceImpl;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -30,23 +31,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,13 +65,9 @@ public class IndexController {
     @Autowired
     private UserService userService;
     @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
     private UserService userDetailsService;
     @Autowired
-    private UserServiceImpl userServerImpl;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private Cloudinary cloudinary;
     @Autowired
     Environment env;
 
@@ -99,17 +91,18 @@ public class IndexController {
             return "redirect:/dashboard";
         }
 
+        model.addAttribute("loginForm", 1);
+
         String code = request.getParameter("code");
 
         if (code != null) {
             String accessToken = userService.getToken(code);
             Google googlePojo = userService.getUserInfo(accessToken);
+            UserDetails userDetail = userService.buildUser(googlePojo);
 
             int count = 0;
-
             for (int i = 0; i < this.userService.getAllUsers().size(); i++) {
                 if (googlePojo.getEmail().equals(this.userService.getAllUsers().get(i).getEmail())) {
-//                    User myUser = this.userService.getAllUsers().get(i);
                     count = 1;
                     break;
                 }
@@ -120,33 +113,35 @@ public class IndexController {
             user.setFirstName("Google");
             user.setLastName("User");
             user.setPassword("123");
+            user.setRole("GOOGLE_USER");
 
             if (count == 0) {
                 this.userService.addUser(user);
             }
 
-            List<User> users = userService.getUsersToLogin(user.getEmail());
-            User myUser = users.get(0);
-
-            if (myUser.getActive() == 2) {
-                throw new UsernameNotFoundException("Users does not exist");
-            }
-//            UserDetails userDetail = userServerImpl.loadUserByUsername(googlePojo.getEmail());
-
-            Set<GrantedAuthority> authorities = new HashSet<>();
-            authorities.add(new SimpleGrantedAuthority("USER"));
-            UserDetails userDetail = new org.springframework.security.core.userdetails.User(user.getEmail(),
-                    user.getPassword(), authorities);
-
+//            List<User> users = userService.getUsersToLogin(user.getEmail());
+//            User myUser = users.get(0);
+//            Set<GrantedAuthority> authorities = new HashSet<>();
+//            authorities.add(new SimpleGrantedAuthority("USER"));
+//            UserDetails userDetail = new org.springframework.security.core.userdetails.User(user.getEmail(),
+//                    user.getPassword(), authorities);
+//          
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail.getUsername(), userDetail.getPassword(),
                     userDetail.getAuthorities());
-
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+//
 //            request.getSession();
 //            authentication.setDetails(new WebAuthenticationDetails(request));
-            Authentication auth = authenticationManager.authenticate(authentication);
-            SecurityContextHolder.getContext().setAuthentication(auth);
+//            Authentication auth = authenticationManager.authenticate(authentication);
+//            SecurityContextHolder.getContext().setAuthentication(auth);
 
-            User u = this.userDetailsService.getUsersToLogin(auth.getName()).get(0);
+//              
+            User u = this.userDetailsService.getUsersToLogin(authentication.getName()).get(0);
+
+            if (u.getActive() == 2) {
+                throw new UsernameNotFoundException("Users does not exist");
+            }
             request.getSession().setAttribute("currentUser", u);
 
             return "redirect:/";
@@ -173,18 +168,17 @@ public class IndexController {
         if (rs.hasErrors()) {
             return "index";
         }
-
-        transactionService.deleteTransaction(t.getId());
+        transactionService.deleteTransactionById(t.getId());
         return "redirect:/dashboard";
     }
 
     @GetMapping("/dashboard/wallet-user")
     public String walletUser(Model model, @RequestParam(required = false, name = "kw") String kw, HttpSession session,
-                            @RequestParam(required = false, name = "kw") String string) {
+            @RequestParam(required = false, name = "kw") String string) {
         if (!isAuthenticated()) {
             return "redirect:/";
         }
-        
+
         if (string != null) {
             if (string.equals("troioi")) {
                 model.addAttribute("errorAdded", "You can add this");
@@ -207,9 +201,9 @@ public class IndexController {
 
         List<Transaction> myTransaction = new ArrayList<Transaction>();
 
-        for (int i = 0; i < this.transactionService.getAllTransactions().size(); i++) {
-            if (Objects.equals(this.transactionService.getAllTransactions().get(i).getWalletId().getOwner(), user.getId()) && this.transactionService.getAllTransactions().get(i).getPending() == 2) {
-                myTransaction.add(this.transactionService.getAllTransactions().get(i));
+        for (int i = 0; i < this.transactionService.getTransactions().size(); i++) {
+            if (Objects.equals(this.transactionService.getTransactions().get(i).getWalletId().getOwner(), user.getId()) && this.transactionService.getTransactions().get(i).getPending() == 2) {
+                myTransaction.add(this.transactionService.getTransactions().get(i));
             }
         }
 
@@ -292,7 +286,7 @@ public class IndexController {
 
         if (t.getWalletUserDelete() != 0) {
             int id = t.getWalletUserDelete();
-            transactionService.deleteTransaction(id);
+            transactionService.deleteTransactionById(id);
             return "redirect:/dashboard/wallet-user";
         }
 
@@ -305,22 +299,23 @@ public class IndexController {
         if (!isAuthenticated()) {
             return "redirect:/";
         }
-
-        List<String> categories = new ArrayList<>();
-        model.addAttribute("categories", this.categoryService.getCategories());
-
+        
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
-        List<String> items = new ArrayList<>();
-        model.addAttribute("items", this.itemService.getItems(params, page));
-
-        List<String> transactions = new ArrayList<>();
-
-        //Get current user
-        User user = (User) session.getAttribute("currentUser");
-
         int countTransactionsOfUser = 0;
         double inflow = 0;
         double outflow = 0;
+        boolean walletExists = true;
+        //Get current user
+        User user = (User) session.getAttribute("currentUser");
+
+        List<String> categories = new ArrayList<>();
+        model.addAttribute("categories", this.categoryService.getCategories());
+      
+        List<String> items = new ArrayList<>();
+        model.addAttribute("items", this.itemService.getItemsPagination(params, page));
+
+        List<String> transactions = new ArrayList<>();
+
 
         //Send email
 //        userService.sendEmail("1951052079huynh@gmail.com", "tranlehuynhh@gmail.com", "TEST", "Test send email");
@@ -334,23 +329,24 @@ public class IndexController {
             }
         }
 
-        //Show "there no wallet" when dont have wallet
-//        int countUserWallet = 0;
-//        for (int i = 0; i < walletService.getWallets().size(); i++) {
-//            if (Objects.equals(user.getId(), walletService.getWallets().get(i).getOwner())) {
-//                countUserWallet++;
-//            }
+        //Don't show transactions when dont have any wallets
+//        if (walletService.checkWalletOwnerExists(user.getId()) == true) {
+//            walletExists = false;
 //        }
-//        model.addAttribute("showWallet", countUserWallet);
+        for (int i = 0; i < walletService.getWallets().size(); i++) {
+            if (Objects.equals(user.getId(), walletService.getWallets().get(i).getOwner())) {
+                walletExists = false;
+            }
+        }
 
         //Get inflow and outflow
         if (view != null) {
-            for (int i = 0; i < this.transactionService.getAllTransactions().size(); i++) {
-                if (this.transactionService.getAllTransactions().get(i).getWalletId().getId() == Integer.parseInt(view)) {
-                    if (this.transactionService.getAllTransactions().get(i).getItemId().getId() <= 10 && transactionService.getAllTransactions().get(i).getPending() == 1) {
-                        outflow += this.transactionService.getAllTransactions().get(i).getAmount();
-                    } else if (this.transactionService.getAllTransactions().get(i).getItemId().getId() >= 10 && transactionService.getAllTransactions().get(i).getPending() == 1) {
-                        inflow += this.transactionService.getAllTransactions().get(i).getAmount();
+            for (int i = 0; i < this.transactionService.getTransactions().size(); i++) {
+                if (this.transactionService.getTransactions().get(i).getWalletId().getId() == Integer.parseInt(view)) {
+                    if (this.transactionService.getTransactions().get(i).getItemId().getId() <= 10 && transactionService.getTransactions().get(i).getPending() == 1) {
+                        outflow += this.transactionService.getTransactions().get(i).getAmount();
+                    } else if (this.transactionService.getTransactions().get(i).getItemId().getId() >= 10 && transactionService.getTransactions().get(i).getPending() == 1) {
+                        inflow += this.transactionService.getTransactions().get(i).getAmount();
                     }
                     countTransactionsOfUser++;
                 }
@@ -374,8 +370,7 @@ public class IndexController {
 //        } else if (totalMoney <= total) {
 //            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your total money is higher than the wallet money!");
 //        } 
-
-        if (this.transactionService.getTransactions(params, page, view).isEmpty()) {
+        if (this.transactionService.getTransactionsPagination(params, page, view).isEmpty()) {
             model.addAttribute("hahahe", 1);
         }
         model.addAttribute("view", view);
@@ -384,17 +379,59 @@ public class IndexController {
         model.addAttribute("outflow", outflow);
         model.addAttribute("total", total);
         model.addAttribute("firstWallet", firstWallet);
-        model.addAttribute("transactions", this.transactionService.getTransactions(params, page, view));
+        model.addAttribute("transactions", this.transactionService.getTransactionsPagination(params, page, view));
         model.addAttribute("countTransactions", this.transactionService.countTransaction());
         model.addAttribute("countTransactionsOfUser", countTransactionsOfUser);
-        model.addAttribute("allOfTransactions", this.transactionService.getAllTransactions());
+        model.addAttribute("allOfTransactions", this.transactionService.getTransactions());
         model.addAttribute("pageSize", Integer.parseInt(env.getProperty("page.size")));
         model.addAttribute("currentUser", session.getAttribute("currentUser"));
+        model.addAttribute("walletExists", walletExists);
+        
+        return "index";
+    }
+
+    @PostMapping("/account-details/updateAvatar")
+    public String updateAvatar(@ModelAttribute(value = "updateAvatar") @Valid User u, BindingResult rs, HttpSession session) {
+        if (rs.hasErrors()) {
+            return "index";
+        }
+
+        User user = (User) session.getAttribute("currentUser");
+
+        try {
+            Map r = this.cloudinary.uploader().upload(u.getFile().getBytes(), ObjectUtils.asMap("resource_type", "auto"));
+            String img = (String) r.get("secure_url");
+            userService.updateUserAvatar(img, user.getId());
+            return "redirect:/account-details";
+        } catch (IOException ex) {
+            Logger.getLogger(IndexController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "account-details";
+    }
+
+    @PostMapping("/dashboard/deleteWallet")
+    public String deleteWallet(@ModelAttribute(value = "deleteWallet") @Valid Wallet w, BindingResult rs) {
+        if (rs.hasErrors()) {
+            return "index";
+        }
+
+        this.transactionService.deleteTransactionByWalletId(w.getId());
+
+        if (this.userService.deleteUserWallet(w.getId())) {
+            if (this.userService.deleteWallet(w.getId())) {
+                return "redirect:/dashboard";
+            }
+        }
+
         return "index";
     }
 
     @GetMapping("/account-details")
     public String accountDetails(Model model, HttpSession session) {
+        if (!isAuthenticated()) {
+            return "redirect:/";
+        }
+
         model.addAttribute("showNha", 2);
         model.addAttribute("currentUser", session.getAttribute("currentUser"));
         User user = (User) session.getAttribute("currentUser");
@@ -489,9 +526,9 @@ public class IndexController {
     public String addTransaction(@ModelAttribute(value = "transaction") @Valid Transaction p,
             BindingResult rs, Model model, HttpSession session) {
 
-        for (int i = 0; i < this.itemService.getItemsNo().size(); i++) {
-            if (p.getTemp().equals(this.itemService.getItemsNo().get(i).getName())) {
-                p.setItemId(this.itemService.getItemsNo().get(i));
+        for (int i = 0; i < this.itemService.getItems().size(); i++) {
+            if (p.getTemp().equals(this.itemService.getItems().get(i).getName())) {
+                p.setItemId(this.itemService.getItems().get(i));
             }
 
         }

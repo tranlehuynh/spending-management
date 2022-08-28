@@ -217,10 +217,28 @@
         <form:form method="post" action="${action}" modelAttribute="deleteThisTrans" id="form-transaction-delete">
             <div class="hehehehe">
                 <div class="one-ex-in" style="border-bottom: 0; margin-bottom: 10px;">
-                    <button style="padding: 15px 25px; font-size: 16px; cursor: pointer; border-radius: 5px; outline: none; border: none; background: red; color: white;" onclick="closeDeleteTransaction()" type="submit" name="id" form="form-transaction-delete">No</button>
+                    <div style="padding: 15px 25px; font-size: 16px; cursor: pointer; border-radius: 5px; outline: none; border: none; background: red; color: white;" onclick="closeDeleteTransaction()">No</div>
                     <button style="padding: 15px 25px; font-size: 16px; cursor: pointer; border-radius: 5px; outline: none; border: none; background: #2563e9; color: white;" id="yes-delete-transaction" type="submit" name="id" form="form-transaction-delete">Yes </button>
                 </div>
             </div>
         </form:form>
     </div>
 </div>                    
+
+
+<div id="myModal6" class="modal1">
+    <!-- Modal content -->
+    <div class="modal-content-1" >
+        <span onclick="closeDeleteWallet()" class="close5">&times;</span>
+        <h2 style="margin-bottom: 40px">Are you want to delete this wallet?</h2>
+        <c:url value="/dashboard/deleteWallet" var="action" />
+        <form:form method="post" action="${action}" modelAttribute="deleteWallet" id="form-delete-wallet">
+            <div class="hehehehe">
+                <div class="one-ex-in" style="border-bottom: 0; margin-bottom: 10px;">
+                    <span style="padding: 15px 25px; font-size: 16px; cursor: pointer; border-radius: 5px; outline: none; border: none; background: red; color: white;" onclick="closeDeleteWallet()">No</span>
+                    <button style="padding: 15px 25px; font-size: 16px; cursor: pointer; border-radius: 5px; outline: none; border: none; background: #2563e9; color: white;" id="yes-delete-wallet" type="submit" name="id">Yes</button>
+                </div>
+            </div>
+        </form:form>
+    </div>
+</div>      

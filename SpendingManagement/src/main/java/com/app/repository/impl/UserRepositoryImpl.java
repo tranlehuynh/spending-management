@@ -165,10 +165,19 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public UserDetails buildUser(Google googlePojo) {
-        Set<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority("USER"));
+        boolean enabled = true;
+        boolean accountNonExpired = true;
+        boolean credentialsNonExpired = true;
+        boolean accountNonLocked = true;
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+//        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+//        UserDetails userDetail = new User(googlePojo.getEmail(),
+//                "", enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+//        return userDetail;
+//        Set<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("GOOGLE_USER"));
         UserDetails userDetail = new org.springframework.security.core.userdetails.User(googlePojo.getEmail(),
-                "", authorities);
+                "", enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         return userDetail;
     }
 
@@ -213,6 +222,30 @@ public class UserRepositoryImpl implements UserRepository {
     public boolean updateActiveUser(int active, int id) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
         Query query = session.createQuery("UPDATE User SET active = " + active + " WHERE id = " + id);
+        query.executeUpdate();
+        return true;
+    }
+
+    @Override
+    public boolean deleteUserWallet(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Query query = session.createQuery("DELETE FROM UserWallet WHERE walletId.id = " + id);
+        query.executeUpdate();
+        return true;
+    }
+
+    @Override
+    public boolean deleteWallet(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Query query = session.createQuery("DELETE FROM Wallet WHERE id = " + id);
+        query.executeUpdate();
+        return true;
+    }
+
+    @Override
+    public boolean updateUserAvatar(String image, int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Query query = session.createQuery("UPDATE FROM User SET avatar = '" + image + "' WHERE id = " + id);
         query.executeUpdate();
         return true;
     }

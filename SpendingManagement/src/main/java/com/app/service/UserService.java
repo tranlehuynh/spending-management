@@ -35,8 +35,14 @@ public interface UserService extends UserDetailsService {
     boolean updateUser(String firstName, String lastName, String email, String phone, int id);
 
     boolean updatePassword(String password, int id);
-    
+
     boolean updateActiveUser(int active, int id);
+
+    boolean deleteWallet(int id);
+    
+    boolean updateUserAvatar(String image, int id);
+
+    boolean deleteUserWallet(int id);
 
     void sendEmail(String from, String to, String subject, String content);
 

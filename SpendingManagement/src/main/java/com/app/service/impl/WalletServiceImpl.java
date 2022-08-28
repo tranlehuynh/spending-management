@@ -29,5 +29,10 @@ public class WalletServiceImpl implements WalletService{
     public int countWallets() {
         return this.walletRepository.countWallets();
     }
+
+    @Override
+    public boolean checkWalletOwnerExists(int userId) {
+        return this.walletRepository.checkWalletOwnerExists(userId);
+    }
    
 }

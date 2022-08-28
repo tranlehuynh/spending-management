@@ -78,7 +78,12 @@
                     </div>
                     <div class="info-change-button">
                         <!--<button id="button-super-1" style="color: white;">Cancel</button>-->
-                        <button id="button-super-2" form="form-user-password-1" type="submit" style="color: white;">Save</button>
+                        <c:if test="${currentUser.role != 'GOOGLE_USER'}">
+                            <button id="button-super-2" form="form-user-password-1" type="submit" style="color: white;">Save</button>
+                        </c:if>      
+                        <c:if test="${currentUser.role == 'GOOGLE_USER'}">
+                            <button id="button-super-2" form="form-user-password-1" type="submit" style="color: white; pointer-events: none;" disable>Can't save</button>
+                        </c:if>   
                     </div>
                 </form:form>
             </div>
@@ -87,10 +92,14 @@
 
         <div class="account-detail-right">
             <h3>Profile photo</h3>
-            <div>
-                <img src="${currentUser.avatar}" id="user-info-avatar" alt="avatar">
-            </div>
-            <button style="color: white;">Choose you photo</button>
+            <c:url value="/account-details/updateAvatar" var="action" />
+            <form:form method="post" action="${action}" modelAttribute="updateAvatar" enctype="multipart/form-data">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <img src="${currentUser.avatar}" id="user-info-avatar" alt="avatar">
+                    <input path="file" type="file" name="file" id="file"/>
+                </div>
+                <button type="submit" style="color: white;">Choose you photo</button>
+            </form:form>
             <div class="change-password">
                 <c:url value="/account-details/userpassword" var="action" />
                 <form:form method="post" action="${action}" id="form-user-password-2" modelAttribute="userPassword">
@@ -107,7 +116,13 @@
                         <label for="cpass"  class="change-password-form-label">Retype password</label>
                     </div>
                     <div class="info-change-button">
-                        <button id="button-super-2" type="submit" form="form-user-password-2" style="color: white;">Save</button>
+                        <c:if test="${currentUser.role == 'GOOGLE_USER'}">
+                            <button id="button-super-2" type="submit" form="form-user-password-2" style="color: white; pointer-events: none;" disabled>Can't save</button>
+                        </c:if>
+                        <c:if test="${currentUser.role != 'GOOGLE_USER'}">
+                            <button id="button-super-2" type="submit" form="form-user-password-2" style="color: white;">Save</button>
+
+                        </c:if>
                     </div>
                 </form:form>
             </div>

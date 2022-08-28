@@ -16,13 +16,6 @@ window.onload = () => {
     const params = new URLSearchParams(window.location.search);
     if (params.has('kw')) {
         myModal4.style.display = 'block';
-    }
-    if (window.location.pathname === "/SpendingManagement/") {
-        navbar.classList.add('mother-nav');
-        header.style.display = "none";
-    } else if (window.location.pathname === "/SpendingManagement/register") {
-        navbar.classList.add('mother-nav');
-        header.style.display = "none";
     } else if (window.location.pathname === "/SpendingManagement/admin/user-manage") {
         header.style.display = "none";
         mainContent.style.top = '10px';
@@ -203,6 +196,11 @@ function closeDeleteTransaction() {
     modal.style.display = 'none';
 }
 
+function closeDeleteWallet() {
+    const modal = document.getElementById('myModal6');
+    modal.style.display = 'none';
+}
+
 function showNavbarMobile() {
     navbar.style.display = 'block';
 }
@@ -210,6 +208,13 @@ function showNavbarMobile() {
 function showModal1() {
     const modal = document.getElementById('myModal');
     modal.style.display = 'block';
+}
+
+function showModal6(id) {
+    const modal = document.getElementById('myModal6');
+    const button = document.getElementById('yes-delete-wallet');
+    modal.style.display = 'block';
+    button.value = id;
 }
 
 

@@ -33,6 +33,8 @@ public class UserController {
     public String register(Model model) {
         if (isAuthenticated())
             return "redirect:/dashboard";
+        
+        model.addAttribute("loginForm", 2);
         model.addAttribute("user", new User());
         return "register";
     }
@@ -41,6 +43,8 @@ public class UserController {
     public String registerUser(@ModelAttribute(value = "user") @Valid User user,
             BindingResult rs, Model model) {
         String errorMessagePassword = "";
+        
+        user.setRole("USER");
 
         if (user.getPassword().equals(user.getRetypePassword())) {
             if (this.userService.addUser(user) == true) {

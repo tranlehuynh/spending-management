@@ -29,7 +29,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     private Environment env;
 
     @Override
-    public List<Item> getItems(Map<String, String> params, int page) {
+    public List<Item> getItemsPagination(Map<String, String> params, int page) {
         Session s = sessionFactory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<Item> q = b.createQuery(Item.class);
@@ -58,7 +58,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public List<Item> getItemsNo() {
+    public List<Item> getItems() {
         Session s = sessionFactory.getObject().getCurrentSession();
         javax.persistence.Query q = s.createQuery("FROM Item");
         return q.getResultList();
