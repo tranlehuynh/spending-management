@@ -44,7 +44,6 @@ public class UserRepositoryImpl implements UserRepository {
     private Environment env;
     @Autowired
     private JavaMailSender mailSender;
-
     @Autowired
     private UserRepository userRepository;
 

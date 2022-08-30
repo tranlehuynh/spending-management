@@ -123,4 +123,19 @@ public class TransactionRepositoryImpl implements TransactionRepository {
         Query query = session.createQuery("DELETE FROM Transaction WHERE walletId.id =" + id);
         query.executeUpdate();
     }
+
+    @Override
+    public Transaction getLastTransaction() {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Query query = session.createQuery("FROM Transaction ORDER BY id DESC");
+        query.setMaxResults(1);
+        return (Transaction) query.uniqueResult();
+    }
+
+    @Override
+    public void updateTransactionPending2(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Query query = session.createQuery("UPDATE Transaction SET pending = 2 WHERE id = " + id);
+        query.executeUpdate();
+    }
 }

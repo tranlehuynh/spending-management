@@ -1,6 +1,5 @@
 package com.app.service.impl;
 
-import com.app.pojo.Item;
 import com.app.pojo.Transaction;
 import com.app.repository.TransactionRepository;
 import com.app.service.ItemService;
@@ -59,5 +58,16 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public void deleteTransactionByWalletId(int id) {
         this.transactionRepository.deleteTransactionByWalletId(id);
+    }
+
+
+    @Override
+    public void updateTransactionPending2(int id) {
+        this.transactionRepository.updateTransactionPending2(id);
+    }
+
+    @Override
+    public Transaction getLastTransaction() {
+        return this.transactionRepository.getLastTransaction();
     }
 }

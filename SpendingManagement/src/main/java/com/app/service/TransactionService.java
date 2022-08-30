@@ -9,6 +9,8 @@ public interface TransactionService {
     List<Transaction> getTransactions();
 
     List<Transaction> getTransactionsPagination(Map<String, String> params, int page, String string);
+    
+    Transaction getLastTransaction();
 
     List<Object[]> countTransactionsByItem();
 
@@ -17,6 +19,8 @@ public interface TransactionService {
     boolean addTransaction(Transaction transaction);
 
     void updateTransaction(int id);
+    
+    void updateTransactionPending2(int id);
 
     void deleteTransactionById(int id);
 

@@ -299,26 +299,26 @@ public class IndexController {
         if (!isAuthenticated()) {
             return "redirect:/";
         }
-        
+
         int page = Integer.parseInt(params.getOrDefault("page", "1"));
         int countTransactionsOfUser = 0;
         double inflow = 0;
         double outflow = 0;
+        double firstWallet = 0;
+        double totalMoney = 0;
+        double total = inflow - outflow;
         boolean walletExists = true;
+//        List<String> categories = new ArrayList<>();
+//        List<String> items = new ArrayList<>();
+//        List<String> transactions = new ArrayList<>();
         //Get current user
         User user = (User) session.getAttribute("currentUser");
 
-        List<String> categories = new ArrayList<>();
-        model.addAttribute("categories", this.categoryService.getCategories());
-      
-        List<String> items = new ArrayList<>();
-        model.addAttribute("items", this.itemService.getItemsPagination(params, page));
+        //Don't show transactions when dont have any wallets
+        if (walletService.checkWalletOwnerExists(user.getId()) == true) {
+            walletExists = false;
+        }
 
-        List<String> transactions = new ArrayList<>();
-
-
-        //Send email
-//        userService.sendEmail("1951052079huynh@gmail.com", "tranlehuynhh@gmail.com", "TEST", "Test send email");
         //Show first wallet when login
         if (view == null) {
             for (int i = 0; i < userWalletService.getUserWallets().size(); i++) {
@@ -329,16 +329,11 @@ public class IndexController {
             }
         }
 
-        //Don't show transactions when dont have any wallets
-//        if (walletService.checkWalletOwnerExists(user.getId()) == true) {
-//            walletExists = false;
+//        for (int i = 0; i < walletService.getWallets().size(); i++) {
+//            if (Objects.equals(user.getId(), walletService.getWallets().get(i).getOwner())) {
+//                walletExists = false;
+//            }
 //        }
-        for (int i = 0; i < walletService.getWallets().size(); i++) {
-            if (Objects.equals(user.getId(), walletService.getWallets().get(i).getOwner())) {
-                walletExists = false;
-            }
-        }
-
         //Get inflow and outflow
         if (view != null) {
             for (int i = 0; i < this.transactionService.getTransactions().size(); i++) {
@@ -353,17 +348,12 @@ public class IndexController {
             }
         }
 
-        double firstWallet = 0;
-        double totalMoney = 0;
-
         for (int i = 0; i < walletService.getWallets().size(); i++) {
             if (Objects.equals(user.getId(), walletService.getWallets().get(i).getOwner())) {
                 totalMoney = walletService.getWallets().get(i).getTotalMoney();
                 break;
             }
         }
-
-        double total = inflow - outflow;
 
 //        if (total <= 0) {
 //            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your inflow is lower than you outflow!");
@@ -373,6 +363,9 @@ public class IndexController {
         if (this.transactionService.getTransactionsPagination(params, page, view).isEmpty()) {
             model.addAttribute("hahahe", 1);
         }
+
+        model.addAttribute("categories", this.categoryService.getCategories());
+        model.addAttribute("items", this.itemService.getItemsPagination(params, page));
         model.addAttribute("view", view);
         model.addAttribute("userWallets", this.userWalletService.getUserWallets());
         model.addAttribute("inflow", inflow);
@@ -386,7 +379,7 @@ public class IndexController {
         model.addAttribute("pageSize", Integer.parseInt(env.getProperty("page.size")));
         model.addAttribute("currentUser", session.getAttribute("currentUser"));
         model.addAttribute("walletExists", walletExists);
-        
+
         return "index";
     }
 
@@ -515,6 +508,7 @@ public class IndexController {
                 newUserWallet.setUserId(user1);
 
                 this.userWalletService.addUserWallet(newUserWallet);
+
                 return "redirect:/dashboard";
             }
         }
@@ -526,11 +520,23 @@ public class IndexController {
     public String addTransaction(@ModelAttribute(value = "transaction") @Valid Transaction p,
             BindingResult rs, Model model, HttpSession session) {
 
+        User user = (User) session.getAttribute("currentUser");
+        //Get current date
+        LocalDate today = java.time.LocalDate.now();
+        Date date = Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Transaction transaction = transactionService.getLastTransaction();
+
+        p.setCreatedUser(user.getId());
+        p.setPending(1);
+
+        if (p.getDate().after(date)) {
+            p.setDate(date);
+        }
+
         for (int i = 0; i < this.itemService.getItems().size(); i++) {
             if (p.getTemp().equals(this.itemService.getItems().get(i).getName())) {
                 p.setItemId(this.itemService.getItems().get(i));
             }
-
         }
 
         for (int i = 0; i < this.walletService.getWallets().size(); i++) {
@@ -539,36 +545,18 @@ public class IndexController {
             }
         }
 
-        User newUser = (User) session.getAttribute("currentUser");
-        int id = 0;
-        p.setCreatedUser(newUser.getId());
-        for (int i = 0; i < this.walletService.getWallets().size(); i++) {
-            if (Objects.equals(newUser.getId(), this.walletService.getWallets().get(i).getOwner())) {
-                id = this.walletService.getWallets().get(i).getId();
-                break;
-            }
-        }
-        if (Objects.equals(id, p.getWalletId().getId())) {
-            p.setPending(1);
-        } else {
-            p.setPending(2);
-        }
-
-        LocalDate today = java.time.LocalDate.now();
-        Date date = Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-        if (p.getDate().after(date)) {
-            p.setDate(date);
-        }
-
         if (rs.hasErrors()) {
             return "index";
         }
 
         if (this.transactionService.addTransaction(p) == true) {
+            if (!Objects.equals(transaction.getWalletId().getOwner(), user.getId())) {
+                transactionService.updateTransactionPending2(transaction.getId());
+            }
+
             return "redirect:/dashboard";
         }
+
         return "index";
     }
-
 }

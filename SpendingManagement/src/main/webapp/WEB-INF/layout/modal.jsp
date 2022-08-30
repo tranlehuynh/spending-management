@@ -154,7 +154,7 @@
                                 <input required type="text" path="name" name="name" placeholder="Wallet name" style="outline: none; border-radius: 10px; padding: 10px 13px; width: 100%; font-size: 16px; margin-bottom: 15px; border: 1px solid #e4e4e4;"/>
                             </div>
                             <div style="width: 100%">
-                                <input required type="text" path="totalMoney" name="totalMoney" placeholder="Wallet money" style="outline: none; border-radius: 10px; padding: 10px 13px; width: 100%; font-size: 16px; margin-bottom: 15px; border: 1px solid #e4e4e4;"/>
+                                <input required type="number" path="totalMoney" name="totalMoney" placeholder="Wallet money" style="outline: none; border-radius: 10px; padding: 10px 13px; width: 100%; font-size: 16px; margin-bottom: 15px; border: 1px solid #e4e4e4;"/>
                             </div>
                             <input required type="text" path="userWalletTemp" name="userWalletTemp" value="${currentUser.id}" style="display: none;"/>
                         </div>
