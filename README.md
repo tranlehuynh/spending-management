@@ -1,1 +1,1 @@
-# This is my fucking app
+# This is my app
