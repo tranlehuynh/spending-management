@@ -32,10 +32,12 @@
                 <p>Manage Users</p>
             </div>
         </sec:authorize>
-        <div onclick="window.location.href = '${contextPath}/report';">
-            <i class="fa-solid fa-chart-pie nav-icon"></i>
-            <p>Report</p>
-        </div>
+        <sec:authorize access="hasAnyAuthority('ADMIN')">
+            <div onclick="window.location.href = '${contextPath}/report';">
+                <i class="fa-solid fa-chart-pie nav-icon"></i>
+                <p>Report</p>
+            </div>
+        </sec:authorize>
         <c:if test="${pageContext.request.userPrincipal.name != null}">
             <div class="logout-nav" onclick="location.href = '<c:url value="/logout"/>'">
                 <i class="fa-solid fa-arrow-right-from-bracket nav-icon"></i>

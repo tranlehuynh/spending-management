@@ -141,4 +141,9 @@ public class UserServiceImpl implements UserService {
     public boolean updateUserAvatar(String image, int id) {
         return this.userRepository.updateUserAvatar(image, id);
     }
+
+    @Override
+    public String generateRandomSpecialCharacters(int length) {
+        return this.userRepository.generateRandomSpecialCharacters(length);
+    }
 }

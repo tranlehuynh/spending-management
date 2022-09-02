@@ -5,7 +5,7 @@
 
 <div class="main-content">
     <div class="main-content-child">
-        <h1>This is h1</h1>
+        <h2>Report</h2>
         <div>
             <canvas id="myChart"></canvas>
         </div>
@@ -62,18 +62,11 @@
     });
 </script>
 
-<!--<script>
-    window.onload = () => {
-        let data = [];
-        let labels = [];
-
 <c:forEach items="${countTransactionsByItem}" var="c">
     data.push(${c[2]});
     labels.push('${c[1]}');
 </c:forEach>
-};
 
-</script>-->
 
 
 

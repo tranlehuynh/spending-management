@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.apache.commons.text.RandomStringGenerator;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
@@ -129,14 +130,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<User> getUserByEmail(String email) {
         Session session = this.sessionFactory.getObject().getCurrentSession();
-        int id = 0;
-        for (int i = 0; i < this.userRepository.countUsers(); i++) {
-            if (email.equals(this.userRepository.getAllUsers().get(i).getEmail())) {
-                id = this.userRepository.getAllUsers().get(i).getId();
-            }
-        }
-        String temp = "FROM User u WHERE u.id = " + id;
-        Query q = session.createQuery(temp);
+        Query q = session.createQuery("FROM User WHERE email = '" + email + "'");
         return q.getResultList();
     }
 
@@ -169,11 +163,6 @@ public class UserRepositoryImpl implements UserRepository {
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-//        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-//        UserDetails userDetail = new User(googlePojo.getEmail(),
-//                "", enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-//        return userDetail;
-//        Set<GrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority("GOOGLE_USER"));
         UserDetails userDetail = new org.springframework.security.core.userdetails.User(googlePojo.getEmail(),
                 "", enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
@@ -247,5 +236,12 @@ public class UserRepositoryImpl implements UserRepository {
         Query query = session.createQuery("UPDATE FROM User SET avatar = '" + image + "' WHERE id = " + id);
         query.executeUpdate();
         return true;
+    }
+
+    @Override
+    public String generateRandomSpecialCharacters(int length) {
+        RandomStringGenerator pwdGenerator = new RandomStringGenerator.Builder().withinRange(33, 45)
+                .build();
+        return pwdGenerator.generate(length);
     }
 }

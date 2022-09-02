@@ -97,51 +97,44 @@ public class IndexController {
 
         if (code != null) {
             String accessToken = userService.getToken(code);
-            Google googlePojo = userService.getUserInfo(accessToken);
-            UserDetails userDetail = userService.buildUser(googlePojo);
+            Google googleUser = userService.getUserInfo(accessToken);
+            UserDetails userDetail = userService.buildUser(googleUser);
 
-            int count = 0;
-            for (int i = 0; i < this.userService.getAllUsers().size(); i++) {
-                if (googlePojo.getEmail().equals(this.userService.getAllUsers().get(i).getEmail())) {
-                    count = 1;
-                    break;
-                }
+            boolean userExists = false;
+            
+            if (!userService.getUserByEmail(googleUser.getEmail()).isEmpty()) {
+                userExists = true;
             }
+            
+//            for (int i = 0; i < this.userService.getAllUsers().size(); i++) {
+//                if (googleUser.getEmail().equals(this.userService.getAllUsers().get(i).getEmail())) {
+//                    userExists = true;
+//                    break;
+//                }
+//            }
 
             User user = new User();
-            user.setEmail(googlePojo.getEmail());
-            user.setFirstName("Google");
-            user.setLastName("User");
-            user.setPassword("123");
-            user.setRole("GOOGLE_USER");
+            user.setPassword(userService.generateRandomSpecialCharacters(20));
 
-            if (count == 0) {
+            if (userExists == false) {
+                user.setEmail(googleUser.getEmail());
+                user.setFirstName("Google");
+                user.setLastName("User");
+                user.setRole("GOOGLE_USER");
                 this.userService.addUser(user);
             }
 
-//            List<User> users = userService.getUsersToLogin(user.getEmail());
-//            User myUser = users.get(0);
-//            Set<GrantedAuthority> authorities = new HashSet<>();
-//            authorities.add(new SimpleGrantedAuthority("USER"));
-//            UserDetails userDetail = new org.springframework.security.core.userdetails.User(user.getEmail(),
-//                    user.getPassword(), authorities);
-//          
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail.getUsername(), userDetail.getPassword(),
                     userDetail.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//            request.getSession();
-//            authentication.setDetails(new WebAuthenticationDetails(request));
-//            Authentication auth = authenticationManager.authenticate(authentication);
-//            SecurityContextHolder.getContext().setAuthentication(auth);
 
-//              
             User u = this.userDetailsService.getUsersToLogin(authentication.getName()).get(0);
 
             if (u.getActive() == 2) {
                 throw new UsernameNotFoundException("Users does not exist");
             }
+
             request.getSession().setAttribute("currentUser", u);
 
             return "redirect:/";
