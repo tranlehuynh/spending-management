@@ -101,18 +101,17 @@ public class IndexController {
             UserDetails userDetail = userService.buildUser(googleUser);
 
             boolean userExists = false;
-            
+
             if (!userService.getUserByEmail(googleUser.getEmail()).isEmpty()) {
                 userExists = true;
             }
-            
+
 //            for (int i = 0; i < this.userService.getAllUsers().size(); i++) {
 //                if (googleUser.getEmail().equals(this.userService.getAllUsers().get(i).getEmail())) {
 //                    userExists = true;
 //                    break;
 //                }
 //            }
-
             User user = new User();
             user.setPassword(userService.generateRandomSpecialCharacters(20));
 
@@ -174,7 +173,7 @@ public class IndexController {
 
         if (string != null) {
             if (string.equals("troioi")) {
-                model.addAttribute("errorAdded", "You can add this");
+                model.addAttribute("errorAdded", "This user is already add to this wallet!");
             }
         }
 
@@ -322,11 +321,6 @@ public class IndexController {
             }
         }
 
-//        for (int i = 0; i < walletService.getWallets().size(); i++) {
-//            if (Objects.equals(user.getId(), walletService.getWallets().get(i).getOwner())) {
-//                walletExists = false;
-//            }
-//        }
         //Get inflow and outflow
         if (view != null) {
             for (int i = 0; i < this.transactionService.getTransactions().size(); i++) {
@@ -349,8 +343,11 @@ public class IndexController {
         }
 
 //        if (total <= 0) {
-//            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your inflow is lower than you outflow!");
+////            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your inflow is lower than you outflow!");
 //        } else if (totalMoney <= total) {
+//            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your total money is higher than the wallet money!");
+//        } 
+//        if (totalMoney <= total) {
 //            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your total money is higher than the wallet money!");
 //        } 
         if (this.transactionService.getTransactionsPagination(params, page, view).isEmpty()) {
@@ -517,7 +514,6 @@ public class IndexController {
         //Get current date
         LocalDate today = java.time.LocalDate.now();
         Date date = Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Transaction transaction = transactionService.getLastTransaction();
 
         p.setCreatedUser(user.getId());
         p.setPending(1);
@@ -543,10 +539,11 @@ public class IndexController {
         }
 
         if (this.transactionService.addTransaction(p) == true) {
+            Transaction transaction = transactionService.getLastTransaction();
             if (!Objects.equals(transaction.getWalletId().getOwner(), user.getId())) {
                 transactionService.updateTransactionPending2(transaction.getId());
             }
-
+            
             return "redirect:/dashboard";
         }
 

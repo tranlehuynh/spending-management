@@ -91,7 +91,7 @@
         <span class="close4" onclick="handleClickCloseModal()">&times;</span>
         <div class="hehehehe">
             <div class="two-ex-in">
-                <div>${errorAdded}</div>
+                <div style="color: white; background: red; font-size: 16px; border-radius: 5px; padding-left: 5px; padding-right: 5px;">${errorAdded}</div>
                 <div>
                     <div class="income-items haha-items" style="width: 100%"> 
                         <div id="call-me-form-input-haha" style="cursor: auto; border-bottom: none;">                           

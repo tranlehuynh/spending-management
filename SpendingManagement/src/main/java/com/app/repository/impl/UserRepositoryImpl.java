@@ -7,10 +7,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -45,8 +43,6 @@ public class UserRepositoryImpl implements UserRepository {
     private Environment env;
     @Autowired
     private JavaMailSender mailSender;
-    @Autowired
-    private UserRepository userRepository;
 
     public static String GOOGLE_CLIENT_ID = "36810703474-djoro0ttsa9girdk8408dfqe76jb4ga9.apps.googleusercontent.com";
     public static String GOOGLE_CLIENT_SECRET = "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";
