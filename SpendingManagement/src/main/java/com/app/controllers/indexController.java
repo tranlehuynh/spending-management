@@ -341,15 +341,13 @@ public class IndexController {
                 break;
             }
         }
+        
+        if (totalMoney != 0) {
+            if (totalMoney <= total) {
+                userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your total money is higher than the wallet money!");
+            }
+        }
 
-//        if (total <= 0) {
-////            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your inflow is lower than you outflow!");
-//        } else if (totalMoney <= total) {
-//            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your total money is higher than the wallet money!");
-//        } 
-//        if (totalMoney <= total) {
-//            userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your total money is higher than the wallet money!");
-//        } 
         if (this.transactionService.getTransactionsPagination(params, page, view).isEmpty()) {
             model.addAttribute("hahahe", 1);
         }
@@ -543,7 +541,7 @@ public class IndexController {
             if (!Objects.equals(transaction.getWalletId().getOwner(), user.getId())) {
                 transactionService.updateTransactionPending2(transaction.getId());
             }
-            
+
             return "redirect:/dashboard";
         }
 
