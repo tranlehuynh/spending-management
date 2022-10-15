@@ -36,9 +36,16 @@
                 </div>
             </c:if>
             <c:if test="${hahahe != 1}">
-                <div class="view-report">
-                    <a href="/SpendingManagement/report">View report here</a>
-                </div>
+                <c:if test="${currentUser.role == 'ADMIN'}">
+                    <div class="view-report">
+                        <a href="/SpendingManagement/report">View report here</a>
+                    </div>
+                </c:if>
+                <c:if test="${currentUser.role != 'ADMIN'}">
+                    <div class="view-report">
+                        <a style="pointer-events: none;" href="#">Your transactions</a>
+                    </div>
+                </c:if>
             </c:if>
             <div class="list-items">
                 <c:if test="${showWallet != 0}">

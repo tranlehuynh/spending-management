@@ -298,7 +298,7 @@ public class IndexController {
         double outflow = 0;
         double firstWallet = 0;
         double totalMoney = 0;
-        double total = inflow - outflow;
+        double total;
         boolean walletExists = true;
 //        List<String> categories = new ArrayList<>();
 //        List<String> items = new ArrayList<>();
@@ -334,6 +334,8 @@ public class IndexController {
                 }
             }
         }
+        
+        total = inflow - outflow;
 
         for (int i = 0; i < walletService.getWallets().size(); i++) {
             if (Objects.equals(user.getId(), walletService.getWallets().get(i).getOwner())) {
@@ -344,7 +346,7 @@ public class IndexController {
         
         if (totalMoney != 0) {
             if (totalMoney <= total) {
-                userService.sendEmail("1951052079huynh@gmail.com", user.getEmail(), "WARNING", "Your total money is higher than the wallet money!");
+                userService.sendEmail("tranlehuynh2k1@gmail.com", user.getEmail(), "WARNING", "Your total money is higher than the wallet money!");
             }
         }
 
